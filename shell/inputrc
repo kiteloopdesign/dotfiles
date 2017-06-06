@@ -1,2 +1,2 @@
-"\ep": "\M-\C-p\C-e"
-"\M-\C-p": history-search-backward
+"\ep": history-search-backward
+"\en": history-search-forward  

@@ -1,0 +1,21 @@
+# Lines configured by zsh-newuser-install
+HISTFILE=~/.histfile
+HISTSIZE=1000
+SAVEHIST=1000
+bindkey -v
+
+bindkey '^a' up-line-or-search
+bindkey '^b' down-line-or-search
+
+# End of lines configured by zsh-newuser-install
+# The following lines were added by compinstall
+zstyle :compinstall filename '/home/kitesutra/.zshrc'
+
+autoload -Uz compinit
+compinit
+# End of lines added by compinstall
+source /home/kitesutra/.alias
+
+# Sleep added to avoid warning issued by xmodmap because some keys are pressed
+sleep 0.1
+xmodmap .Xmodmap

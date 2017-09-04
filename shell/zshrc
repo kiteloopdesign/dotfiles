@@ -14,8 +14,8 @@ zstyle :compinstall filename '/home/kitesutra/.zshrc'
 autoload -Uz compinit
 compinit
 # End of lines added by compinstall
-source /home/kitesutra/.alias
+source $HOME/.alias
 
 # Sleep added to avoid warning issued by xmodmap because some keys are pressed
 sleep 0.1
-xmodmap .Xmodmap
+xmodmap $HOME/.Xmodmap

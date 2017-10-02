@@ -152,6 +152,9 @@ set autoindent "Auto indent
 set smartindent "Smart indent
 set wrap "Wrap lines
 
+" Move up/down 'soft' lines (long lines which wrap around)
+noremap <silent> k gk
+noremap <silent> j gj
 
 """"""""""""""""""""""""""""""
 " => Visual mode related
@@ -210,7 +213,15 @@ set laststatus=2
 " Format the status line
 " set statusline=\ %{HasPaste()}%F%m%r%h\ %w\ \ CWD:\ %r%{getcwd()}%h\ \ \ Line:\ %l\ \ Column:\ %c
 
-
+""""""""""""""""""""""""""""""
+" => Status line
+""""""""""""""""""""""""""""""
+" set rtp+=/usr/lib/python2.7/site-packages/powerline/bindings/vim/plugin
+set rtp+=/usr/lib/python2.7/site-packages/powerline/bindings/vim/
+set laststatus=2
+set t_Co=256
+set guifont=Liberation\ Mono\ for\ Powerline\ 10 
+" /usr/lib/python2.7/site-packages/powerline/bindings/vim/plugin/
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Editing mappings
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""

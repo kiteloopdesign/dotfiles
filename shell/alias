@@ -1,3 +1,4 @@
+#-------------------
 # Personnal Aliases
 #-------------------
 
@@ -38,6 +39,8 @@ alias lr='ll -R'           #  Recursive ls.
 alias la='ll -A'           #  Show hidden files.
 alias tree='tree -Csuh'    #  Nice alternative to 'recursive ls' ...
 
+alias ez='gvim ~/.zshrc'
+alias sz='source ~/.zshrc'
 alias ea='gvim /home/kitesutra/.alias'
 alias sa='source /home/kitesutra/.alias'
 alias c='google-chrome &'

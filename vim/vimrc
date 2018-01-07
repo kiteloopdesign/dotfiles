@@ -28,7 +28,7 @@ Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'tpope/vim-unimpaired.git'
 Plugin 'tpope/vim-repeat.git'
 Plugin 'tpope/vim-commentary.git'
-Plugin 'svermeulen/vim-easyclip'
+" Plugin 'svermeulen/vim-easyclip'
 " Plugin 'Townk/vim-autoclose'
 
 " stop - all plugins above
@@ -39,18 +39,20 @@ filetype plugin indent on
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Being tidy
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" source ~/dotfiles/vim/functions.vimrc
 source ~/dotfiles/vim/general.vimrc
-" source ~/dotfiles/vim/autocommands.vimrc
+" source ~/dotfiles/vim/plugins.vimrc "Plugins conf
+source ~/dotfiles/vim/functions.vimrc
+source ~/dotfiles/vim/autocommands.vimrc
+
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" not ready/sure yet to take the faith leap ...
+" Plugins
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-nnoremap ; :
-
-" let g:ctrlp_map = '<C-P>'
-" let g:ctrlp_cmd = 'CtrlPBuffer'
+" let g:EasyClipShareYanks = 0
+set clipboard=unnamedplus
 
 
-" Best inet sites
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Info
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " http://stevelosh.com/blog/2010/09/coming-home-to-vim/

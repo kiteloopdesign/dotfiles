@@ -1,6 +1,9 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => General
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Disable freaking Ex mode
+map Q <Nop>
+
 " Sets how many lines of history VIM has to remember
 set history=500
 
@@ -31,6 +34,10 @@ set so=7
 
 " Turn on the WiLd menu
 set wildmenu
+
+" Easier to get in command mode
+nnoremap ; :
+
 
 " Ignore compiled files
 set wildignore=*.o,*~,*.pyc
@@ -156,6 +163,10 @@ set wrap "Wrap lines
 noremap <silent> k gk
 noremap <silent> j gj
 
+" easier movement to begininng/end of the line
+noremap <silent> H 0
+noremap <silent> L $
+
 """"""""""""""""""""""""""""""
 " => Visual mode related
 """"""""""""""""""""""""""""""
@@ -172,8 +183,8 @@ vnoremap <silent> # :<C-u>call VisualSelection('', '')<CR>?<C-R>=@/<CR><CR>
 " map <space> /
 " map <c-space> ?
 
-" Disable highlight when <leader><cr> is pressed
-map <silent> <leader><cr> :noh<cr>
+" Disable highlight when <leader>l is pressed
+map <silent> <leader>l :noh<cr>
 
 " Smart way to move between windows
 map <C-j> <C-W>j
@@ -182,13 +193,14 @@ map <C-h> <C-W>h
 map <C-l> <C-W>l
 
 " Close the current buffer
-map <leader>bd :Bclose<cr>:tabclose<cr>gT
+" map <leader>c:Bclose<cr>:tabclose<cr>gT
+map <leader>c :bdel<cr>
 
 " Close all the buffers
 map <leader>ba :bufdo bd<cr>
 
-map <leader>l :bnext<cr>
-map <leader>h :bprevious<cr>
+map <leader>k :bnext<cr>
+map <leader>j :bprevious<cr>
 
 " Switch CWD to the directory of the open buffer
 map <leader>cd :cd %:p:h<cr>:pwd<cr>
@@ -222,27 +234,12 @@ set laststatus=2
 set t_Co=256
 set guifont=Liberation\ Mono\ for\ Powerline\ 10 
 " /usr/lib/python2.7/site-packages/powerline/bindings/vim/plugin/
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Editing mappings
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Remap VIM 0 to first non-blank character
 map 0 ^
-
-" Move a line of text using ALT+[jk] 
-" nmap <M-j> mz:m+<cr>`z
-" nmap <M-k> mz:m-2<cr>`z
-" vmap <M-j> :m'>+<cr>`<my`>mzgv`yo`z
-" vmap <M-k> :m'<-2<cr>`>my`<mzgv`yo`z
-
-" Delete trailing white space on save, useful for Python and CoffeeScript ;)
-func! DeleteTrailingWS()
-  exe "normal mz"
-  %s/\s\+$//ge
-  exe "normal `z"
-endfunc
-autocmd BufWrite *.py :call DeleteTrailingWS()
-autocmd BufWrite *.coffee :call DeleteTrailingWS()
-
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Ag searching and cope displaying
@@ -302,33 +299,5 @@ map <leader>p :cp<cr>
 " Toggle paste mode on and off
 " map <leader>pp :setlocal paste!<cr>
 
-
-
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Helper functions
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" function! CmdLine(str)
-"     exe "menu Foo.Bar :" . a:str
-"     emenu Foo.Bar
-"     unmenu Foo
-" endfunction 
-" 
-" function! VisualSelection(direction, extra_filter) range
-"     let l:saved_reg = @"
-"     execute "normal! vgvy"
-" 
-"     let l:pattern = escape(@", "\\/.*'$^~[]")
-"     let l:pattern = substitute(l:pattern, "\n$", "", "")
-" 
-"     if a:direction == 'gv'
-"         call CmdLine("Ag '" . l:pattern . "' " )
-"     elseif a:direction == 'replace'
-"         call CmdLine("%s" . '/'. l:pattern . '/')
-"     endif
-" 
-"     let @/ = l:pattern
-"     let @" = l:saved_reg
-" endfunction
  
 

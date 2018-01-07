@@ -5,10 +5,10 @@
 alias rm='rm -i'
 alias cp='cp -i'
 alias mv='mv -i'
-# -> Prevents accidentally clobbering files.
-alias mkdir='mkdir -p'
+# Prevents accidentally clobbering files.
+alias mkdir='mkdir -pv'
 
-alias h='history'
+alias h='history 100'
 alias j='jobs -l'
 alias which='type -a'
 alias ..='cd ..'
@@ -21,30 +21,79 @@ alias libpath='echo -e ${LD_LIBRARY_PATH//:/\\n}'
 alias du='du -kh'    # Makes a more readable output.
 alias df='df -kTh'
 
+alias doc='ranger ~/docs/'
+
 #-------------------------------------------------------------
 # The 'ls' family (this assumes you use a recent GNU ls).
 #-------------------------------------------------------------
 # Add colors for filetype and  human-readable sizes by default on 'ls':
 alias ls='ls -lh --color'
-alias lx='ls -lXB'         #  Sort by extension.
+alias le='ls -lXB'         #  Sort by extension.
 alias lk='ls -lSr'         #  Sort by size, biggest last.
 alias lt='ls -ltr'         #  Sort by date, most recent last.
 alias lc='ls -ltcr'        #  Sort by/show change time,most recent last.
 alias lu='ls -ltur'        #  Sort by/show access time,most recent last.
-
+alias lx='find . -maxdepth 1 -type f -executable' # list executables
 # The ubiquitous 'll': directories first, with alphanumeric sorting:
 alias ll="ls -lv --group-directories-first"
 alias lm='ll |more'        #  Pipe through 'more'
 alias lr='ll -R'           #  Recursive ls.
 alias la='ll -A'           #  Show hidden files.
+alias lh='ls -Ad .*'       #  Only show hidden files
+alias lf='ls -d .*/ */'    #  Only show folders
+
+# Add to bin : Quickly create an script to do something
+# alias ab='gvim -c 'set autochdir' ~/bin/'         # Create new file
+# alias ab='gvim ~/bin/ +':cd %:h'
+# See functions
+
+alias lb='ls ~/bin'        # What was the name of that custom script that did ...
+
 alias tree='tree -Csuh'    #  Nice alternative to 'recursive ls' ...
+alias cx='chmod +x $*'
+
+#-------------------------------------------------------------
+# vim
+#-------------------------------------------------------------
 
 alias ez='gvim ~/.zshrc'
 alias sz='source ~/.zshrc'
 alias ea='gvim /home/kitesutra/.alias'
 alias sa='source /home/kitesutra/.alias'
-alias c='google-chrome &'
 alias g='gvim'
 alias ev='gvim ~/.vimrc'
 alias et='gvim ~/.tmux.conf'
+
+#-------------------------------------------------------------
+# X
+#-------------------------------------------------------------
+alias logoff='/usr/bin/cinnamon-session-quit --no-prompt'
+
+#-------------------------------------------------------------
+# Other
+#-------------------------------------------------------------
+
+# Super one-liner. Shows most used commands. Useful to find out what commands to aliase/automate
+# alias mu='history 0 | awk '{CMD[$2]++;count++;}END { for (a in CMD)print CMD[a] " " CMD[a]/count*100 "% " a;}' | grep -v "./" | column -c3 -s " " -t | sort -nr | nl |  head -n10'
+
+
+# mount -t iso9660 -o ro,loop,noauto /your/texlive.iso /mnt 
+alias isomount='sudo mount -t iso9660 -o ro,loop,noauto $1 /mnt'
+
+
+#-------------------------------------------------------------
+# Sofware
+#-------------------------------------------------------------
+alias c='google-chrome &> /dev/null &'
+alias y='google-chrome "www.youtube.com" &> /dev/null &'
 alias yd='youtube-dl'
+alias feh='feh -.' # Fit to screen images
+# alias feh='feh -xZGd -B black --draw-tinted -g 1366x768'
+alias df='pydf'
+alias pdfreader='evince'
+alias m='cmus'
+#-------------------------------------------------------------
+# Functions
+#-------------------------------------------------------------
+# https://stackoverflow.com/questions/7131670/make-a-bash-alias-that-takes-a-parameter
+# ab

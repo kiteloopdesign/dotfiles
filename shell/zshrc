@@ -57,27 +57,58 @@ bindkey '^e' end-of-line
 # adjust delay when switching modes to .1 seconds
 export KEYTIMEOUT=1
 
-# End of lines configured by zsh-newuser-install
-# The following lines were added by compinstall
-# zstyle :compinstall filename '$HOME/.zshrc'
+# ZMV allows to mass-rename
+autoload zmv
+alias zmv='noglob zmv'
+alias zcp='noglob zmv -C'
+alias zln='noglob zmv -L'
+alias zsy='noglob zmv -Ls'
 
+
+# zstyle :compinstall filename '$HOME/.zshrc'
 autoload -Uz compinit
 compinit
-zstyle ':completion:*' auto-description 'specify: %d'
-zstyle ':completion:*' completer _expand _complete _correct _approximate
-zstyle ':completion:*' format 'Completing %d'
+# zstyle ':completion:*' auto-description 'specify: %d'
+# # zstyle ':completion:*' completer _expand _complete _correct _approximate
+# zstyle ':completion:*' completer _expand _complete 
+# zstyle ':completion:*' format 'Completing %d'
+# zstyle ':completion:*' group-name ''
+# zstyle ':completion:*' menu select=2 eval "$(dircolors -b)"
+# zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
+# zstyle ':completion:*' list-colors ''
+# zstyle ':completion:*' list-prompt %SAt %p: Hit TAB for more, or the character to insert%s
+# zstyle ':completion:*' matcher-list '' 'm:{a-z}={A-Z}' 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=* l:|=*'
+# zstyle ':completion:*' menu select=long
+# zstyle ':completion:*' select-prompt %SScrolling active: current selection at %p%s
+# zstyle ':completion:*' use-compctl false
+# zstyle ':completion:*' verbose true
+# zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
+# zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
+# Do menu-driven completion.
+zstyle ':completion:*' menu select
+
+# Color completion for some things.
+# http://linuxshellaccount.blogspot.com/2008/12/color-completion-using-zsh-modules-on.html
+zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+
+# formatting and messages
+# http://www.masterzen.fr/2009/04/19/in-love-with-zsh-part-one/
+zstyle ':completion:*' verbose yes
+zstyle ':completion:*:descriptions' format "$fg[yellow]%B--- %d%b"
+zstyle ':completion:*:messages' format '%d'
+zstyle ':completion:*:warnings' format "$fg[red]No matches for:$reset_color %d"
+zstyle ':completion:*:corrections' format '%B%d (errors: %e)%b'
 zstyle ':completion:*' group-name ''
-zstyle ':completion:*' menu select=2 eval "$(dircolors -b)"
-zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
-zstyle ':completion:*' list-colors ''
-zstyle ':completion:*' list-prompt %SAt %p: Hit TAB for more, or the character to insert%s
-zstyle ':completion:*' matcher-list '' 'm:{a-z}={A-Z}' 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=* l:|=*'
-zstyle ':completion:*' menu select=long
-zstyle ':completion:*' select-prompt %SScrolling active: current selection at %p%s
-zstyle ':completion:*' use-compctl false
-zstyle ':completion:*' verbose true
-zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
-zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
+
+# Completers for my own scripts
+zstyle ':completion:*:*:sstrans*:*' file-patterns '*.(lst|clst)'
+zstyle ':completion:*:*:ssnorm*:*' file-patterns '*.tsv'
+
+# NO FUNCIONA
+# unsetopt correct_all
+# DISABLE_CORRECTION="true"
+# setopt CSH_NULL_GLOB
+# unsetopt correct_all
 
 # End of lines added by compinstall
 source $HOME/.alias

@@ -1,7 +1,12 @@
 #-------------------
+# Global alias
+#-------------------
+alias -g G='|grep '
+
+#-------------------
 # Personnal Aliases
 #-------------------
-
+alias svim='sudo vim'
 alias rm='rm -i'
 alias cp='cp -i'
 alias mv='mv -i'
@@ -48,12 +53,14 @@ alias lf='ls -d .*/ */'    #  Only show folders
 # See functions
 
 alias lb='ls ~/bin'        # What was the name of that custom script that did ...
+alias bigfiles='ls -Sr **/*(.Lm+100)'
+
 
 alias tree='tree -Csuh'    #  Nice alternative to 'recursive ls' ...
 alias cx='chmod +x $*'
 
 #-------------------------------------------------------------
-# vim
+# Quick edits and re-loads
 #-------------------------------------------------------------
 
 alias ez='gvim ~/.zshrc'
@@ -63,6 +70,7 @@ alias sa='source /home/kitesutra/.alias'
 alias g='gvim'
 alias ev='gvim ~/.vimrc'
 alias et='gvim ~/.tmux.conf'
+alias ei='gvim ~/.config/i3/config'
 
 #-------------------------------------------------------------
 # X

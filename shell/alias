@@ -1,7 +1,13 @@
 #-------------------
 # Global alias
 #-------------------
-alias -g G='|grep '
+alias -g G='|grep -i'
+
+# FROM ZMV, must be loaded in zshrc
+alias zmv='noglob zmv -W'
+alias zcp='noglob zmv -C'
+alias zln='noglob zmv -L'
+alias zsy='noglob zmv -Ls'
 
 #-------------------
 # Personnal Aliases
@@ -13,6 +19,8 @@ alias mv='mv -i'
 # Prevents accidentally clobbering files.
 alias mkdir='mkdir -pv'
 
+alias tldr='tldr find'
+
 alias h='history 100'
 alias j='jobs -l'
 alias which='type -a'
@@ -23,7 +31,7 @@ alias path='echo -e ${PATH//:/\\n}'
 alias libpath='echo -e ${LD_LIBRARY_PATH//:/\\n}'
 
 
-alias du='du -kh'    # Makes a more readable output.
+alias du='du -skh'    # Makes a more readable output.
 alias df='df -kTh'
 
 alias doc='ranger ~/docs/'
@@ -53,11 +61,23 @@ alias lf='ls -d .*/ */'    #  Only show folders
 # See functions
 
 alias lb='ls ~/bin'        # What was the name of that custom script that did ...
+alias cb='cd ~/bin'         
 alias bigfiles='ls -Sr **/*(.Lm+100)'
 
 
 alias tree='tree -Csuh'    #  Nice alternative to 'recursive ls' ...
 alias cx='chmod +x $*'
+
+
+#-------------------------------------------------------------
+# File Permissions
+#-------------------------------------------------------------
+# find . -type d -exec chmod 0755 {} \;
+# find . -type f -exec chmod 0644 {} \;
+# Change folders and files one liner :
+# chmod -R u+rwX,go+rX,go-w .
+# chmod -R u+rwX,go+rX-w .
+
 
 #-------------------------------------------------------------
 # Quick edits and re-loads
@@ -92,8 +112,8 @@ alias isomount='sudo mount -t iso9660 -o ro,loop,noauto $1 /mnt'
 #-------------------------------------------------------------
 # Sofware
 #-------------------------------------------------------------
-alias c='google-chrome &> /dev/null &'
-alias y='google-chrome "www.youtube.com" &> /dev/null &'
+# alias c='google-chrome &> /dev/null &'
+# alias y='google-chrome "www.youtube.com" &> /dev/null &'
 alias yd='youtube-dl'
 alias feh='feh -.' # Fit to screen images
 # alias feh='feh -xZGd -B black --draw-tinted -g 1366x768'
@@ -105,3 +125,10 @@ alias m='cmus'
 #-------------------------------------------------------------
 # https://stackoverflow.com/questions/7131670/make-a-bash-alias-that-takes-a-parameter
 # ab
+
+# Replace spaces by underscore
+# TODO: Understand the excecdir bash, porque el _ y {} si ya esta haciendo el mv ???
+despacito () {
+find $1 -depth -name '* *' \
+    -execdir bash -c 'mv "$1" "${1// /_}"' _ {} \;
+}

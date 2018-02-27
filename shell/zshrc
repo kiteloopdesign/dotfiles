@@ -57,13 +57,8 @@ bindkey '^e' end-of-line
 # adjust delay when switching modes to .1 seconds
 export KEYTIMEOUT=1
 
-# ZMV allows to mass-rename
+# ZMV allows to mass-rename, see alias for commands
 autoload zmv
-alias zmv='noglob zmv'
-alias zcp='noglob zmv -C'
-alias zln='noglob zmv -L'
-alias zsy='noglob zmv -Ls'
-
 
 # zstyle :compinstall filename '$HOME/.zshrc'
 autoload -Uz compinit
@@ -119,4 +114,4 @@ xmodmap $HOME/.Xmodmap
 
 # Syntax highlighting in shell
 # This should always be the last one being sourced
-source /home/kitesutra/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh

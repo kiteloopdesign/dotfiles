@@ -1,3 +1,6 @@
+# Allows to use alias with sudo commands
+alias sudo='sudo '
+
 #-------------------
 # Global alias
 #-------------------
@@ -12,7 +15,9 @@ alias zsy='noglob zmv -Ls'
 #-------------------
 # Personnal Aliases
 #-------------------
-alias svim='sudo vim'
+
+# For this to work need $EDITOR pointing to vim 
+alias svim='sudoedit'
 alias rm='rm -i'
 alias cp='cp -i'
 alias mv='mv -i'
@@ -35,6 +40,13 @@ alias du='du -skh'    # Makes a more readable output.
 alias df='df -kTh'
 
 alias doc='ranger ~/docs/'
+
+# Find spaces rescursively
+alias sp='find . -type f -name "*[[:space:]]*"'
+
+# SSH
+alias kitepi='ssh-add -t 1h;ssh kitepi@192.168.1.123'
+
 
 #-------------------------------------------------------------
 # The 'ls' family (this assumes you use a recent GNU ls).
@@ -62,8 +74,12 @@ alias lf='ls -d .*/ */'    #  Only show folders
 
 alias lb='ls ~/bin'        # What was the name of that custom script that did ...
 alias cb='cd ~/bin'         
-alias bigfiles='ls -Sr **/*(.Lm+100)'
-
+# Doesnt search on hidden folders
+# alias bigfiles='ls -Sr **/*(.Lm+100)'
+# alias bigfiles='find . -type f -size +100M -exec ls -lh {} \;'
+# alias bigfolders='du -hs */ | sort -nr | head'
+alias bF='du -hs .* * | sort -rh | head'
+alias bf='find . -type f -print0 | xargs -0 du -h | sort -hr | head -20'
 
 alias tree='tree -Csuh'    #  Nice alternative to 'recursive ls' ...
 alias cx='chmod +x $*'
@@ -83,14 +99,14 @@ alias cx='chmod +x $*'
 # Quick edits and re-loads
 #-------------------------------------------------------------
 
-alias ez='gvim ~/.zshrc'
+alias ez='vim ~/.zshrc'
 alias sz='source ~/.zshrc'
-alias ea='gvim /home/${USER}/.alias'
+alias ea='vim /home/${USER}/.alias'
 alias sa='source /home/${USER}/.alias'
-alias g='gvim'
-alias ev='gvim ~/.vimrc'
-alias et='gvim ~/.tmux.conf'
-alias ei='gvim ~/.config/i3/config'
+alias g='vim'
+alias ev='vim ~/.vimrc'
+alias et='vim ~/.tmux.conf'
+alias ei='vim ~/.config/i3/config'
 
 #-------------------------------------------------------------
 # X
@@ -120,6 +136,7 @@ alias feh='feh -.' # Fit to screen images
 alias df='pydf'
 alias pdfreader='evince'
 alias m='cmus'
+
 #-------------------------------------------------------------
 # Functions
 #-------------------------------------------------------------

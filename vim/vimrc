@@ -18,16 +18,17 @@ call vundle#begin()
 
 Plugin 'VundleVim/Vundle.vim'
 Plugin 'scrooloose/nerdtree.git'
-" Plugin 'scrooloose/syntastic.git'
+Plugin 'scrooloose/syntastic.git'
 " Plugin 'tpope/vim-fugitive.git'
 " Plugin 'sjl/gundo.vim'
 " Plugin 'godlygeek/tabular.git'
-" "Plugin 'Yggdroot/indentLine'
+Plugin 'Yggdroot/indentLine'
 Plugin 'ctrlpvim/ctrlp.vim'
 " Plugin 'davidhalter/jedi-vim'
 Plugin 'tpope/vim-unimpaired.git'
 Plugin 'tpope/vim-repeat.git'
 Plugin 'tpope/vim-commentary.git'
+Plugin 'junegunn/vim-easy-align'
 " Plugin 'svermeulen/vim-easyclip'
 " Plugin 'Townk/vim-autoclose'
 
@@ -40,7 +41,7 @@ filetype plugin indent on
 " Being tidy
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 source ~/dotfiles/vim/general.vimrc
-" source ~/dotfiles/vim/plugins.vimrc "Plugins conf
+source ~/dotfiles/vim/plugins.vimrc "Plugins conf
 source ~/dotfiles/vim/functions.vimrc
 source ~/dotfiles/vim/autocommands.vimrc
 

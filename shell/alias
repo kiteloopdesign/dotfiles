@@ -26,7 +26,9 @@ alias mkdir='mkdir -pv'
 
 alias tldr='tldr find'
 
-alias h='history 100'
+alias history='fc -El 1'
+alias h='history'
+alias hg='history | grep'
 alias j='jobs -l'
 alias which='type -a'
 alias ..='cd ..'
@@ -130,6 +132,7 @@ alias isomount='sudo mount -t iso9660 -o ro,loop,noauto $1 /mnt'
 #-------------------------------------------------------------
 # alias c='google-chrome &> /dev/null &'
 # alias y='google-chrome "www.youtube.com" &> /dev/null &'
+alias vim='gvim -v'
 alias yd='youtube-dl'
 alias feh='feh -.' # Fit to screen images
 # alias feh='feh -xZGd -B black --draw-tinted -g 1366x768'

@@ -78,7 +78,8 @@ bindsym $mod+d exec dmenu_run
 # bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
 
 # Edit with vim
-bindsym $mod+Shift+o exec --no-startup-id ~/bin/editinvim.sh
+# bindsym $mod+Shift+o exec --no-startup-id ~/bin/editinvim2.sh
+bindsym $mod+i exec --no-startup-id ~/bin/editinvim.sh
 
 
 # Screen capture

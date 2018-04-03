@@ -13,40 +13,107 @@ export EDITOR=/usr/bin/vim
 #
 #
 #
-## Appends every command to the history file once it is executed
+
+################################################################################
+#
+# History
+#
+################################################################################
+# Appends every command to the history file once it is executed
 setopt inc_append_history
 # Reloads the history whenever you use it
 setopt share_history
+#save only one command if two same commands are entered in a row
+setopt hist_ignore_dups
+#add timestamp for each entry
+setopt extended_history   
+# remove duplicates when running out of space
+setopt hist_expire_dups_first
 
-HISTFILE=$HOME/.histfile
-HISTSIZE=1000
-SAVEHIST=1000
+HISTFILE=$HOME/.zhistfile
+export HISTSIZE=10000
+export SAVEHIST=10000
+
+
+################################################################################
+#
+# Folder history
+#
+################################################################################
+# NOTE : It might be needed to create the zsh dir!
+# cd -<NUM> to go back to a visited folder. Use autocompletion after the dash
+
+DIRSTACKFILE="$HOME/.cache/zsh/dirs"
+if [[ -f $DIRSTACKFILE ]] && [[ $#dirstack -eq 0 ]]; then
+  dirstack=( ${(f)"$(< $DIRSTACKFILE)"} )
+  [[ -d $dirstack[1] ]] && cd $dirstack[1]
+fi
+chpwd() {
+  print -l $PWD ${(u)dirstack} >$DIRSTACKFILE
+}
+
+DIRSTACKSIZE=20
+
+setopt AUTO_PUSHD PUSHD_SILENT PUSHD_TO_HOME
+
+## Remove duplicate entries
+setopt PUSHD_IGNORE_DUPS
+
+## This reverts the +/- operators.
+setopt PUSHD_MINUS
+
+################################################################################
+#
+# ZLE (Equivalent to inputrc in bash)
+#
+################################################################################
 
 # vim mode
 bindkey -v
+
+autoload -Uz up-line-or-beginning-search down-line-or-beginning-search
+zle -N up-line-or-beginning-search
+zle -N down-line-or-beginning-search
+
+# Better searching in command mode
+# bindkey -M vicmd '?' history-incremental-search-backward
+# bindkey -M vicmd '/' history-incremental-search-forward
+
+# Beginning search with arrow keys
+# TODO: dnoes not work ...
+bindkey "^[OA" up-line-or-beginning-search
+bindkey "^[OB" down-line-or-beginning-search
+# Equivalent but does not work either
+# [[ -n "$key[Up]"   ]] && bindkey -- "$key[Up]"   up-line-or-beginning-search
+# [[ -n "$key[Down]" ]] && bindkey -- "$key[Down]" down-line-or-beginning-search
+
+# In command mode, use vim up/down to search through history! BOOM !!
+bindkey -M vicmd "k" up-line-or-beginning-search
+bindkey -M vicmd "j" down-line-or-beginning-search
 
 # Use vim cli mode
 bindkey '^P' up-history
 bindkey '^N' down-history
 
-# backspace and ^h working even after
-# returning from command mode
-bindkey '^?' backward-delete-char
-bindkey '^h' backward-delete-char
+# # backspace and ^h working even after returning from command mode
+# bindkey '^?' backward-delete-char
+# bindkey '^h' backward-delete-char
+# # ctrl-w removed word backwards
+# bindkey '^w' backward-kill-word
+# # ctrl-r starts searching history backward
+# bindkey '^r' history-incremental-search-backward
+# bindkey '^a' beginning-of-line
+# # bindkey '^a' vi-beginning-of-line
+# bindkey '^e' end-of-line
+# # bindkey '^e' vi-end-of-line
 
-# ctrl-w removed word backwards
-bindkey '^w' backward-kill-word
-
-# ctrl-r starts searching history backward
-bindkey '^r' history-incremental-search-backward
-
-bindkey '^a' beginning-of-line
-# bindkey '^a' vi-beginning-of-line
-bindkey '^e' end-of-line
-# bindkey '^e' vi-end-of-line
-
+################################################################################
+#
+# Other
+#
+################################################################################
 # powerline
-. /usr/lib/python2.7/site-packages/powerline/bindings/zsh/powerline.zsh
+source /usr/lib/python2.7/site-packages/powerline/bindings/zsh/powerline.zsh
 
 # adjust delay when switching modes to .1 seconds
 export KEYTIMEOUT=1
@@ -54,9 +121,15 @@ export KEYTIMEOUT=1
 # ZMV allows to mass-rename, see alias for commands
 autoload zmv
 
+################################################################################
+#
+# Completion
+#
+################################################################################
 # zstyle :compinstall filename '$HOME/.zshrc'
 autoload -Uz compinit
 compinit
+
 # zstyle ':completion:*' auto-description 'specify: %d'
 # # zstyle ':completion:*' completer _expand _complete _correct _approximate
 # zstyle ':completion:*' completer _expand _complete 
@@ -93,12 +166,6 @@ zstyle ':completion:*' group-name ''
 zstyle ':completion:*:*:sstrans*:*' file-patterns '*.(lst|clst)'
 zstyle ':completion:*:*:ssnorm*:*' file-patterns '*.tsv'
 
-# NO FUNCIONA
-# unsetopt correct_all
-# DISABLE_CORRECTION="true"
-# setopt CSH_NULL_GLOB
-# unsetopt correct_all
-
 # End of lines added by compinstall
 source $HOME/.alias
 
@@ -106,6 +173,10 @@ source $HOME/.alias
 sleep 0.1
 xmodmap $HOME/.Xmodmap
 
+# This is the fuzzy finder
+# [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
 # Syntax highlighting in shell
 # This should always be the last one being sourced
 source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+

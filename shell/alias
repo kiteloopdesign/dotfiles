@@ -109,7 +109,7 @@ alias g='vim'
 alias ev='vim ~/.vimrc'
 alias et='vim ~/.tmux.conf'
 alias ei='vim ~/.config/i3/config'
-
+alias bc='bc -l'
 #-------------------------------------------------------------
 # X
 #-------------------------------------------------------------

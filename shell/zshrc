@@ -8,11 +8,26 @@
 PATH=/usr/local/texlive/2017/bin/x86_64-linux:$PATH
 
 export EDITOR=/usr/bin/vim
-# export EDITOR=/bin/vim
-#
-#
-#
-#
+
+
+################################################################################
+# Environment. TODO : These should go to .zshenv or .zprofile?
+################################################################################
+
+# Modify default options for fzf
+export FZF_DEFAULT_OPTS='--height 50% --border'
+
+# CTRL-T - Paste the selected files and directories onto the command line
+# Set FZF_CTRL_T_COMMAND to override the default command
+# Set FZF_CTRL_T_OPTS to pass additional options
+
+# CTRL-R - Paste the selected command from history onto the command line
+# If you want to see the commands in chronological order, press CTRL-R again which toggles sorting by relevance
+# Set FZF_CTRL_R_OPTS to pass additional options
+
+# ALT-C - cd into the selected directory
+# Set FZF_ALT_C_COMMAND to override the default command
+# Set FZF_ALT_C_OPTS to pass additional options
 
 ################################################################################
 #
@@ -72,12 +87,20 @@ setopt PUSHD_MINUS
 bindkey -v
 
 autoload -Uz up-line-or-beginning-search down-line-or-beginning-search
+autoload -z edit-command-line
+
 zle -N up-line-or-beginning-search
 zle -N down-line-or-beginning-search
+zle -N edit-command-line
+
+# Open line in vim
+bindkey "^X^E" edit-command-line
 
 # Better searching in command mode
 # bindkey -M vicmd '?' history-incremental-search-backward
-# bindkey -M vicmd '/' history-incremental-search-forward
+bindkey -M vicmd '/' history-incremental-search-backward
+# leave default old friend ctrl-r
+bindkey '^r' history-incremental-search-backward
 
 # Beginning search with arrow keys
 # TODO: dnoes not work ...
@@ -100,8 +123,7 @@ bindkey '^N' down-history
 # bindkey '^h' backward-delete-char
 # # ctrl-w removed word backwards
 # bindkey '^w' backward-kill-word
-# # ctrl-r starts searching history backward
-# bindkey '^r' history-incremental-search-backward
+#
 # bindkey '^a' beginning-of-line
 # # bindkey '^a' vi-beginning-of-line
 # bindkey '^e' end-of-line
@@ -174,7 +196,7 @@ sleep 0.1
 xmodmap $HOME/.Xmodmap
 
 # This is the fuzzy finder
-# [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # Syntax highlighting in shell
 # This should always be the last one being sourced

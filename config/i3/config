@@ -79,8 +79,12 @@ bindsym $mod+d exec dmenu_run
 
 # Edit with vim
 # bindsym $mod+Shift+o exec --no-startup-id ~/bin/editinvim2.sh
+# enable floating mode for all XTerm windows
+# for_window [class="urxvt" -instance="floating"] floating enable border pixel 3
+for_window [instance="floating"] floating enable border pixel 0
+# Make all urxvts use a 1-pixel border:
+# for_window [class="urxvt"] border pixel 1
 bindsym $mod+i exec --no-startup-id ~/bin/editinvim.sh
-
 
 # Screen capture
 # Multi-screen screenshots with scrot
@@ -93,10 +97,17 @@ bindsym --release Shift+Print exec scrot -s 'screenshot_%Y%m%d_%H%M%S.png' -e 'm
 ################################################################################
 # Borders
 ################################################################################
-
-
-
-
+# default_border normal|none|pixel
+# default_border normal|pixel <px>
+# default_border none
+# The same as default_border none
+# default_border pixel 10
+# A 3 px border
+# default_border pixel 10
+# hide_edge_borders none|vertical|horizontal|both|smart
+hide_edge_borders smart
+new_window pixel 1
+new_float pixel 0
 
 # change focus
 bindsym $mod+h focus left

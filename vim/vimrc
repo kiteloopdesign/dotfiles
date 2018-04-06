@@ -23,18 +23,24 @@ Plugin 'scrooloose/syntastic.git'
 " Plugin 'sjl/gundo.vim'
 " Plugin 'godlygeek/tabular.git'
 Plugin 'Yggdroot/indentLine'
-Plugin 'ctrlpvim/ctrlp.vim'
+" Plugin 'ctrlpvim/ctrlp.vim'
 " Plugin 'davidhalter/jedi-vim'
 Plugin 'tpope/vim-unimpaired.git'
 Plugin 'tpope/vim-repeat.git'
 Plugin 'tpope/vim-commentary.git'
+Plugin 'junegunn/fzf.vim'
 Plugin 'junegunn/vim-easy-align'
 " Plugin 'svermeulen/vim-easyclip'
 " Plugin 'Townk/vim-autoclose'
-
+Plugin 'vhda/verilog_systemverilog.vim'
+Plugin 'majutsushi/tagbar'
 " stop - all plugins above
 call vundle#end()
 filetype plugin indent on
+
+" fzf is installed via git clone, then vim plugin is not needed, just this
+set runtimepath+=~/.fzf
+
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""

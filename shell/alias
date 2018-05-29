@@ -32,6 +32,7 @@ alias hg='history | grep'
 alias j='jobs -l'
 alias which='type -a'
 alias ..='cd ..'
+alias cal='cal -m'
 
 # Pretty-print of some PATH variables:
 alias path='echo -e ${PATH//:/\\n}'
@@ -48,6 +49,7 @@ alias sp='find . -type f -name "*[[:space:]]*"'
 
 # SSH
 alias kitepi='ssh-add -t 1h;ssh kitepi@192.168.1.123'
+alias android='ssh-add -t 1h;ssh 192.168.1.73 -p 2222'
 
 
 #-------------------------------------------------------------
@@ -134,11 +136,14 @@ alias isomount='sudo mount -t iso9660 -o ro,loop,noauto $1 /mnt'
 # alias y='google-chrome "www.youtube.com" &> /dev/null &'
 alias vim='gvim -v'
 alias yd='youtube-dl'
-alias feh='feh -.' # Fit to screen images
+alias feh='feh -. -d' # Fit to screen images, draw filename
 # alias feh='feh -xZGd -B black --draw-tinted -g 1366x768'
 alias df='pydf'
 alias pdfreader='evince'
 alias m='cmus'
+alias z='zathura'
+alias oo='ooffice'
+alias pdfgrep='pdfgrep -HRi'
 
 #-------------------------------------------------------------
 # Functions
@@ -151,4 +156,12 @@ alias m='cmus'
 despacito () {
 find $1 -depth -name '* *' \
     -execdir bash -c 'mv "$1" "${1// /_}"' _ {} \;
+}
+
+
+# Search for a pattern and open it on vim
+fag(){
+  local line
+  line=`ag --nocolor "$1" | fzf` \
+    && vim $(cut -d':' -f1 <<< "$line") +$(cut -d':' -f2 <<< "$line")
 }

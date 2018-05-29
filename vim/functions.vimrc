@@ -1,3 +1,13 @@
+" edit vimrc from vim
+" func! Ev()
+"   :e $MYVIMRC
+" endfunc
+
+" Edit vimrc file
+command! Ev :e $MYVIMRC
+" source vimrc file
+command! Sv :source $MYVIMRC
+
 " Delete trailing white space on save, useful for Python and CoffeeScript ;)
 func! DeleteTrailingWS()
   exe "normal mz"

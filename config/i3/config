@@ -21,6 +21,9 @@ bindsym $mod+Shift+g exec setxkbmap gb
 # Selecciona el fondo de pantalla
 exec ~/.fehbg
 
+# Load udiskie, allows to automount USB drives
+exec --no-startup-id udiskie -ans &
+
 # Brightness control (without any fuzz)
 bindsym XF86MonBrightnessUp   exec --no-startup-id sudo /home/kitesutra/bin/brightness_control +100
 bindsym XF86MonBrightnessDown exec --no-startup-id sudo /home/kitesutra/bin/brightness_control -100
@@ -41,6 +44,18 @@ bindsym $mod+Tab workspace back_and_forth
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
 font pango:monospace 8
+
+# colors
+set $bgcolor 393939
+set $fgcolor 48B685
+set $txtcolor DFEFE2
+set $urgent EF6155
+
+#                               border    background text  
+client.focused                  #$fgcolor #$fgcolor #$bgcolor
+client.unfocused                #$bgcolor #$bgcolor #$fgcolor
+client.focused_inactive         #$bgcolor #$bgcolor #$fgcolor
+client.urgent                   #$bgcolor #$bgcolor #$urgent
 
 # This font is widely installed, provides lots of unicode glyphs, right-to-left
 # text rendering and scalability on retina/hidpi displays (thanks to pango).
@@ -71,7 +86,8 @@ bindsym $mod+Return exec gnome-terminal
 bindsym $mod+q kill
 
 # start dmenu (a program launcher)
-bindsym $mod+d exec dmenu_run
+# bindsym $mod+d exec dmenu_run
+bindsym $mod+d exec dmenu_run -i -nb '#393939' -nf '#48B685' -sb '#dfefe2' -sf '#393939'
 # There also is the (new) i3-dmenu-desktop which only displays applications
 # shipping a .desktop file. It is a wrapper around dmenu, so you need that
 # installed.
@@ -85,6 +101,10 @@ for_window [instance="floating"] floating enable border pixel 0
 # Make all urxvts use a 1-pixel border:
 # for_window [class="urxvt"] border pixel 1
 bindsym $mod+i exec --no-startup-id ~/bin/editinvim.sh
+
+# lock screen
+bindsym $mod+Control+l exec i3lock -t -i /home/kitesutra/.config/i3/bsod.png 
+# bindsym $mod+Control+l exec i3lock -c 0000AA
 
 # Screen capture
 # Multi-screen screenshots with scrot
@@ -108,7 +128,7 @@ bindsym --release Shift+Print exec scrot -s 'screenshot_%Y%m%d_%H%M%S.png' -e 'm
 hide_edge_borders smart
 new_window pixel 1
 new_float pixel 0
-
+ 
 # change focus
 bindsym $mod+h focus left
 bindsym $mod+j focus down
@@ -226,6 +246,19 @@ bar {
 
         status_command i3status
         status_command ~/.config/i3status/i3status_wrapper
+
+        font xft:Ubuntu Mono Regular 12, FontAwesome 10
+        
+        
+        colors {
+            statusline #$txtcolor
+            separator #$txtcolor
+            focused_workspace  #$fgcolor #$fgcolor #$bgcolor
+            inactive_workspace #$bgcolor #$bgcolor #$txtcolor
+        }
+
+
+
 }
 
 # exec_always --no-startup-id $HOME/.config/polybar/launch.sh

@@ -23,12 +23,12 @@ Plugin 'scrooloose/syntastic.git'
 " Plugin 'sjl/gundo.vim'
 " Plugin 'godlygeek/tabular.git'
 Plugin 'Yggdroot/indentLine'
-" Plugin 'ctrlpvim/ctrlp.vim'
 " Plugin 'davidhalter/jedi-vim'
 Plugin 'tpope/vim-unimpaired.git'
 Plugin 'tpope/vim-repeat.git'
 Plugin 'tpope/vim-commentary.git'
 Plugin 'junegunn/fzf.vim'
+Plugin 'mileszs/ack.vim'
 Plugin 'junegunn/vim-easy-align'
 " Plugin 'svermeulen/vim-easyclip'
 " Plugin 'Townk/vim-autoclose'
@@ -38,8 +38,6 @@ Plugin 'majutsushi/tagbar'
 call vundle#end()
 filetype plugin indent on
 
-" fzf is installed via git clone, then vim plugin is not needed, just this
-set runtimepath+=~/.fzf
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
@@ -48,7 +46,7 @@ set runtimepath+=~/.fzf
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 source ~/dotfiles/vim/general.vimrc
 source ~/dotfiles/vim/plugins.vimrc "Plugins conf
-source ~/dotfiles/vim/functions.vimrc
+source ~/dotfiles/vim/functions.vimrc "and commands
 source ~/dotfiles/vim/autocommands.vimrc
 
 

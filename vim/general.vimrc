@@ -37,6 +37,7 @@ set wildmenu
 
 " Easier to get in command mode
 nnoremap ; :
+vnoremap ; :
 
 
 " Ignore compiled files

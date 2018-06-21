@@ -10,6 +10,8 @@ set history=500
 " Enable filetype plugins
 filetype plugin on
 filetype indent on
+" Allows to use '%' to jump between pairs of words, e.g. begin-end
+runtime macros/matchit.vim
 
 " Set to auto read when a file is changed from the outside
 set autoread
@@ -27,6 +29,10 @@ nmap <leader>w :w!<cr>
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" IMPORTANT! Check plugins.vimrc for other mappings!
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => VIM user interface
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Set 7 lines to the cursor - when moving vertically using j/k
@@ -34,6 +40,9 @@ set so=7
 
 " Turn on the WiLd menu
 set wildmenu
+
+" Set relative line numbers
+set relativenumber
 
 " Easier to get in command mode
 nnoremap ; :
@@ -138,6 +147,10 @@ set nobackup
 set nowb
 set noswapfile
 
+set undofile                " Save undos after file closes
+set undodir=$HOME/.vim/undo " where to save undo histories
+set undolevels=1000         " How many undos
+set undoreload=10000        " number of lines to save for undo
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Text, tab and indent related
@@ -157,7 +170,7 @@ set lbr
 set tw=500
 
 set autoindent "Auto indent
-set smartindent "Smart indent
+" set smartindent "Smart indent
 set wrap "Wrap lines
 
 " Move up/down 'soft' lines (long lines which wrap around)
@@ -168,22 +181,10 @@ noremap <silent> j gj
 noremap <silent> H 0
 noremap <silent> L $
 
-""""""""""""""""""""""""""""""
-" => Visual mode related
-""""""""""""""""""""""""""""""
-" Visual mode pressing * or # searches for the current selection
-" Super useful! From an idea by Michael Naumann
-vnoremap <silent> * :<C-u>call VisualSelection('', '')<CR>/<C-R>=@/<CR><CR>
-vnoremap <silent> # :<C-u>call VisualSelection('', '')<CR>?<C-R>=@/<CR><CR>
-
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Moving around, tabs, windows and buffers
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Map <Space> to / (search) and Ctrl-<Space> to ? (backwards search)
-" map <space> /
-" map <c-space> ?
-
 " Disable highlight when <leader>l is pressed
 map <silent> <leader>l :noh<cr>
 
@@ -226,12 +227,7 @@ set laststatus=2
 " Format the status line
 " set statusline=\ %{HasPaste()}%F%m%r%h\ %w\ \ CWD:\ %r%{getcwd()}%h\ \ \ Line:\ %l\ \ Column:\ %c
 
-""""""""""""""""""""""""""""""
-" => Status line
-""""""""""""""""""""""""""""""
-" set rtp+=/usr/lib/python2.7/site-packages/powerline/bindings/vim/plugin
 set rtp+=/usr/lib/python2.7/site-packages/powerline/bindings/vim/
-set laststatus=2
 set t_Co=256
 set guifont=Liberation\ Mono\ for\ Powerline\ 10 
 " /usr/lib/python2.7/site-packages/powerline/bindings/vim/plugin/

@@ -33,6 +33,8 @@ alias j='jobs -l'
 alias which='type -a'
 alias ..='cd ..'
 alias cal='cal -m'
+# Lista de directorios para navegar por ellos. TODO : aun no pirula
+alias d='dirs -v | head -10'
 
 # Pretty-print of some PATH variables:
 alias path='echo -e ${PATH//:/\\n}'
@@ -48,7 +50,8 @@ alias doc='ranger ~/docs/'
 alias sp='find . -type f -name "*[[:space:]]*"'
 
 # SSH
-alias kitepi='ssh-add -t 1h;ssh kitepi@192.168.1.123'
+# alias kitepi='ssh-add -t 1h;ssh kitepi@192.168.1.123'
+alias kitepi='ssh-add -t 1h;ssh kitepi@kitepi.hopto.org'
 alias android='ssh-add -t 1h;ssh 192.168.1.73 -p 2222'
 
 
@@ -142,7 +145,7 @@ alias df='pydf'
 alias pdfreader='evince'
 alias m='cmus'
 alias z='zathura'
-alias oo='ooffice'
+alias oo='libreoffice6.0'
 alias pdfgrep='pdfgrep -HRi'
 
 #-------------------------------------------------------------

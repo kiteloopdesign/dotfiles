@@ -1,13 +1,23 @@
-# Lines configured by zsh-newuser-install
+################################################################################
+# CTRL-s hangs the emulator, disable
+#
+################################################################################
+stty -ixon
 
 ################################################################################
 # PATH
 #
 ################################################################################
-#
-PATH=/usr/local/texlive/2017/bin/x86_64-linux:$PATH
+
+export PATH=/usr/local/texlive/2017/bin/x86_64-linux:$PATH
+# PATH=/home/kitesutra/miniconda2/bin:$PATH
+export PATH=/home/kitesutra/miniconda3/bin:$PATH
 
 export EDITOR=/usr/bin/vim
+
+# This is so vim uses the anaconda path as opposed to the python installed on system
+# this is needed for stuff like autocomplete can work 
+# export PYTHONPATH="$PYTHONPATH:${HOME}/miniconda3/lib/python3.6/site-packages"
 
 
 ################################################################################
@@ -121,6 +131,15 @@ bindkey '^N' down-history
 # # backspace and ^h working even after returning from command mode
 bindkey '^?' backward-delete-char
 bindkey '^h' backward-delete-char
+
+# Needed to paste from x clipboard
+x-paste() {
+PASTE=$(xclip -selection clipboard -o)
+    LBUFFER="$LBUFFER${RBUFFER:0:1}"
+    RBUFFER="$PASTE${RBUFFER:1:${#RBUFFER}}"
+}
+zle -N x-paste
+bindkey -M vicmd "p" x-paste
 
 # # ctrl-w removed word backwards
 # bindkey '^w' backward-kill-word

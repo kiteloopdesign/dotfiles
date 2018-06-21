@@ -4,6 +4,11 @@
 " Don't try to be vi compatible
 set nocompatible
 
+" hack so vim uses python3
+" TODO !!!!!!!!!! REMOVE if this breaks some plugin !!
+" if has('python3')
+" endif
+
 " Helps force plugins to load correctly when it is turned back on below
 filetype off
 
@@ -18,7 +23,9 @@ call vundle#begin()
 
 Plugin 'VundleVim/Vundle.vim'
 Plugin 'scrooloose/nerdtree.git'
-Plugin 'scrooloose/syntastic.git'
+" Plugin 'scrooloose/syntastic.git'
+Plugin 'w0rp/ale'
+Plugin 'tpope/vim-surround.git'
 " Plugin 'tpope/vim-fugitive.git'
 " Plugin 'sjl/gundo.vim'
 " Plugin 'godlygeek/tabular.git'
@@ -30,10 +37,24 @@ Plugin 'tpope/vim-commentary.git'
 Plugin 'junegunn/fzf.vim'
 Plugin 'mileszs/ack.vim'
 Plugin 'junegunn/vim-easy-align'
-" Plugin 'svermeulen/vim-easyclip'
-" Plugin 'Townk/vim-autoclose'
+
+" Autocompletion
+Plugin 'ajh17/VimCompletesMe'
+
+" snippet engine (does not include the actual snippets)
+Plugin 'SirVer/ultisnips'
+
+" snippet library, needed by utilsnips
+" Plugin 'honza/vim-snippets'
+
+" Syntax highlighting, errorformat, matchit pair settings, etc
 Plugin 'vhda/verilog_systemverilog.vim'
+" Really basic plugin that creates instances from portlist
+Plugin 'antoinemadec/vim-verilog-instance'
+" Useful to navigate structure of file
 Plugin 'majutsushi/tagbar'
+" Hihglights pairs of matched keywords, e.g. begin-end
+Plugin 'vimtaku/hl_matchit.vim'
 " stop - all plugins above
 call vundle#end()
 filetype plugin indent on

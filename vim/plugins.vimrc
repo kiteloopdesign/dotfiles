@@ -1,14 +1,54 @@
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" NerdTree
+"
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" automatically open nerdtree on enter if no file was specified
+autocmd StdinReadPre * let s:std_in=1
+autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+map <C-n> :NERDTreeToggle<CR>
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" vim-grepper
+"
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" nnoremap <leader>g :Grepper -tool git<cr>
+" nnoremap <leader>g :Grepper -tool ag<cr>
+
+nnoremap <leader>g :Grepper -tool ag -buffers -noswitch<cr>
+nnoremap <leader>G :Grepper -tool ag -noswitch<cr>
+
+" Optional. The default behaviour should work for most users.
+" let g:grepper               = {}
+" let g:grepper.tools         = ['ag']
+" let g:grepper.jump          = 1
+" let g:grepper.next_tool     = '<leader>g'
+" let g:grepper.simple_prompt = 1
+" let g:grepper.quickfix      = 0
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Ack
 "
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-cnoreabbrev Ack Ack!
-nnoremap <Leader>a :Ack!<Space>
+" cnoreabbrev Ack Ack!
+" nnoremap <Leader>a :Ack!<Space>
+" TODO : no puedo hacer funcionar bien este tio ... NO me busca en los buferes,
+" incluso aunque no esten hidden
+" nnoremap <Leader>a :AckWindow!<Space>
+
+" TODO : se le puede decir a ack de usar ag pero aun se ralla mas ...
+" let g:ackprg = 'ag --nogroup --nocolor --column'
+
+" Otra forma mas de usar ag 
+" if executable('ag')
+"   let g:ackprg = 'ag --vimgrep'
+" endif
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " FZF
 "
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Ag on (I believe) current path
+map <leader>a :Ag 
 " Open file
 nnoremap <leader>e :Files<cr>
 " Open Buffer
@@ -26,8 +66,11 @@ set runtimepath+=~/.fzf
 "" ALE
 ""
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" See  ~/dotfiles/vim/ftplugin/
-" nnoremap ff <Plug>(ALEFix) # TODO: pq no va ?
+
+" IMPORTANT !!! 
+" See also  ~/dotfiles/vim/ftplugin/ !!!!!!!!!!
+
+" nnoremap ff <Plug>(ALEFix) # esto no va, no se pq
 nnoremap ff :ALEFix<cr>
 
 " Con esto no chequea hasta que se salva 
@@ -36,6 +79,17 @@ let g:ale_lint_on_text_changed = 'never'
 " You can disable this option too
 " if you don't want linters to run on opening a file
 let g:ale_lint_on_enter = 0
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"" vim-verilog-instance
+""
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" gbi(
+" Start VerilogInstance command (gb) for inner (parenthesis
+" vjjgb
+" visual-select j down twice
+let g:verilog_instance_skip_last_coma = 1
+
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "" Syntastic
@@ -83,18 +137,15 @@ let g:UltiSnipsEditSplit="vertical"
 let g:hl_matchit_enable_on_vim_startup = 1
 
 " you can specify highlight group. see :highlight
-" Defautl
-" let g:hl_matchit_hl_groupname = 'cursorline'
+" Default is let g:hl_matchit_hl_groupname = 'cursorline'
 " more visible
 let g:hl_matchit_hl_groupname = 'VisualNOS'
 
 " I recomend  g:hl_matchit_speed_level = 1 because highlight is
-" just an addition.
-" If 1 is set, sometimes do not highlight.
+" just an addition.  If 1 is set, sometimes do not highlight.
 " let g:hl_matchit_speed_level = 1 " or 2
 
-" you can specify use hl_matchit filetype.
-" let g:hl_matchit_allow_ft = 'html,vim,sh' 
+" you can specify use hl_matchit filetype.let g:hl_matchit_allow_ft = 'html,vim,sh' 
 " only enabled for verilog so far ...
 let g:hl_matchit_allow_ft = 'verilog_systemverilog'
 
@@ -102,7 +153,8 @@ let g:hl_matchit_allow_ft = 'verilog_systemverilog'
 " Tagbar
 "
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-nmap <F8> :TagbarToggle<CR>
+" nmap <F8> :TagbarToggle<CR>
+nmap <C-p> :TagbarToggle<CR>
 
 " see https://github.com/majutsushi/tagbar/wiki#systemverilog
 let g:tagbar_type_systemverilog = {

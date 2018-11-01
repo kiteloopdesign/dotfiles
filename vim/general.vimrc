@@ -4,6 +4,13 @@
 " Disable freaking Ex mode
 map Q <Nop>
 
+" Quit all buffers when using ZQ
+noremap ZQ :qa!<cr>
+
+" enable mouse, so we can click b/w splits for example
+" Using this kills the middle-mouse copy-paste
+" set mouse=a
+
 " Sets how many lines of history VIM has to remember
 set history=500
 
@@ -31,6 +38,13 @@ nmap <leader>w :w!<cr>
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " IMPORTANT! Check plugins.vimrc for other mappings!
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => VIM user interface
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Allows to copy b/w vim and X
+set clipboard=unnamedplus
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => VIM user interface
@@ -105,6 +119,9 @@ set tm=500
 " Add a bit extra margin to the left
 set foldcolumn=0
 
+" Set column width max
+" set colorcolumn=80
+" highlight ColorColumn ctermbg=gray guibg=lightgrey
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Colors and Fonts
@@ -123,6 +140,11 @@ catch
 endtry
 
 set background=dark
+
+" highlight current column
+set cursorline
+hi CursorLine term=bold cterm=bold guibg=Grey40
+" set cursorcolumn
 
 " Set extra options when running in GUI mode
 if has("gui_running")
@@ -209,8 +231,10 @@ map <leader>cd :cd %:p:h<cr>:pwd<cr>
 
 " Specify the behavior when switching between buffers 
 try
-  set switchbuf=useopen,usetab,newtab
-  set stal=2
+  " ESTE DA PORCULO CON LOS QUICKFIX, ETC!!
+  " set switchbuf=useopen,usetab,newtab
+  set switchbuf=useopen
+  set showtabline=2
 catch
 endtry
 
@@ -237,36 +261,6 @@ set guifont=Liberation\ Mono\ for\ Powerline\ 10
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Remap VIM 0 to first non-blank character
 map 0 ^
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Ag searching and cope displaying
-"    requires ag.vim - it's much better than vimgrep/grep
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" When you press gv you Ag after the selected text
-vnoremap <silent> gv :call VisualSelection('gv', '')<CR>
-
-" Open Ag and put the cursor in the right position
-map <leader>g :Ag 
-
-" When you press <leader>r you can search and replace the selected text
-vnoremap <silent> <leader>r :call VisualSelection('replace', '')<CR>
-
-" Do :help cope if you are unsure what cope is. It's super useful!
-"
-" When you search with Ag, display your results in cope by doing:
-"   <leader>cc
-"
-" To go to the next search result do:
-"   <leader>n
-"
-" To go to the previous search results do:
-"   <leader>p
-"
-map <leader>cc :botright cope<cr>
-map <leader>co ggVGy:tabnew<cr>:set syntax=qf<cr>pgg
-map <leader>n :cn<cr>
-map <leader>p :cp<cr>
-
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Spell checking

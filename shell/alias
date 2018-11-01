@@ -32,9 +32,9 @@ alias hg='history | grep'
 alias j='jobs -l'
 alias which='type -a'
 alias ..='cd ..'
-alias cal='cal -m'
+alias cal='cal -m -3'
 # Lista de directorios para navegar por ellos. TODO : aun no pirula
-alias d='dirs -v | head -10'
+alias d='dirs -v | head -20'
 
 # Pretty-print of some PATH variables:
 alias path='echo -e ${PATH//:/\\n}'
@@ -60,6 +60,7 @@ alias android='ssh-add -t 1h;ssh 192.168.1.73 -p 2222'
 #-------------------------------------------------------------
 # Add colors for filetype and  human-readable sizes by default on 'ls':
 alias ls='ls -lh --color'
+alias l='ls'
 alias le='ls -lXB'         #  Sort by extension.
 alias lk='ls -lSr'         #  Sort by size, biggest last.
 alias lt='ls -ltr'         #  Sort by date, most recent last.
@@ -72,7 +73,12 @@ alias lm='ll |more'        #  Pipe through 'more'
 alias lr='ll -R'           #  Recursive ls.
 alias la='ll -A'           #  Show hidden files.
 alias lh='ls -Ad .*'       #  Only show hidden files
-alias lf='ls -d .*/ */'    #  Only show folders
+# alias lf='ls -d .*/ */'    #  Only show folders
+alias lf='ls -d */'    #  Only show folders
+
+# show different extensions. Useful when a lot of files in folder
+# alias ext='find . -type f | awk -F. '!a[$NF]++{print $NF}''
+
 
 # Add to bin : Quickly create an script to do something
 # alias ab='gvim -c 'set autochdir' ~/bin/'         # Create new file
@@ -110,8 +116,8 @@ alias ez='vim ~/.zshrc'
 alias sz='source ~/.zshrc'
 alias ea='vim /home/${USER}/.alias'
 alias sa='source /home/${USER}/.alias'
-alias g='vim'
-alias ev='vim ~/.vimrc'
+alias v='vim'
+alias ev='vim ~/.vimrc ~/dotfiles/vim/general.vimrc ~/dotfiles/vim/plugins.vimrc'
 alias et='vim ~/.tmux.conf'
 alias ei='vim ~/.config/i3/config'
 alias bc='bc -l'

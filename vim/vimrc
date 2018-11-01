@@ -34,9 +34,13 @@ Plugin 'Yggdroot/indentLine'
 Plugin 'tpope/vim-unimpaired.git'
 Plugin 'tpope/vim-repeat.git'
 Plugin 'tpope/vim-commentary.git'
+" Search, grep etc
 Plugin 'junegunn/fzf.vim'
 Plugin 'mileszs/ack.vim'
+Plugin 'mhinz/vim-grepper'
+
 Plugin 'junegunn/vim-easy-align'
+
 
 " Autocompletion
 Plugin 'ajh17/VimCompletesMe'
@@ -45,7 +49,7 @@ Plugin 'ajh17/VimCompletesMe'
 Plugin 'SirVer/ultisnips'
 
 " snippet library, needed by utilsnips
-" Plugin 'honza/vim-snippets'
+Plugin 'honza/vim-snippets'
 
 " Syntax highlighting, errorformat, matchit pair settings, etc
 Plugin 'vhda/verilog_systemverilog.vim'
@@ -63,20 +67,20 @@ filetype plugin indent on
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" path
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set path=.,/cad/uvm-1.2/src
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Being tidy
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 source ~/dotfiles/vim/general.vimrc
 source ~/dotfiles/vim/plugins.vimrc "Plugins conf
 source ~/dotfiles/vim/functions.vimrc "and commands
 source ~/dotfiles/vim/autocommands.vimrc
-
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Plugins
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" let g:EasyClipShareYanks = 0
-set clipboard=unnamedplus
-
+" Just so its possible to gf inside this
+" ~/dotfiles/vim/ftplugin/
+"
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Info

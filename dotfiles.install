@@ -26,3 +26,6 @@ fi
 
 mkdir -p /home/${USER}/.config/i3
 ln -fs /home/${USER}/dotfiles/config/i3/config /home/${USER}/.config/i3/
+
+mkdir -p /home/${USER}/.config/feh
+ln -fs /home/${USER}/dotfiles/config/feh/keys /home/${USER}/.config/feh/

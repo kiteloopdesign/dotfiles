@@ -13,7 +13,8 @@ set nocompatible
 filetype off
 
 " initialize vundle
-set rtp+=~/dotfiles/vim/bundle/Vundle.vim
+" set rtp+=~/dotfiles/vim/bundle/Vundle.vim
+set rtp+=~/.vim/bundle/Vundle.vim
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Plugins

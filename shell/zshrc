@@ -155,7 +155,13 @@ bindkey -M vicmd "p" x-paste
 #
 ################################################################################
 # powerline
-source /usr/lib/python2.7/site-packages/powerline/bindings/zsh/powerline.zsh
+# source /usr/lib/python2.7/site-packages/powerline/bindings/zsh/powerline.zsh
+if [ -f `which powerline-daemon` ]; then
+  powerline-daemon -q
+  POWERLINE_BASH_CONTINUATION=1
+  POWERLINE_BASH_SELECT=1
+  source /usr/share/powerline/zsh/powerline.zsh
+fi
 
 # adjust delay when switching modes to .1 seconds
 export KEYTIMEOUT=1
@@ -220,5 +226,5 @@ xmodmap $HOME/.Xmodmap
 
 # Syntax highlighting in shell
 # This should always be the last one being sourced
-source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-
+# source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh

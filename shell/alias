@@ -141,7 +141,7 @@ alias isomount='sudo mount -t iso9660 -o ro,loop,noauto $1 /mnt'
 #-------------------------------------------------------------
 # Sofware
 #-------------------------------------------------------------
-# alias c='google-chrome &> /dev/null &'
+alias google='chromium-browser &> /dev/null &'
 # alias y='google-chrome "www.youtube.com" &> /dev/null &'
 alias vim='gvim -v'
 alias yd='youtube-dl'
@@ -151,7 +151,7 @@ alias df='pydf'
 alias pdfreader='evince'
 alias m='cmus'
 alias z='zathura'
-alias oo='libreoffice6.0'
+alias oo='libreoffice'
 alias pdfgrep='pdfgrep -HRi'
 
 #-------------------------------------------------------------

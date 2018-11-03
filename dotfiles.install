@@ -14,6 +14,10 @@ ln -fs /home/$USER/dotfiles/shell/alias .alias
 ln -fs /home/$USER/dotfiles/shell/inputrc .inputrc
 ln -fs /home/$USER/dotfiles/shell/zprofile .zprofile
 ln -fs /home/$USER/dotfiles/shell/zshrc .zshrc
+ln -fs /home/$USER/dotfiles/fzf/fzf.zsh .fzf.zsh
+
+# If using bash...
+# ln -fs /home/$USER/dotfiles/fzf/fzf.bash .fzf.bash
 
 ln -fs /home/$USER/dotfiles/vim/vimrc .vimrc
 
@@ -24,8 +28,13 @@ then
       [[ "$0" = "$BASH_SOURCE" ]] && exit 1 || return 1 
 fi
 
+# i3 tiling manager
 mkdir -p /home/${USER}/.config/i3
+mkdir -p /home/${USER}/.config/i3status
 ln -fs /home/${USER}/dotfiles/config/i3/config /home/${USER}/.config/i3/
+ln -fs /home/${USER}/dotfiles/config/i3status/config /home/${USER}/.config/i3status/
+ln -fs /home/${USER}/dotfiles/config/i3status/i3status_wrapper /home/${USER}/.config/i3status/
 
+# feh image viewer
 mkdir -p /home/${USER}/.config/feh
 ln -fs /home/${USER}/dotfiles/config/feh/keys /home/${USER}/.config/feh/

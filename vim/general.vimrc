@@ -59,8 +59,9 @@ set wildmenu
 set relativenumber
 
 " Easier to get in command mode
-nnoremap ; :
-vnoremap ; :
+" Removed as it messes with repeat last search
+" nnoremap ; :
+" vnoremap ; :
 
 
 " Ignore compiled files
@@ -130,16 +131,25 @@ set foldcolumn=0
 syntax enable 
 
 " Enable 256 colors palette in Gnome Terminal
-if $COLORTERM == 'gnome-terminal'
-    set t_Co=256
-endif
+" if $COLORTERM == 'gnome-terminal'
+"     set t_Co=256
+" endif
 
-try
-    colorscheme desert
-catch
-endtry
+" try
+"     colorscheme desert
+" catch
+" endtry
 
+" Solarized Dark
+set t_Co=256
+let g:solarized_termcolors=256
+" let g:solarized_termtrans = 1
+" let g:solarized_bold = 1
+" let g:solarized_underline = 1
+" let g:solarized_italic = 1
 set background=dark
+colorscheme solarized
+
 
 " highlight current column
 set cursorline
@@ -150,7 +160,6 @@ hi CursorLine term=bold cterm=bold guibg=Grey40
 if has("gui_running")
     set guioptions-=T
     set guioptions-=e
-    set t_Co=256
     set guitablabel=%M\ %t
 endif
 
@@ -174,6 +183,9 @@ set undodir=$HOME/.vim/undo " where to save undo histories
 set undolevels=1000         " How many undos
 set undoreload=10000        " number of lines to save for undo
 
+"open env variables around {} with gf
+set isfname+={,}
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Text, tab and indent related
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -188,12 +200,22 @@ set shiftwidth=2
 set tabstop=2
 
 " Linebreak on 500 characters
-set lbr
-set tw=500
+set linebreak
+" set textwidth=500
 
 set autoindent "Auto indent
 " set smartindent "Smart indent
 set wrap "Wrap lines
+
+" TODO : Encontrar solucion para escribir texto en vim
+" Set text files (no extension) to html and set coloumns width
+" autocmd BufNewFile,BufRead * if &ft == '' 
+"   " set filetype=html
+"   set textwidth=10000
+"   autocmd VimResized * | set columns=72
+
+" TODO: esto funciona pero jode cuando abres algun readme o logfile
+" autocmd BufNewFile,BufRead * if &ft == '' | autocmd VimResized * set columns=80 | hi clear CursorLine
 
 " Move up/down 'soft' lines (long lines which wrap around)
 noremap <silent> k gk
@@ -252,7 +274,6 @@ set laststatus=2
 " set statusline=\ %{HasPaste()}%F%m%r%h\ %w\ \ CWD:\ %r%{getcwd()}%h\ \ \ Line:\ %l\ \ Column:\ %c
 
 set rtp+=/usr/lib/python2.7/site-packages/powerline/bindings/vim/
-set t_Co=256
 set guifont=Liberation\ Mono\ for\ Powerline\ 10 
 " /usr/lib/python2.7/site-packages/powerline/bindings/vim/plugin/
 
@@ -278,6 +299,17 @@ map 0 ^
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Misc
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" elaborate and run 
+" TODO: should only be available for SV files
+map <F4> :! ./run && make <CR>
+
+"swap highlighted text with last deleted text
+" xnoremap <C-x> <Esc>`.``gvP``P
+
+" rename file
+map <leader>n :call RenameFile()<cr>
+
+
 " Remove the Windows ^M - when the encodings gets messed up
 " noremap <leader>m mmHmt:%s/<C-V><cr>//ge<cr>'tzt'm
 

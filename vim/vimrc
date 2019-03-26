@@ -21,7 +21,7 @@ set rtp+=~/.vim/bundle/Vundle.vim
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 call vundle#begin()
 " start- all plugins below
-
+Plugin 'altercation/vim-colors-solarized.git'
 Plugin 'VundleVim/Vundle.vim'
 Plugin 'scrooloose/nerdtree.git'
 " Plugin 'scrooloose/syntastic.git'

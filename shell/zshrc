@@ -8,10 +8,9 @@ stty -ixon
 # PATH
 #
 ################################################################################
-
-export PATH=/usr/local/texlive/2017/bin/x86_64-linux:$PATH
+export PATH=/usr/local/texlive/2018/bin/x86_64-linux:$PATH
 # PATH=/home/kitesutra/miniconda2/bin:$PATH
-export PATH=/home/kitesutra/miniconda3/bin:$PATH
+# export PATH=/home/kitesutra/miniconda3/bin:$PATH
 
 export EDITOR=/usr/bin/vim
 
@@ -19,6 +18,8 @@ export EDITOR=/usr/bin/vim
 # this is needed for stuff like autocomplete can work 
 # export PYTHONPATH="$PYTHONPATH:${HOME}/miniconda3/lib/python3.6/site-packages"
 
+# Required to activate conda env
+source /home/kitesutra/miniconda3/etc/profile.d/conda.sh
 
 ################################################################################
 # Environment. TODO : These should go to .zshenv or .zprofile?

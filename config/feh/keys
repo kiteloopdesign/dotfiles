@@ -18,6 +18,7 @@ zoom_default
 remove
 delete
 
+toggle_info
 # Set the keys
 # [next_img]
 # [prev_img]
@@ -39,6 +40,8 @@ zoom_default r
 remove x
 delete X
 
+# No fuciona ... usar e para EXIF
+toggle_info		N
 # scroll_left_page	C-h
 # scroll_right_page	C-l
 # scroll_up_page		C-k

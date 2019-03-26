@@ -24,9 +24,22 @@ exec ~/.fehbg
 # Load udiskie, allows to automount USB drives
 exec --no-startup-id udiskie -ans &
 
+# Random wallpaper on startup
+exec --no-startup-id feh --randomize --bg-fill ~/Pictures/wallpapers/kite/*
+
 # Brightness control (without any fuzz)
 bindsym XF86MonBrightnessUp   exec --no-startup-id sudo /home/kitesutra/bin/brightness_control +100
 bindsym XF86MonBrightnessDown exec --no-startup-id sudo /home/kitesutra/bin/brightness_control -100
+
+# Chromium browser shortcut
+# bindsym $mod+g exec --no-startup-id chromium-browser
+bindsym $mod+g exec --no-startup-id google-chrome
+
+# shortcut for SV questions 
+# bindsym $mod+n exec --no-startup-id vim ~/docs/verilog/questions
+# bindsym $mod+n exec --no-startup-id vim 
+# bindsym $mod+n exec gnome-terminal -e "gvim /home/kitesutra/docs/verilog/questions"
+bindsym $mod+n exec gnome-terminal -e "zsh -c 'source /home/kitesutra/.zshrc && vim /home/kitesutra/docs/verilog/questions'"
 
 # Sound control
 # Si se rompe el audio usar esta mierda : amixer set Master 0 100%
@@ -113,7 +126,6 @@ bindsym --release Print exec scrot 'screenshot_%Y%m%d_%H%M%S.png' -e 'mkdir -p ~
 # OSX-like area selection screenshots
 bindsym --release Shift+Print exec scrot -s 'screenshot_%Y%m%d_%H%M%S.png' -e 'mkdir -p ~/Pictures/screenshots && mv $f ~/Pictures/screenshots && xclip -selection clipboard -t image/png -i ~/Pictures/screenshots/`ls -1 -t ~/Pictures/screenshots | head -1`' # Area selection
 
-
 ################################################################################
 # Borders
 ################################################################################
@@ -192,6 +204,9 @@ bindsym $mod+8 workspace 8
 bindsym $mod+9 workspace 9
 bindsym $mod+0 workspace 10
 
+bindsym $mod+m exec i3-input -F 'rename workspace to "%s"' -P 'New name: '
+
+
 # move focused container to workspace
 bindsym $mod+Shift+1 move container to workspace 1
 bindsym $mod+Shift+2 move container to workspace 2
@@ -243,11 +258,12 @@ bar {
 
         # font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
         # font pango:DejaVu Sans Mono 10
+        font pango:DejaVu Sans Mono 10, Awesome 9
 
         status_command i3status
         status_command ~/.config/i3status/i3status_wrapper
 
-        font xft:Ubuntu Mono Regular 12, FontAwesome 10
+        # font xft:Ubuntu Mono Regular 12, FontAwesome 10
         
         
         colors {

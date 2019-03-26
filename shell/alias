@@ -24,10 +24,10 @@ alias mv='mv -i'
 # Prevents accidentally clobbering files.
 alias mkdir='mkdir -pv'
 
-alias tldr='tldr find'
+# alias tldr='tldr find'
 
 #alias history='fc -El 1'
-alias h='history'
+alias h='history 100'
 alias hg='history | grep'
 alias j='jobs -l'
 alias which='type -a'
@@ -118,6 +118,7 @@ alias ea='vim /home/${USER}/.alias'
 alias sa='source /home/${USER}/.alias'
 alias v='vim'
 alias ev='vim ~/.vimrc ~/dotfiles/vim/general.vimrc ~/dotfiles/vim/plugins.vimrc'
+alias ef='vim ~/dotfiles/config/feh/keys'
 alias et='vim ~/.tmux.conf'
 alias ei='vim ~/.config/i3/config'
 alias bc='bc -l'
@@ -143,9 +144,10 @@ alias isomount='sudo mount -t iso9660 -o ro,loop,noauto $1 /mnt'
 #-------------------------------------------------------------
 alias google='chromium-browser &> /dev/null &'
 # alias y='google-chrome "www.youtube.com" &> /dev/null &'
+alias p='python'
 alias vim='gvim -v'
 alias yd='youtube-dl'
-alias feh='feh -. -d' # Fit to screen images, draw filename
+alias feh='feh -. -d --draw-tinted' # Fit to screen images, draw filename
 # alias feh='feh -xZGd -B black --draw-tinted -g 1366x768'
 alias df='pydf'
 alias pdfreader='evince'

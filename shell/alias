@@ -60,7 +60,8 @@ alias sp='find . -type f -name "*[[:space:]]*"'
 
 # SSH
 # alias kitepi='ssh-add -t 1h;ssh kitepi@192.168.1.123'
-alias kitepi='ssh-add -t 1h;ssh kitepi@kitepi.hopto.org'
+# alias kitepi='ssh-add -t 1h;ssh kitepi@kitepi.hopto.org'
+alias kitepi='ssh-add -t 1h;ssh -X kitepi@192.168.0.222'
 alias android='ssh-add -t 1h;ssh 192.168.1.73 -p 2222'
 
 

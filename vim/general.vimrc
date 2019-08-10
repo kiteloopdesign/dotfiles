@@ -205,7 +205,7 @@ set linebreak
 
 set autoindent "Auto indent
 " set smartindent "Smart indent
-set wrap "Wrap lines
+set nowrap "Do not Wrap lines
 
 " TODO : Encontrar solucion para escribir texto en vim
 " Set text files (no extension) to html and set coloumns width

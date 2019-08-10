@@ -1,8 +1,11 @@
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" vim-commentary
+" used by vim-commentary
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" setlocal commentstring=#\ %s
+" Set default commentstring for files with no extension. Above changes it for all
+autocmd BufNewFile,BufRead * if &syntax == '' | setlocal commentstring=#\ %s
 autocmd FileType verilog_systemverilog setlocal commentstring=//\ %s
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""

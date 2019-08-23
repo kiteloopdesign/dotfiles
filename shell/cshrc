@@ -1,0 +1,139 @@
+source /cad/config/cshrc.ic6
+clear
+#madd incisiv
+madd xcelium/17.10.009
+mrm mmsim
+mrm verdi
+madd mmsim/11.1
+madd pt
+madd rc
+madd vcs
+#madd verdi
+madd verdi/l-2016.06-sp2-8
+madd fm
+madd vmanager
+madd lec
+mlist
+
+
+# history is a useful UNIX utility for re-executing commands
+# set HIST="~/.history"
+set history=10000
+set histdup=erase
+set savehist=(10000 merge)
+# alias postcmd "history -S; history -M"
+
+setenv EDITOR vim
+
+setenv PRINTER F2DesignSharpCopier
+
+#setenv PATH $PATH/:$HOME/bin
+setenv PATH $HOME/bin/vim/bin/:$PATH
+
+
+# Vim mode
+bindkey -v
+# bindkey -k up history-search-backward
+bindkey -k down history-search-forward
+bindkey "" history-search-backward
+
+bindkey "" i-search-back
+
+
+# Make command completion (TAB key) cycle through all possible choices
+# (The default is to simply display a list of all choices when more than one
+# match is available.)
+
+# bindkey "^I" complete-word-fwd
+
+# Turn on implicit cd operation
+# set implicitcd
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+if (-e $HOME/.alias) then
+  source $HOME/.alias
+endif
+
+#set cdpath = (.. ~ ~/bin ~/Programs ~/Research /terra/ammon /geo /geo/GeoData)
+##  MANPATH set up
+#set M01  = ( /usr/man:/usr/local/man:/usr/share/man:/usr/X11R6/man:/usr/X11R5/man )
+#set M02  = ( /opt/SUNWspro/man:/opt/FSFg77/man:/opt/FSFgcc/man:/opt/FSFlibg++/man )
+#set M03  = ( /usr/local/teTeX/man:/usr/local/ncarg/man:/usr/local/GMT3.3.1/man:/met/man:/met/ldm/man )
+#set MPTH = ( $M01":"$M02":"$M03 )
+##
+#setenv MANPATH "$MPTH"
+##
+#unset M01
+#unset M02
+#unset M03
+##
+##
+#set group=(`whoami -g`)
+##
+## noclobber helps prevent me from overwriting files by accident
+##
+#set noclobber
+## the next one turns on file-name completion
+#set filec
+#unset noglob 
+## this one forbids the creation of large core files when programs crash
+#limit coredumpsize 0
+## this one lets me run large programs
+#unlimit stacksize
+## default file creation permissions
+#umask 002
+## special characters
+#stty erase '^?'
+#stty intr '^C'
+##
+## For the cshell
+##
+#set prompt="`hostname`\!% "
+##
+#endif
+##
+## I keep most of my aliases in a separate file 
+##    and initialize them here
+##
+#source $home/.alias
+##
+## put the path name in the window title
+##
+#alias settitle 'echo -n "^[]2;$cwd^G"'
+#settitle
+#alias cd    'cd \!*;settitle'
+##
+## This is an important one:
+##
+#alias man 'man -F'
+##
+##   "less" is like a hybrid of "more" and "vi", I use it because I
+##    can back up in man pages using vi-like commands
+##
+
+

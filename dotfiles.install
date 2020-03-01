@@ -35,6 +35,10 @@ ln -fs /home/${USER}/dotfiles/config/i3/config /home/${USER}/.config/i3/
 ln -fs /home/${USER}/dotfiles/config/i3status/config /home/${USER}/.config/i3status/
 ln -fs /home/${USER}/dotfiles/config/i3status/i3status_wrapper /home/${USER}/.config/i3status/
 
+# picom
+mkdir -p /home/${USER}/.config/picom
+ln -fs /home/${USER}/dotfiles/config/picom/picom.conf /home/${USER}/.config/picom/
+
 # feh image viewer
 mkdir -p /home/${USER}/.config/feh
 ln -fs /home/${USER}/dotfiles/config/feh/keys /home/${USER}/.config/feh/

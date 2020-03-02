@@ -156,9 +156,9 @@ bindkey -M vicmd "p" x-paste
 # Other
 #
 ################################################################################
+
 # powerline
-# source /usr/lib/python2.7/site-packages/powerline/bindings/zsh/powerline.zsh
-if [ -f `which powerline-daemon` ]; then
+if [ -f $(which powerline-daemon) ]; then
   powerline-daemon -q
   POWERLINE_BASH_CONTINUATION=1
   POWERLINE_BASH_SELECT=1

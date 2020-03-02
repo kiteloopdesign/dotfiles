@@ -40,6 +40,9 @@ Plugin 'junegunn/fzf.vim'
 Plugin 'mileszs/ack.vim'
 Plugin 'mhinz/vim-grepper'
 
+Plugin 'powerline/powerline'
+
+
 " Works but doesn't ask for confirmation to reload file!
 " Plugin 'djoshea/vim-autoread'
 Plugin 'junegunn/vim-easy-align'

@@ -100,6 +100,9 @@ set hlsearch
 " Makes search act like search in modern browsers
 set incsearch 
 
+" Do not wrap around search
+set nowrapscan
+
 " Don't redraw while executing macros (good performance config)
 set lazyredraw 
 
@@ -124,8 +127,20 @@ set foldcolumn=0
 " set colorcolumn=80
 " highlight ColorColumn ctermbg=gray guibg=lightgrey
 
+""""""""""""""""""""""""""""""
+" => Status line
+""""""""""""""""""""""""""""""
+" Always show the status line
+set laststatus=2
+
+" Format the status line
+" set statusline=\ %{HasPaste()}%F%m%r%h\ %w\ \ CWD:\ %r%{getcwd()}%h\ \ \ Line:\ %l\ \ Column:\ %c
+
+set rtp+=/usr/lib/python3.7/site-packages/powerline/bindings/vim/
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Colors and Fonts
+" => Colors and Fonts 
+" TODO fix
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Enable syntax highlighting
 syntax enable 
@@ -150,6 +165,22 @@ let g:solarized_termcolors=256
 set background=dark
 colorscheme solarized
 
+
+set guifont=Inconsolata\ for\ Powerline:h15
+let g:Powerline_symbols = 'fancy'
+set encoding=utf-8
+set t_Co=256
+set fillchars+=stl:\ ,stlnc:\
+set term=xterm-256color
+set termencoding=utf-8
+
+if has("gui_running")
+    let s:uname = system("uname")
+    if s:uname == "Darwin\n"
+        set guifont=Source\ Code\ Pro\ for\ Powerline:h15
+        colorscheme PaperColor              " set color scheme
+    endif
+endif
 
 " highlight current column
 set cursorline
@@ -262,20 +293,6 @@ endtry
 
 " Return to last edit position when opening files (You want this!)
 " au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
-
-
-""""""""""""""""""""""""""""""
-" => Status line
-""""""""""""""""""""""""""""""
-" Always show the status line
-set laststatus=2
-
-" Format the status line
-" set statusline=\ %{HasPaste()}%F%m%r%h\ %w\ \ CWD:\ %r%{getcwd()}%h\ \ \ Line:\ %l\ \ Column:\ %c
-
-set rtp+=/usr/lib/python2.7/site-packages/powerline/bindings/vim/
-set guifont=Liberation\ Mono\ for\ Powerline\ 10 
-" /usr/lib/python2.7/site-packages/powerline/bindings/vim/plugin/
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Editing mappings

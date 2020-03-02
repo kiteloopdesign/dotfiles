@@ -90,7 +90,6 @@ let g:ale_lint_on_enter = 0
 " visual-select j down twice
 let g:verilog_instance_skip_last_coma = 1
 
-
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "" Syntastic
 ""

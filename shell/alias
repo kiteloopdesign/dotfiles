@@ -125,12 +125,14 @@ alias cx='chmod +x $*'
 alias ez='vim ~/.zshrc'
 alias sz='source ~/.zshrc'
 alias ea='vim /home/${USER}/.alias'
+alias eg='vim /home/${USER}/.gitconfig'
 alias sa='source /home/${USER}/.alias'
 alias v='vim'
 alias ev='vim ~/.vimrc ~/dotfiles/vim/general.vimrc ~/dotfiles/vim/plugins.vimrc'
 alias ef='vim ~/dotfiles/config/feh/keys'
 alias et='vim ~/.tmux.conf'
 alias ei='vim ~/.config/i3/config'
+alias es='vim ~/.config/sway/config'
 alias bc='bc -l'
 #-------------------------------------------------------------
 # X
@@ -155,7 +157,7 @@ alias isomount='sudo mount -t iso9660 -o ro,loop,noauto $1 /mnt'
 alias google='chromium-browser &> /dev/null &'
 # alias y='google-chrome "www.youtube.com" &> /dev/null &'
 alias p='python3'
-alias vim='gvim -v'
+# alias vim='gvim -v'
 alias yd='youtube-dl'
 alias feh='feh -. -d --draw-tinted' # Fit to screen images, draw filename
 # alias feh='feh -xZGd -B black --draw-tinted -g 1366x768'
@@ -166,6 +168,30 @@ alias z='zathura'
 alias f='feh'
 alias oo='libreoffice'
 alias pdfgrep='pdfgrep -HRi'
+
+
+#-------------------------------------------------------------
+# Git
+#-------------------------------------------------------------
+alias gs='git status '
+alias ga='git add '
+alias gb='git branch '
+alias gf='git fetch '
+alias gp='git pull '
+alias gc='git commit'
+alias gd='git diff'
+alias gdf='git difftool'
+alias gh='git hist'
+# alias gl 'git log'
+alias gl='git change'
+alias gdc='git diff-files-between-commits'
+alias go='git checkout '
+# alias gk 'gitk --all&'
+# alias gx 'gitx --all'
+alias gg='git grep --line-number'
+# git add and commit (only adds and comits modified files)
+# $: gac "commmit message"
+alias gac='git commit -am '
 
 #-------------------------------------------------------------
 # Functions
@@ -191,10 +217,21 @@ fag(){
 # ytdl-playlist (){
 #   youtube-dl --ignore-errors -f bestaudio --extract-audio --audio-format mp3 --audio-quality 0 -o '%(playlist)s/%(playlist_index)s - %(title)s.%(ext)s' "$1"
 # }
+ytdl-video (){
+# youtube-dl -f "bestvideo[height<=1080]+bestaudio" --restrict-filenames --add-metadata --ignore-errors -o '%(title)s.%(ext)s' "$1"
+# youtube-dl -f "bestvideo[ext=mp4]+bestaudio[ext=m4a]/mp4" --restrict-filenames --add-metadata --ignore-errors -o '%(title)s.%(ext)s' "$1"
+# youtube-dl -f "bestvideo[height<=720,ext=mp4]+bestaudio[ext=m4a]/mp4" --restrict-filenames --add-metadata --ignore-errors -o '%(title)s.%(ext)s' "$1"
+youtube-dl -f "bestvideo[height<=720]+bestaudio/mp4" --restrict-filenames --add-metadata --ignore-errors -o '%(title)s.%(ext)s' "$1"
+}
 
 ytdl-playlist (){
   youtube-dl --restrict-filenames --add-metadata --ignore-errors -f bestaudio --extract-audio --audio-format mp3 --audio-quality 0 -o '%(playlist)s/%(playlist_index)s-%(title)s.%(ext)s' "$1"
 }
 
+ytdl-video-playlist (){
+  # youtube-dl -f bestvideo[height<=1080]+bestaudio --restrict-filenames --add-metadata --ignore-errors -o '%(playlist)s/%(playlist_index)s-%(title)s.%(ext)s' "$1"
+  # youtube-dl -f "bestvideo[height<=1080]+bestaudio" --restrict-filenames --add-metadata --ignore-errors -o '%(playlist)s/%(playlist_index)s-%(title)s.%(ext)s' "$1"
+  youtube-dl -f "bestvideo[height<=720]+bestaudio/mp4" --restrict-filenames --add-metadata --ignore-errors -o '%(playlist)s/%(playlist_index)s-%(title)s.%(ext)s' "$1"
+}
 
 

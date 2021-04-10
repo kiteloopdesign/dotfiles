@@ -1,0 +1,21 @@
+--date-format=%Y-%m-%d
+--strict
+
+--file ~/personal/ledger/commodity.ldg
+--file ~/personal/ledger/expenses.ldg
+--file ~/personal/ledger/assets.ldg
+--file ~/personal/ledger/equity.ldg
+--file ~/personal/ledger/income.ldg
+; --file ~/personal/ledger/budget.ldg
+--file ~/personal/ledger/2021/journal.ldg
+
+; --pedantic
+; --explicit
+
+
+; path/to/your/data.journal
+; --exchange $
+; --sort date
+; --effective
+; --real
+; --file ~/finances/2020/data.journal

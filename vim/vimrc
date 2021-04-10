@@ -41,6 +41,7 @@ Plugin 'mileszs/ack.vim'
 Plugin 'mhinz/vim-grepper'
 
 Plugin 'powerline/powerline'
+Plugin 'ledger/vim-ledger'
 
 
 " Works but doesn't ask for confirmation to reload file!

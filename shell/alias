@@ -107,7 +107,7 @@ alias bf='find . -type f -print0 | xargs -0 du -h | sort -hr | head -20'
 alias tree='tree -Csuh'    #  Nice alternative to 'recursive ls' ...
 alias cx='chmod +x $*'
 
-
+alias el='vim ~/.ledgerrc'
 #-------------------------------------------------------------
 # File Permissions
 #-------------------------------------------------------------
@@ -116,7 +116,6 @@ alias cx='chmod +x $*'
 # Change folders and files one liner :
 # chmod -R u+rwX,go+rX,go-w .
 # chmod -R u+rwX,go+rX-w .
-
 
 #-------------------------------------------------------------
 # Quick edits and re-loads
@@ -192,6 +191,23 @@ alias gg='git grep --line-number'
 # git add and commit (only adds and comits modified files)
 # $: gac "commmit message"
 alias gac='git commit -am '
+
+#-------------------------------------------------------------
+# Ledger
+#-------------------------------------------------------------
+alias led='ledger -X BGN'
+alias post='vim "+normal G$" +startinsert ~/personal/ledger/2021/journal.ldg'
+alias assets='ledger b ^assets --flat -X BGN'
+alias expenses='ledger r -r assets -s -X BGN'
+alias budget='led b budget --flat -p $( date +%b ) -X BGN'
+alias balance='led balance --real -X BGN'
+#-------------------------------------------------------------
+
+# xrupdate () {
+#  curl -s 'https://dskbank.bg/restapi/dsk/GetCurrencyRates?format=json' | 
+#  sed -e 's/[{}]/\n/g' -e 's/"//g' | sed -e '2~2d' | 
+#  awk  -v date="$(date +"%Y-%m-%d")" -F[,:] 'NF && $4!=0{print "P " date" 00:00:00 "$6" "$4 " BGN"}' >> ~/L/ledger/data/prices.db
+# }
 
 #-------------------------------------------------------------
 # Functions

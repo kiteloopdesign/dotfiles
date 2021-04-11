@@ -58,14 +58,15 @@ output * bg $background fill
 ################################################################################
     # exec setxkbmap gb
     input type:keyboard {
-        xkb_layout gb
+        xkb_layout "gb,es"
+        xkb_options grp:win_space_toggle
       # xkb_options ctrl:nocaps
       # xkb_options caps:swapescape
     }
 
     # Select between Spanish and English
-    bindsym $mod+Shift+s exec setxkbmap es
-    bindsym $mod+Shift+g exec setxkbmap gb
+    # bindsym $mod+Shift+s exec setxkbmap es
+    # bindsym $mod+Shift+g exec setxkbmap gb
 
 #
 # Example configuration:

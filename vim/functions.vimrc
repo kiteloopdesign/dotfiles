@@ -8,10 +8,25 @@ command! Ev :e $MYVIMRC
 " source vimrc file
 command! Sv :source $MYVIMRC
 
+" command! Es :e /home/pablo.mora/projects/mp2784/vim.source
+command! Es :e $HOME/projects/mp2784/digital/users/pablo.mora/vim.source
+command! Ss :source /home/pablo.mora/projects/mp2784/digital/users/pablo.mora/vim.source
+
+" TODO
+" Find work and cd into it
+" command! Gw :source $MYVIMRC
+
 " Delete trailing white space on save, useful for Python and CoffeeScript ;)
 func! DeleteTrailingWS()
   exe "normal mz"
   %s/\s\+$//ge
+  exe "normal `z"
+endfunc
+
+" Delete ^M from DOS
+func! DeleteCarriageRerturn()
+  exe "normal mz"
+  %s///g
   exe "normal `z"
 endfunc
 
@@ -34,6 +49,29 @@ function! QuickfixToggle() "{{{
 endfunction "}}}
 
 nnoremap <leader>Q :call QuickfixToggle()<CR>
+
+function! PrintSyntaxSettings()
+    " echo 'expandtab'   &expandtab
+    " echo 'tabstop'     &tabstop
+    " echo 'autoindent'  &autoindent
+    " echo 'softtabstop' &softtabstop
+    " echo 'shiftwidth'  &shiftwidth
+	
+    verbose set autoindent?  
+    verbose set cindent?  
+    verbose set smartindent?  
+    verbose set indentexpr?  
+    verbose set indentexpr?  
+    
+    verbose set ai? cin? cink? cino? si? inde? indk?
+
+    verbose set expandtab?   
+    verbose set tabstop?     
+    verbose set softtabstop? 
+    verbose set shiftwidth?  
+
+endfunction
+
 
 function! RenameFile()
     let old_name = expand('%')

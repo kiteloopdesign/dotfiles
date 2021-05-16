@@ -41,11 +41,11 @@ Plugin 'tpope/vim-unimpaired.git'
 Plugin 'tpope/vim-repeat.git'
 Plugin 'tpope/vim-commentary.git'
 " Search, grep etc
-Plugin 'junegunn/fzf.vim'
+" Plugin 'junegunn/fzf.vim'
 Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'mileszs/ack.vim'
 Plugin 'mhinz/vim-grepper'
-Plugin 'ledger/vim-ledger'
+" Plugin 'ledger/vim-ledger'
 " Plugin 'kana/vim-fakeclip'
 " Works but doesn't ask for confirmation to reload file!
 " Plugin 'djoshea/vim-autoread'

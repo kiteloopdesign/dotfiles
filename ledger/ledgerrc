@@ -1,13 +1,16 @@
---date-format=%Y-%m-%d
+# --date-format=%Y-%m-%d
+--input-date-format=%d/%m/%Y
 --strict
 
---file ~/personal/ledger/commodity.ldg
---file ~/personal/ledger/expenses.ldg
---file ~/personal/ledger/assets.ldg
---file ~/personal/ledger/equity.ldg
---file ~/personal/ledger/income.ldg
+--file ~/personal/ledger/data/2021/commodity.ldg
+--file ~/personal/ledger/data/2021/expenses.ldg
+--file ~/personal/ledger/data/2021/assets.ldg
+--file ~/personal/ledger/data/2021/equity.ldg
+--file ~/personal/ledger/data/2021/income.ldg
 ; --file ~/personal/ledger/budget.ldg
---file ~/personal/ledger/2021/journal.ldg
+--file ~/personal/ledger/data/2020/journal.ldg
+;--file ~/personal/ledger/data/2021/journal.ldg
+;--file ~/personal/ledger/scripts/journal.ldg
 
 ; --pedantic
 ; --explicit

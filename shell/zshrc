@@ -11,6 +11,7 @@ stty -ixon
 export PATH=/usr/local/texlive/2020/bin/x86_64-linux:$PATH
 # PATH=/home/kitesutra/miniconda2/bin:$PATH
 export PATH=/home/kitesutra/.local/bin:$PATH
+export PATH=/home/kitesutra/bin:$PATH
 
 export EDITOR=/usr/bin/vim
 

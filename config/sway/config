@@ -16,7 +16,8 @@ set $up k
 set $right l
 # Your preferred terminal emulator
 # set $term alacritty
-set $term termite
+# set $term termite
+set $term gnome-terminal
 # Your preferred application launcher
 # Note: pass the final command to swaymsg so that the resulting window can be opened
 # on the original workspace that the command was run on.
@@ -134,7 +135,8 @@ output * bg $background fill
     # Random wallpaper on startup
     exec feh --randomize --bg-fill ~/Pictures/wallpapers/kite/*
 
-    # exec /usr/bin/gnome-keyring-daemon --start --components=secrets
+    # Need this for Chrome to remember passw
+    exec /usr/bin/gnome-keyring-daemon --start --components=secrets
 
     # enable floating mode for all XTerm windows
     # for_window [class="urxvt" -instance="floating"] floating enable border pixel 3

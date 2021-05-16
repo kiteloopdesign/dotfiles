@@ -97,6 +97,7 @@ alias lf='ls -d */'    #  Only show folders
 
 alias lb='ls ~/bin'        # What was the name of that custom script that did ...
 alias cb='cd ~/bin'         
+alias cl='cd ~/personal/ledger/data/2021'         
 # Doesnt search on hidden folders
 # alias bigfiles='ls -Sr **/*(.Lm+100)'
 # alias bigfiles='find . -type f -size +100M -exec ls -lh {} \;'
@@ -130,7 +131,7 @@ alias v='vim'
 alias ev='vim ~/.vimrc ~/dotfiles/vim/general.vimrc ~/dotfiles/vim/plugins.vimrc'
 alias ef='vim ~/dotfiles/config/feh/keys'
 alias et='vim ~/.tmux.conf'
-alias ei='vim ~/.config/i3/config'
+# alias ei='vim ~/.config/i3/config'
 alias es='vim ~/.config/sway/config'
 alias bc='bc -l'
 #-------------------------------------------------------------
@@ -181,25 +182,40 @@ alias gc='git commit'
 alias gd='git diff'
 alias gdf='git difftool'
 alias gh='git hist'
-# alias gl 'git log'
-alias gl='git change'
-alias gdc='git diff-files-between-commits'
+alias ghh='git ghist'
+
+# Git List commands : shows list of files
+alias gl='git list-files-last-commit'
+alias glc='git list-files-on-given-commit'
+# This is useful when theres many commits and want to see all files that changed from COMMIT until current HEAD
+# $: gls HEAD~2 , gls a2f145
+alias gls='git list-files-since-commit'
+
+# Git diff commands : shows diffs on files
+alias gdl='git diff-files-last-commit'
+alias gdc='git diff-files-on-given-commit'
 alias go='git checkout '
 # alias gk 'gitk --all&'
 # alias gx 'gitx --all'
 alias gg='git grep --line-number'
-# git add and commit (only adds and comits modified files)
+# git add and commit (only adds and commits modified files)
 # $: gac "commmit message"
 alias gac='git commit -am '
+
+# -- WIP -- WIP -- WIP -- WIP -- WIP -- WIP -- WIP -- WIP -- WIP -- WIP
+# To be worked on
+alias git-diff-folders="git diff --name-only | xargs -L1 dirname | uniq"
+# -- WIP -- WIP -- WIP -- WIP -- WIP -- WIP -- WIP -- WIP -- WIP -- WIP
+#-------------------------------------------------------------
 
 #-------------------------------------------------------------
 # Ledger
 #-------------------------------------------------------------
-alias led='ledger -X BGN'
-alias post='vim "+normal G$" +startinsert ~/personal/ledger/2021/journal.ldg'
-alias assets='ledger b ^assets --flat -X BGN'
-alias expenses='ledger r -r assets -s -X BGN'
-alias budget='led b budget --flat -p $( date +%b ) -X BGN'
+alias led='ledger -X EUR'
+alias post='vim "+normal G$" +startinsert ~/personal/ledger/data/2021/journal.ldg'
+alias assets='ledger b ^assets --flat -X EUR'
+alias expenses='ledger r -r assets -s -X EUR'
+alias budget='led b budget --flat -p $( date +%b ) -X EUR'
 alias balance='led balance --real -X BGN'
 #-------------------------------------------------------------
 

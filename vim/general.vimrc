@@ -14,9 +14,15 @@ noremap ZQ :qa!<cr>
 " Sets how many lines of history VIM has to remember
 set history=500
 
+
 " Enable filetype plugins
-filetype plugin on
-filetype indent on
+filetype plugin indent on
+" equivalent to these three:
+" filetype on
+" filetype plugin on
+" filetype indent on
+
+
 " Allows to use '%' to jump between pairs of words, e.g. begin-end
 runtime macros/matchit.vim
 
@@ -34,26 +40,47 @@ nmap <leader>w :w!<cr>
 " (useful for handling the permission-denied error)
 " command W w !sudo tee % > /dev/null
 
-
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " IMPORTANT! Check plugins.vimrc for other mappings!
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => VIM user interface
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Allows to copy b/w vim and X
-set clipboard=unnamedplus
+" set clipboard=unnamedplus
+" set clipboard=unnamed
+set clipboard+=unnamedplus
+set paste               " Paste from a windows or from vim
+set go+=a               " Visual selection automatically copied to the clipboard
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Fucking wayland mapping
+" TODO: Can't copy FROM vim INTO other window
+" TODO: Only work when visual selecting line. 'yy' as before
+" doesnt work anymore
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" nnoremap <C-@> :call system("wl-copy", @")<CR>
+vmap <silent> y y:call system("wl-copy", @@)<CR>
+" nmap <silent> y y:call system("wl-copy", @@)<CR>
+" xnoremap <silent> <C-@> :w !wl-copy<CR><CR>
+
+" xnoremap "+y y:call system("wl-copy", @")<cr>
+" nnoremap "+p :let @"=substitute(system("wl-paste --no-newline"), '<C-v><C-m>', '', 'g')<cr>p
+" nnoremap "*p :let @"=substitute(system("wl-paste --no-newline --primary"), '<C-v><C-m>', '', 'g')<cr>p
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => VIM user interface
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Set shell title depending on vim file
+set title
 " Set 7 lines to the cursor - when moving vertically using j/k
 set so=7
 
 " Turn on the WiLd menu
 set wildmenu
+" Pretty much like bash
+set wildmode=list:longest
 
 " Set relative line numbers
 set relativenumber
@@ -88,6 +115,15 @@ set hidden
 set backspace=eol,start,indent
 set whichwrap+=<,>,h,l
 
+"Invert search direction adn do not jump when searching
+" nnoremap £ £``
+nnoremap £ *``
+nnoremap * £``
+
+"do not wrap at the end of file
+set nowrapscan
+set nowrap
+
 " Ignore case when searching
 set ignorecase
 
@@ -99,9 +135,6 @@ set hlsearch
 
 " Makes search act like search in modern browsers
 set incsearch 
-
-" Do not wrap around search
-set nowrapscan
 
 " Don't redraw while executing macros (good performance config)
 set lazyredraw 
@@ -116,8 +149,8 @@ set mat=2
 
 " No annoying sound on errors
 set noerrorbells
-set novisualbell
-set t_vb=
+set visualbell  " remove sound, use flash instead
+set t_vb=       " flash set to infinity so no flash
 set tm=500
 
 " Add a bit extra margin to the left
@@ -127,63 +160,55 @@ set foldcolumn=0
 " set colorcolumn=80
 " highlight ColorColumn ctermbg=gray guibg=lightgrey
 
-""""""""""""""""""""""""""""""
-" => Status line
-""""""""""""""""""""""""""""""
-" Always show the status line
-set laststatus=2
 
-" Format the status line
-" set statusline=\ %{HasPaste()}%F%m%r%h\ %w\ \ CWD:\ %r%{getcwd()}%h\ \ \ Line:\ %l\ \ Column:\ %c
-
-set rtp+=/usr/lib/python3.7/site-packages/powerline/bindings/vim/
+" eol - Character to show at the end of each line.
+" tab - Two characters to be used to show a tab.
+" trail - Character to show for trailing spaces.
+" extends - Character to show in the last column when the line continues beyond the right of the screen.
+" precedes - Character to show in the first column when the line continues beyond the left of the screen.
+" conceal - Character to show in place of concealed text, when conceallevel is set to 1.
+" nbsp - Character to show for a space.
+" Here is how I??ve set listchars in my configuration:
+" set listchars=eol:$,nbsp:_,tab:>-,trail:~,extends:>,precedes:<
+set listchars=eol:¬,tab:>·,trail:~,extends:>,precedes:<,space:·
+noremap <F5> :set list!<CR>
+inoremap <F5> <C-o>:set list!<CR>
+cnoremap <F5> <C-c>:set list!<CR>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Colors and Fonts 
-" TODO fix
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Enable syntax highlighting
 syntax enable 
 
 " Enable 256 colors palette in Gnome Terminal
-" if $COLORTERM == 'gnome-terminal'
-"     set t_Co=256
-" endif
+if $COLORTERM == 'gnome-terminal'
+    set t_Co=256
+endif
 
 " try
 "     colorscheme desert
 " catch
 " endtry
 
-" Solarized Dark
-set t_Co=256
+" Solarized
 let g:solarized_termcolors=256
-" let g:solarized_termtrans = 1
-" let g:solarized_bold = 1
-" let g:solarized_underline = 1
-" let g:solarized_italic = 1
 set background=dark
 colorscheme solarized
 
+" nmap <leader>bg :set background=light<cr>
+map <Leader>bg :let &background = ( &background == "dark"? "light" : "dark" )<CR>
 
-set guifont=Inconsolata\ for\ Powerline:h15
-let g:Powerline_symbols = 'fancy'
-set encoding=utf-8
-set t_Co=256
-set fillchars+=stl:\ ,stlnc:\
-set term=xterm-256color
-set termencoding=utf-8
-
-if has("gui_running")
-    let s:uname = system("uname")
-    if s:uname == "Darwin\n"
-        set guifont=Source\ Code\ Pro\ for\ Powerline:h15
-        colorscheme PaperColor              " set color scheme
-    endif
-endif
+" set guifont=Inconsolata\ for\ Powerline:h15
+" let g:Powerline_symbols = 'fancy'
+" set encoding=utf-8
+" set t_Co=256
+" set fillchars+=stl:\ ,stlnc:\
+" set term=xterm-256color
+" set termencoding=utf-8
 
 " highlight current column
-set cursorline
+" set cursorline
 hi CursorLine term=bold cterm=bold guibg=Grey40
 " set cursorcolumn
 
@@ -216,6 +241,10 @@ set undoreload=10000        " number of lines to save for undo
 
 "open env variables around {} with gf
 set isfname+={,}
+"filenames never have =, remove from search
+set isfname-==
+set isfname-=,
+set isfname-="
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Text, tab and indent related
@@ -230,13 +259,15 @@ set smarttab
 set shiftwidth=2
 set tabstop=2
 
+" disable all autoindent crap if panicked
+nnoremap <F9> :setlocal noai nocin nosi inde=<CR>
 " Linebreak on 500 characters
 set linebreak
 " set textwidth=500
 
 set autoindent "Auto indent
 " set smartindent "Smart indent
-set nowrap "Do not Wrap lines
+" set wrap "Wrap lines
 
 " TODO : Encontrar solucion para escribir texto en vim
 " Set text files (no extension) to html and set coloumns width
@@ -258,6 +289,18 @@ noremap <silent> L $
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Netrw
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+nnoremap -- :Explore<CR>
+" autocmd FileType netrw setl bufhidden=wipe
+" autocmd FileType netrw nnoremap q :bp\|bd #<cr>
+" delete netrw buffers on exit
+let g:netrw_fastbrowse = 0
+" remove crap on top
+let g:netrw_banner = 0
+" show tree like files
+" let g:netrw_liststyle = 3
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Moving around, tabs, windows and buffers
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Disable highlight when <leader>l is pressed
@@ -271,7 +314,8 @@ map <C-l> <C-W>l
 
 " Close the current buffer
 " map <leader>c:Bclose<cr>:tabclose<cr>gT
-map <leader>c :bdel<cr>
+" map <leader>c :bdel<cr>
+map <leader>c :bp\|bd #<cr>
 
 " Close all the buffers
 map <leader>ba :bufdo bd<cr>
@@ -293,6 +337,18 @@ endtry
 
 " Return to last edit position when opening files (You want this!)
 " au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+
+""""""""""""""""""""""""""""""
+" => Status line
+""""""""""""""""""""""""""""""
+" Always show the status line
+set laststatus=2
+
+" Format the status line
+" set statusline=\ %{HasPaste()}%F%m%r%h\ %w\ \ CWD:\ %r%{getcwd()}%h\ \ \ Line:\ %l\ \ Column:\ %c
+
+" set rtp+=/usr/lib/python3.7/site-packages/powerline/bindings/vim/
+set guifont=Liberation\ Mono\ for\ Powerline\ 10 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Editing mappings

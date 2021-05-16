@@ -1,11 +1,40 @@
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Ctrlp
+"
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:ctrlp_map = '<c-p>'
+let g:ctrlp_cmd = 'CtrlPBuffer'
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Syntastic
+"
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Airline
+"
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Automatically displays all buffers when there's only one tab open
+let g:airline#extensions#tabline#enabled = 1
+let g:airline_theme='base16'
+" let g:airline_theme='solarized'
+" let g:airline_solarized_bg='dark'
+let g:airline_powerline_fonts = 1
+" let g:airline_section_c = %F
+" Show path
+let g:airline#extensions#tabline#formatter = 'default'
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " NerdTree
 "
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " automatically open nerdtree on enter if no file was specified
-autocmd StdinReadPre * let s:std_in=1
-autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
-map <C-n> :NERDTreeToggle<CR>
+" autocmd StdinReadPre * let s:std_in=1
+"autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+" map <C-n> :NERDTreeToggle<CR>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " vim-grepper
@@ -14,16 +43,19 @@ map <C-n> :NERDTreeToggle<CR>
 " nnoremap <leader>g :Grepper -tool git<cr>
 " nnoremap <leader>g :Grepper -tool ag<cr>
 
-nnoremap <leader>g :Grepper -tool ag -buffers -noswitch<cr>
-nnoremap <leader>G :Grepper -tool ag -noswitch<cr>
+nmap gs <plug>(GrepperOperator)
+xmap gs <plug>(GrepperOperator)
+
+nnoremap <leader>g :Grepper -tool grep -buffers -noswitch<cr>
+nnoremap <leader>G :Grepper -tool grep -noswitch<cr>
 
 " Optional. The default behaviour should work for most users.
-" let g:grepper               = {}
-" let g:grepper.tools         = ['ag']
-" let g:grepper.jump          = 1
-" let g:grepper.next_tool     = '<leader>g'
-" let g:grepper.simple_prompt = 1
-" let g:grepper.quickfix      = 0
+let g:grepper               = {}
+let g:grepper.tools         = ['grep','git']
+let g:grepper.jump          = 1
+let g:grepper.next_tool     = '<leader>g'
+let g:grepper.simple_prompt = 1
+let g:grepper.quickfix      = 1
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Ack
@@ -90,6 +122,7 @@ let g:ale_lint_on_enter = 0
 " visual-select j down twice
 let g:verilog_instance_skip_last_coma = 1
 
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "" Syntastic
 ""
@@ -121,12 +154,12 @@ nmap ga <Plug>(EasyAlign)
 " Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
 " let g:UltiSnipsExpandTrigger="<tab>"
 " let g:UltiSnipsExpandTrigger="<leader>s"
-let g:UltiSnipsExpandTrigger="<C-s>"
-let g:UltiSnipsJumpForwardTrigger="<c-n>"
-let g:UltiSnipsJumpBackwardTrigger="<c-p>"
+" let g:UltiSnipsExpandTrigger="<C-s>"
+" let g:UltiSnipsJumpForwardTrigger="<c-n>"
+" let g:UltiSnipsJumpBackwardTrigger="<c-p>"
 
 " If you want :UltiSnipsEdit to split your window.
-let g:UltiSnipsEditSplit="vertical"
+" let g:UltiSnipsEditSplit="vertical"
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " hl_matchit : underlines matches of '%-able' words. e.g. begin-end
@@ -149,11 +182,35 @@ let g:hl_matchit_hl_groupname = 'VisualNOS'
 let g:hl_matchit_allow_ft = 'verilog_systemverilog'
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" neomake
+"
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" When writing a buffer (no delay).
+" call neomake#configure#automake('w')
+
+" " When writing a buffer (no delay), and on normal mode changes (after 750ms).
+" call neomake#configure#automake('nw', 750)
+" " When reading a buffer (after 1s), and when writing (no delay).
+" call neomake#configure#automake('rw', 1000)
+" " Full config: when writing or reading a buffer, and on changes in insert and
+" " normal mode (after 500ms; no delay when writing).
+" call neomake#configure#automake('nrwi', 500)
+
+" let g:neomake_open_list = 2
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" vmath
+"
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+vmap <expr>  ++  VMATH_YankAndAnalyse()
+nmap         ++  vip++
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Tagbar
 "
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" nmap <F8> :TagbarToggle<CR>
-nmap <C-p> :TagbarToggle<CR>
+nmap <F8> :TagbarToggle<CR>
+" nmap <C-p> :TagbarToggle<CR>
 
 " see https://github.com/majutsushi/tagbar/wiki#systemverilog
 let g:tagbar_type_systemverilog = {

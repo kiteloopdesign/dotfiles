@@ -48,11 +48,12 @@ nmap <leader>w :w!<cr>
 " => VIM user interface
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Allows to copy b/w vim and X
-" set clipboard=unnamedplus
+set clipboard=unnamedplus
 " set clipboard=unnamed
-set clipboard+=unnamedplus
-set paste               " Paste from a windows or from vim
-set go+=a               " Visual selection automatically copied to the clipboard
+" set clipboard+=unnamedplus
+
+" set paste               " Paste from a windows or from vim
+" set go+=a               " Visual selection automatically copied to the clipboard
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Fucking wayland mapping
@@ -94,9 +95,9 @@ set relativenumber
 " Ignore compiled files
 set wildignore=*.o,*~,*.pyc
 if has("win16") || has("win32")
-    set wildignore+=.git\*,.hg\*,.svn\*
+    set wildignore+=.hg\*,.svn\*
 else
-    set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*/.DS_Store
+    set wildignore+=*/.hg/*,*/.svn/*,*/.DS_Store
 endif
 
 "Always show current position

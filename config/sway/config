@@ -338,6 +338,7 @@ bindsym $mod+r mode "resize"
     # bindsym Escape mode "default"
 # }
 # bindsym $mod+Shift+e mode "$mode_system"
+bindsym $mod+Shift+s exec --no-startup-id systemctl suspend
 
 ################################################################################
 # Lock

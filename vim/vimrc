@@ -45,14 +45,15 @@ Plugin 'tpope/vim-commentary.git'
 Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'mileszs/ack.vim'
 Plugin 'mhinz/vim-grepper'
-" Plugin 'ledger/vim-ledger'
+Plugin 'ledger/vim-ledger'
 " Plugin 'kana/vim-fakeclip'
 " Works but doesn't ask for confirmation to reload file!
 " Plugin 'djoshea/vim-autoread'
 Plugin 'airblade/vim-gitgutter'
 Plugin 'junegunn/vim-easy-align'
 " Autocompletion
-Plugin 'ajh17/VimCompletesMe'
+" Plugin 'ajh17/VimCompletesMe'
+Plugin 'ackyshake/VimCompletesMe'
 " snippet engine (does not include the actual snippets)
 "Plugin 'SirVer/ultisnips'
 " snippet library, needed by utilsnips
@@ -95,21 +96,22 @@ source ~/dotfiles/vim/functions.vimrc "and commands
 source ~/dotfiles/vim/autocommands.vimrc
 " Just so its possible to gf inside this
 " ~/dotfiles/vim/ftplugin/
-"
-if !empty($WAYLAND_DISPLAY)
-  let g:clipboard = {
-        \   'name': 'wayland-strip-carriage',
-        \   'copy': {
-        \      '+': 'wl-copy --foreground --type text/plain',
-        \      '*': 'wl-copy --foreground --type text/plain --primary',
-        \    },
-        \   'paste': {
-        \      '+': {-> systemlist('wl-paste --no-newline | tr -d "\r"')},
-        \      '*': {-> systemlist('wl-paste --no-newline --primary | tr -d "\r"')},
-        \   },
-        \   'cache_enabled': 1,
-        \ }
-endif
+
+
+" if !empty($WAYLAND_DISPLAY)
+"   let g:clipboard = {
+"         \   'name': 'wayland-strip-carriage',
+"         \   'copy': {
+"         \      '+': 'wl-copy --foreground --type text/plain',
+"         \      '*': 'wl-copy --foreground --type text/plain --primary',
+"         \    },
+"         \   'paste': {
+"         \      '+': {-> systemlist('wl-paste --no-newline | tr -d "\r"')},
+"         \      '*': {-> systemlist('wl-paste --no-newline --primary | tr -d "\r"')},
+"         \   },
+"         \   'cache_enabled': 1,
+"         \ }
+" endif
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""

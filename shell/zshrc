@@ -8,12 +8,14 @@ stty -ixon
 # PATH
 #
 ################################################################################
-export PATH=/usr/local/texlive/2020/bin/x86_64-linux:$PATH
+export PATH=/home/kitesutra/texlive/2021/bin/x86_64-linux:$PATH
+ 
 # PATH=/home/kitesutra/miniconda2/bin:$PATH
 export PATH=/home/kitesutra/.local/bin:$PATH
 export PATH=/home/kitesutra/bin:$PATH
 
 export EDITOR=/usr/bin/vim
+# export EDITOR=/usr/bin/gvim -v
 
 # This is so vim uses the anaconda path as opposed to the python installed on system
 # this is needed for stuff like autocomplete can work 

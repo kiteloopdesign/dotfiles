@@ -45,6 +45,9 @@ alias cal='cal -m -3'
 # Lista de directorios para navegar por ellos. TODO : aun no pirula
 alias d='dirs -v | head -20'
 
+# bulk rename! qmv tool from renameutils !!!
+alias qmv='qmv -f do'
+
 # Pretty-print of some PATH variables:
 alias path='echo -e ${PATH//:/\\n}'
 alias libpath='echo -e ${LD_LIBRARY_PATH//:/\\n}'
@@ -122,6 +125,7 @@ alias el='vim ~/.ledgerrc'
 # Quick edits and re-loads
 #-------------------------------------------------------------
 
+alias vim='/usr/bin/gvim -v'
 alias ez='vim ~/.zshrc'
 alias sz='source ~/.zshrc'
 alias ea='vim /home/${USER}/.alias'

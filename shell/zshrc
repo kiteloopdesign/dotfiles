@@ -9,6 +9,7 @@ stty -ixon
 #
 ################################################################################
 export PATH=/home/kitesutra/texlive/2021/bin/x86_64-linux:$PATH
+# export PATH=/home/kitesutra/projects/oss-cad-suite/bin:$PATH
  
 # PATH=/home/kitesutra/miniconda2/bin:$PATH
 export PATH=/home/kitesutra/.local/bin:$PATH
@@ -17,9 +18,14 @@ export PATH=/home/kitesutra/bin:$PATH
 export EDITOR=/usr/bin/vim
 # export EDITOR=/usr/bin/gvim -v
 
+export WATSON_DIR=/home/kitesutra/personal/infineon/time-tracking
+
 # This is so vim uses the anaconda path as opposed to the python installed on system
 # this is needed for stuff like autocomplete can work 
 # export PYTHONPATH="$PYTHONPATH:${HOME}/miniconda3/lib/python3.6/site-packages"
+
+# export PYTHONPATH="/usr/local/lib/python3.9"
+# export PYTHONHOME="/usr/local/bin"
 
 # Required to activate conda env
 # source /home/kitesutra/miniconda3/etc/profile.d/conda.sh

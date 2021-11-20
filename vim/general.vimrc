@@ -209,9 +209,12 @@ map <Leader>bg :let &background = ( &background == "dark"? "light" : "dark" )<CR
 " set termencoding=utf-8
 
 " highlight current column
-" set cursorline
-hi CursorLine term=bold cterm=bold guibg=Grey40
+set cursorline
+highlight CursorLine term=bold cterm=bold guibg=Grey40
+:nnoremap <leader>i :set cursorline! <CR>
+" :nnoremap <leader>i :set cursorline! cursorcolumn!<CR>
 " set cursorcolumn
+
 
 " Set extra options when running in GUI mode
 if has("gui_running")

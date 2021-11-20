@@ -49,7 +49,6 @@ Plugin 'ledger/vim-ledger'
 " Plugin 'kana/vim-fakeclip'
 " Works but doesn't ask for confirmation to reload file!
 " Plugin 'djoshea/vim-autoread'
-Plugin 'airblade/vim-gitgutter'
 Plugin 'junegunn/vim-easy-align'
 " Autocompletion
 " Plugin 'ajh17/VimCompletesMe'
@@ -65,7 +64,10 @@ Plugin 'antoinemadec/vim-verilog-instance'
 " Useful to navigate structure of file
 " Plugin 'majutsushi/tagbar'
 " Hihglights pairs of matched keywords, e.g. begin-end
+" From profile, it is very slow
 " Plugin 'vimtaku/hl_matchit.vim'
+Plugin 'wellle/context.vim'
+Plugin 'airblade/vim-gitgutter.git'
 " stop - all plugins above
 call vundle#end()
 " done inside general!
@@ -113,6 +115,8 @@ source ~/dotfiles/vim/autocommands.vimrc
 "         \ }
 " endif
 
+
+source ~/vtags-3.10/vtags_vim_api.vim
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Info

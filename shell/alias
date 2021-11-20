@@ -73,7 +73,6 @@ alias android='ssh-add -t 1h;ssh 192.168.1.73 -p 2222'
 #-------------------------------------------------------------
 # Add colors for filetype and  human-readable sizes by default on 'ls':
 alias ls='ls -lh --color'
-alias l='ls'
 alias le='ls -lXB'         #  Sort by extension.
 alias lk='ls -lSr'         #  Sort by size, biggest last.
 alias lt='ls -ltr'         #  Sort by date, most recent last.
@@ -88,6 +87,7 @@ alias la='ll -A'           #  Show hidden files.
 alias lh='ls -Ad .*'       #  Only show hidden files
 # alias lf='ls -d .*/ */'    #  Only show folders
 alias lf='ls -d */'    #  Only show folders
+alias l='lt'
 
 # show different extensions. Useful when a lot of files in folder
 # alias ext='find . -type f | awk -F. '!a[$NF]++{print $NF}''
@@ -101,11 +101,13 @@ alias lf='ls -d */'    #  Only show folders
 alias lb='ls ~/bin'        # What was the name of that custom script that did ...
 alias cb='cd ~/bin'         
 alias cl='cd ~/personal/ledger/data/2021'         
+alias cdd='cd ~/Downloads/'         
+
 # Doesnt search on hidden folders
 # alias bigfiles='ls -Sr **/*(.Lm+100)'
 # alias bigfiles='find . -type f -size +100M -exec ls -lh {} \;'
 # alias bigfolders='du -hs */ | sort -nr | head'
-alias bF='du -hs .* * | sort -rh | head'
+alias bF='du -hs * | sort -rh | head -n 20'
 alias bf='find . -type f -print0 | xargs -0 du -h | sort -hr | head -20'
 
 alias tree='tree -Csuh'    #  Nice alternative to 'recursive ls' ...
@@ -125,6 +127,9 @@ alias el='vim ~/.ledgerrc'
 # Quick edits and re-loads
 #-------------------------------------------------------------
 
+# alias vimd='/usr/bin/vim -u NONE -c "source ~/vtags-3.10/vtags_vim_api.vim" '
+alias vimd='/usr/bin/vim -u vimrc'
+
 alias vim='/usr/bin/gvim -v'
 alias ez='vim ~/.zshrc'
 alias sz='source ~/.zshrc'
@@ -138,6 +143,8 @@ alias et='vim ~/.tmux.conf'
 # alias ei='vim ~/.config/i3/config'
 alias es='vim ~/.config/sway/config'
 alias bc='bc -l'
+alias em='vim ~/.muttrc'
+
 #-------------------------------------------------------------
 # X
 #-------------------------------------------------------------
@@ -211,6 +218,22 @@ alias gac='git commit -am '
 alias git-diff-folders="git diff --name-only | xargs -L1 dirname | uniq"
 # -- WIP -- WIP -- WIP -- WIP -- WIP -- WIP -- WIP -- WIP -- WIP -- WIP
 #-------------------------------------------------------------
+
+
+alias vtags='python ~/vtags-3.10/vtags.py'
+
+
+#-------------------------------------------------------------
+# Watson
+#-------------------------------------------------------------
+alias ws='watson start'
+alias wres='watson restart'
+alias wl='watson log -c -R'
+alias wr='watson report -c -d'
+# alias wl='watson log --no-pager'
+alias wp='watson stop'
+alias we='watson edit'
+
 
 #-------------------------------------------------------------
 # Ledger

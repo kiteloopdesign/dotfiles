@@ -144,6 +144,10 @@ alias et='vim ~/.tmux.conf'
 alias es='vim ~/.config/sway/config'
 alias bc='bc -l'
 alias em='vim ~/.muttrc'
+alias ep='vim ~/.config/mpv/{input.conf,mpv.conf}'
+# alias ep='vim ~/.config/mpv/input.conf'
+# alias ey='vim ~/.config/youtube-dl/config'
+alias ey='vim ~/.config/yt-dlp/config'
 
 #-------------------------------------------------------------
 # X
@@ -169,7 +173,6 @@ alias google='chromium-browser &> /dev/null &'
 # alias y='google-chrome "www.youtube.com" &> /dev/null &'
 alias p='python3'
 # alias vim='gvim -v'
-alias yd='youtube-dl'
 alias feh='feh -. -d --draw-tinted' # Fit to screen images, draw filename
 # alias feh='feh -xZGd -B black --draw-tinted -g 1366x768'
 alias df='pydf'
@@ -179,6 +182,16 @@ alias z='zathura'
 alias f='feh'
 alias oo='libreoffice'
 alias pdfgrep='pdfgrep -HRi'
+# OJO! el noglob ignora el alias ! eg: "noglob yt www.URL.com" no usa el alias de yt!
+# alias mpv='noglob mpv --profile=1080p'
+# alias mpv='mpv --profile=720p'
+alias m='mpv'
+# alias yt='youtube-dl'
+alias yt='yt-dlp'
+# alias yta="youtube-dl -x"
+alias agg='ag -g '
+alias agl='ag -l '
+# alias agg='ag -g'
 
 
 #-------------------------------------------------------------
@@ -273,9 +286,43 @@ fag(){
     && vim $(cut -d':' -f1 <<< "$line") +$(cut -d':' -f2 <<< "$line")
 }
 
-# ytdl-playlist (){
-#   youtube-dl --ignore-errors -f bestaudio --extract-audio --audio-format mp3 --audio-quality 0 -o '%(playlist)s/%(playlist_index)s - %(title)s.%(ext)s' "$1"
-# }
+
+
+
+# # Download the best video available but no better than 480p,
+# # or the worst video if there is no video under 480p
+# $ yt-dlp -f 'bv*[height<=480]+ba/b[height<=480] / wv*+ba/w'
+
+# Download the best format (video + audio) that is equal to or greater than 720p width. Save this file as video_id.extension (1La4QzGeaaQ.mp4):
+# yt-dlp -f "best[height>=720]" https://www.youtube.com/watch?v=1La4QzGeaaQ -o '%(id)s.%(ext)s'
+
+
+# yt-dlp --format 'best[height<=720] / worst' \
+# mi creacion: mejor video <= 720p o peor otro video si esta no existe
+
+# download youtube videos from file
+# it will ignore videos already downloaded !!!
+ytf (){
+  ALREADY_DOWNLOADED="ytd-downloaded.list"
+
+  # TODO: usar el nombre del canal en nombre del archivo para trackearlo. No se si puede hacer con filtros y tal
+  # yt-dlp --format 'bv*[height<=720]+ba/b[height<=720] / wv*+ba/w' \ -> produce putos webm 
+
+  yt-dlp --format 'best[height<=720] / worst' \
+  --verbose \
+  --batch-file "$1" \
+  --add-metadata --write-description --download-archive "${ALREADY_DOWNLOADED}" \
+  --sleep-requests 1 --ignore-errors --no-continue --no-overwrites \
+  --restrict-filenames --output "%(title)s_%(id)s.%(ext)s" 2>&1 | tee output.log
+
+# lo interesante del json parace estar ya en la descripcion de --write-description
+# --write-info-json 
+
+}
+
+
+
+
 ytdl-video (){
 # youtube-dl -f "bestvideo[height<=1080]+bestaudio" --restrict-filenames --add-metadata --ignore-errors -o '%(title)s.%(ext)s' "$1"
 # youtube-dl -f "bestvideo[ext=mp4]+bestaudio[ext=m4a]/mp4" --restrict-filenames --add-metadata --ignore-errors -o '%(title)s.%(ext)s' "$1"
@@ -288,9 +335,8 @@ ytdl-playlist (){
 }
 
 ytdl-video-playlist (){
-  # youtube-dl -f bestvideo[height<=1080]+bestaudio --restrict-filenames --add-metadata --ignore-errors -o '%(playlist)s/%(playlist_index)s-%(title)s.%(ext)s' "$1"
   # youtube-dl -f "bestvideo[height<=1080]+bestaudio" --restrict-filenames --add-metadata --ignore-errors -o '%(playlist)s/%(playlist_index)s-%(title)s.%(ext)s' "$1"
-  youtube-dl -f "bestvideo[height<=720]+bestaudio/mp4" --restrict-filenames --add-metadata --ignore-errors -o '%(playlist)s/%(playlist_index)s-%(title)s.%(ext)s' "$1"
+  yt-dlp -f "bestvideo[height<=720]+bestaudio/mp4" --restrict-filenames --add-metadata --ignore-errors -o '%(playlist)s/%(playlist_index)s-%(title)s.%(ext)s' "$1"
 }
 
 

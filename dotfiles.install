@@ -1,7 +1,7 @@
 #!/bin/bash
 
 cd /home/${USER}
-git clone git@github.com:SiliconKite/dotfiles.git 
+#git clone git@github.com:SiliconKite/dotfiles.git 
 
 read -p "The current . files in ~ will be overwriten. Are you sure you want to continue?" -n 1 -r
 echo    # (optional) move to a new line
@@ -19,7 +19,11 @@ ln -fs /home/$USER/dotfiles/fzf/fzf.zsh .fzf.zsh
 # If using bash...
 # ln -fs /home/$USER/dotfiles/fzf/fzf.bash .fzf.bash
 
+# Vim
 ln -fs /home/$USER/dotfiles/vim/vimrc .vimrc
+mkdir -p /home/$USER/.vim/bundle
+mkdir -p /home/$USER/.vim/undo
+git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 
 read -p "The current files in ~/config will be overwriten. Are you sure you want to continue?" -n 1 -r
 echo    # (optional) move to a new line
@@ -29,15 +33,15 @@ then
 fi
 
 # i3 tiling manager
-mkdir -p /home/${USER}/.config/i3
-mkdir -p /home/${USER}/.config/i3status
-ln -fs /home/${USER}/dotfiles/config/i3/config /home/${USER}/.config/i3/
-ln -fs /home/${USER}/dotfiles/config/i3status/config /home/${USER}/.config/i3status/
-ln -fs /home/${USER}/dotfiles/config/i3status/i3status_wrapper /home/${USER}/.config/i3status/
+#mkdir -p /home/${USER}/.config/i3
+#mkdir -p /home/${USER}/.config/i3status
+#ln -fs /home/${USER}/dotfiles/config/i3/config /home/${USER}/.config/i3/
+#ln -fs /home/${USER}/dotfiles/config/i3status/config /home/${USER}/.config/i3status/
+#ln -fs /home/${USER}/dotfiles/config/i3status/i3status_wrapper /home/${USER}/.config/i3status/
 
 # picom
-mkdir -p /home/${USER}/.config/picom
-ln -fs /home/${USER}/dotfiles/config/picom/picom.conf /home/${USER}/.config/picom/
+#mkdir -p /home/${USER}/.config/picom
+#ln -fs /home/${USER}/dotfiles/config/picom/picom.conf /home/${USER}/.config/picom/
 
 # feh image viewer
 mkdir -p /home/${USER}/.config/feh

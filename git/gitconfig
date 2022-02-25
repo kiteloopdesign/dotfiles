@@ -1,0 +1,63 @@
+[user]
+	name = 
+	email =
+[diff]
+  tool = tkdiff
+  ; tool = vimdiff
+[merge]
+	conflictstyle = diff3
+	; tool = tkdiff
+	; tool = vimdiff
+	tool = meld
+[core]
+  ; do not show  shite
+  whitespace = cr-at-eol
+[difftool]
+	prompt = false
+[diff "gz"]
+   textconv = gzip --decompress --stdout
+[alias]
+  ################################################################################  
+  ## listing
+  ################################################################################  
+
+	list-files-last-commit = diff HEAD^1 HEAD --relative --name-only
+  # Este parece que coge HEAD, SHA, etc. Parece the preferred way
+  # Issues: no esenya nada con un merge commit. Tampoco va con --relative
+  list-files-on-given-commit = diff-tree --no-commit-id --name-only -r
+  ; Shows list of files changed since commit to HEAD
+  list-files-since-commit = diff --name-only HEAD 
+
+  ; NOT SURE WHY THIS GUY DOESNT WORK AS EXPECTED!!
+	; change = show --name-only --oneline 
+  ; Note ~ vs ^ !!!! not sure about this ...
+	; change = diff HEAD~1 HEAD --name-only
+	; list-files      = log --name-only
+  ; Este es mas porcelain (customer facing). No mola pq esta como pasado a | less
+  ; git show --pretty="" --name-only
+
+  ################################################################################  
+  ## Diffing
+  ################################################################################  
+  diff-files-last-commit      = difftool HEAD^1 HEAD
+  diff-files-on-given-commit  = difftool
+
+  ################################################################################  
+  ## Other
+  ################################################################################  
+  # Commits a file reusing old commit message
+  # Do this only on branches that you can push --force later !
+	ci-amend = commit --amend --no-edit
+	co = checkout
+	st = status
+	ci = commit
+	br = branch
+	hist = log --pretty=format:'%C(yellow)[%ad]%C(reset) %C(green)[%h]%C(reset) | %C(red)%s %C(bold red){{%an}}%C(reset) %C(blue)%d%C(reset)' --graph --date=short
+  ghist = log --all --decorate --oneline --graph --abbrev-commit --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)'
+	; hist = log --pretty=format:'%h %ad | %s%d [%an]' --graph --date=short
+  ; gr   = log --all --decorate --oneline --graph --abbrev-commit --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)'
+[filter "lfs"]
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+	clean = git-lfs clean -- %f

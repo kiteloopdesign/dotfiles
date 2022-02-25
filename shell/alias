@@ -67,6 +67,7 @@ alias sp='find . -type f -name "*[[:space:]]*"'
 alias kitepi='ssh-add -t 1h;ssh -X kitepi@192.168.0.222'
 alias android='ssh-add -t 1h;ssh 192.168.1.73 -p 2222'
 
+alias diff='diff --color'
 
 #-------------------------------------------------------------
 # The 'ls' family (this assumes you use a recent GNU ls).
@@ -83,7 +84,7 @@ alias lx='find . -maxdepth 1 -type f -executable' # list executables
 alias ll="ls -lv --group-directories-first"
 alias lm='ll |more'        #  Pipe through 'more'
 alias lr='ll -R'           #  Recursive ls.
-alias la='ll -A'           #  Show hidden files.
+alias la='lt -A'           #  Show hidden files.
 alias lh='ls -Ad .*'       #  Only show hidden files
 # alias lf='ls -d .*/ */'    #  Only show folders
 alias lf='ls -d */'    #  Only show folders
@@ -101,7 +102,7 @@ alias l='lt'
 alias lb='ls ~/bin'        # What was the name of that custom script that did ...
 alias cb='cd ~/bin'         
 alias cl='cd ~/personal/ledger/data/2021'         
-alias cdd='cd ~/Downloads/'         
+alias cdd='cd ~/Descargas/'         
 
 # Doesnt search on hidden folders
 # alias bigfiles='ls -Sr **/*(.Lm+100)'
@@ -165,6 +166,22 @@ alias logoff='/usr/bin/cinnamon-session-quit --no-prompt'
 # mount -t iso9660 -o ro,loop,noauto /your/texlive.iso /mnt 
 alias isomount='sudo mount -t iso9660 -o ro,loop,noauto $1 /mnt'
 
+# random words of given length!!
+# cat /dev/urandom | tr -dc 'a-z' | fold -w 10 | head -n 1
+
+# experimentar con encontrar palabras !!
+# cat /dev/random | tr -dc 'a-z' | fold -w 10  | grep pablo
+
+# gets rid of problem with % on zsh
+# cat /dev/urandom | tr -dc 'a-z' | fold -w 10 | head -n 100 ; echo ''
+
+# anyade col numeros!
+# cat /dev/urandom | tr -dc 'a-z' | fold -w 5 | nl | head -n 100 ; echo ''
+
+# FUCKING cool
+# le da al script que espera un FILE desde el std out. stdout -> file descriptor.
+# no se si esta es la descripcion pero yo lo entiendo asi
+# manhattan.sh <(base64 /dev/urandom | nl) 100
 
 #-------------------------------------------------------------
 # Sofware
@@ -179,6 +196,7 @@ alias df='pydf'
 alias pdfreader='evince'
 alias m='cmus'
 alias z='zathura'
+alias r='ranger' # note this is a zsh shell built-in (repeat)
 alias f='feh'
 alias oo='libreoffice'
 alias pdfgrep='pdfgrep -HRi'
@@ -251,10 +269,10 @@ alias we='watson edit'
 #-------------------------------------------------------------
 # Ledger
 #-------------------------------------------------------------
-alias led='ledger -X EUR'
+alias led='hledger -X EUR'
 alias post='vim "+normal G$" +startinsert ~/personal/ledger/data/2021/journal.ldg'
-alias assets='ledger b ^assets --flat -X EUR'
-alias expenses='ledger r -r assets -s -X EUR'
+alias assets='hledger b ^assets --flat -X EUR'
+alias expenses='hledger r -r assets -s -X EUR'
 alias budget='led b budget --flat -p $( date +%b ) -X EUR'
 alias balance='led balance --real -X BGN'
 #-------------------------------------------------------------

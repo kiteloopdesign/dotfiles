@@ -1,24 +1,26 @@
 ################################################################################
 # CTRL-s hangs the emulator, disable
-#
 ################################################################################
 stty -ixon
 
 ################################################################################
 # PATH
-#
 ################################################################################
-export PATH=/home/kitesutra/texlive/2021/bin/x86_64-linux:$PATH
-# export PATH=/home/kitesutra/projects/oss-cad-suite/bin:$PATH
+export PATH=${HOME}/texlive/2021/bin/x86_64-linux:$PATH
+# export PATH=${HOME}/projects/oss-cad-suite/bin:$PATH
  
-# PATH=/home/kitesutra/miniconda2/bin:$PATH
-export PATH=/home/kitesutra/.local/bin:$PATH
-export PATH=/home/kitesutra/bin:$PATH
+# PATH=${HOME}/miniconda2/bin:$PATH
+export PATH=${HOME}/.local/bin:$PATH
+export PATH=${HOME}/bin:$PATH
+
+export PATH="$PATH:$HOME/esp/xtensa-lx106-elf/bin"
+export IDF_PATH="$HOME/esp/ESP8266_RTOS_SDK"
 
 export EDITOR=/usr/bin/vim
 # export EDITOR=/usr/bin/gvim -v
 
-export WATSON_DIR=/home/kitesutra/personal/infineon/time-tracking
+# Should use default one in .config
+# export WATSON_DIR=${HOME}/personal/infineon/time-tracking
 
 # This is so vim uses the anaconda path as opposed to the python installed on system
 # this is needed for stuff like autocomplete can work 
@@ -28,7 +30,12 @@ export WATSON_DIR=/home/kitesutra/personal/infineon/time-tracking
 # export PYTHONHOME="/usr/local/bin"
 
 # Required to activate conda env
-# source /home/kitesutra/miniconda3/etc/profile.d/conda.sh
+# source ${HOME}/miniconda3/etc/profile.d/conda.sh
+
+
+# Yosys HQ
+export PATH="$HOME/bin/tabby/bin:$PATH"
+export YOSYSHQ_LICENSE=$HOME/bin/tabby/tabbyevallicense_pablo.lic.txt
 
 ################################################################################
 # Environment. TODO : These should go to .zshenv or .zprofile?
@@ -50,9 +57,7 @@ export FZF_DEFAULT_OPTS='--height 50% --border'
 # Set FZF_ALT_C_OPTS to pass additional options
 
 ################################################################################
-#
 # History
-#
 ################################################################################
 # Appends every command to the history file once it is executed
 setopt inc_append_history
@@ -71,9 +76,7 @@ export SAVEHIST=10000
 
 
 ################################################################################
-#
 # Folder history
-#
 ################################################################################
 # NOTE : It might be needed to create the zsh dir!
 # cd -<NUM> to go back to a visited folder. Use autocompletion after the dash
@@ -98,9 +101,7 @@ setopt PUSHD_IGNORE_DUPS
 setopt PUSHD_MINUS
 
 ################################################################################
-#
 # ZLE (Equivalent to inputrc in bash)
-#
 ################################################################################
 
 # vim mode
@@ -161,9 +162,7 @@ bindkey -M vicmd "p" x-paste
 # # bindkey '^e' vi-end-of-line
 
 ################################################################################
-#
 # Other
-#
 ################################################################################
 
 # powerline
@@ -178,12 +177,22 @@ fi
 export KEYTIMEOUT=1
 
 # ZMV allows to mass-rename, see alias for commands
-autoload zmv
+# autoload zmv
+# UPDATE: Better use qmv from renameutils package (at least in fedora)
+
+# Used by tstock
+export ALPHAVANTAGE_API_KEY=97RI6TIBAIT9COJU
+
+
 
 ################################################################################
-#
+# Custom functions can go here I think. So far used by Poetry (python)
+# NOTE there needs to be a file inside created via "poetry completions...."
+################################################################################
+fpath+=~/.zfunc
+
+################################################################################
 # Completion
-#
 ################################################################################
 # zstyle :compinstall filename '$HOME/.zshrc'
 autoload -Uz compinit
@@ -235,7 +244,20 @@ sleep 0.1
 # This is the fuzzy finder
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
+
+#################################################################################
+# mcFly
+#################################################################################
+#eval "$(mcfly init zsh)"
+#export MCFLY_KEY_SCHEME=vim
+#export MCFLY_FUZZY=2
+
+
+
+################################################################################
 # Syntax highlighting in shell
 # This should always be the last one being sourced
-# source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+## source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+# TODO: mcfly creo que necesita ser la ultima tb, como hacer q funcionen a la vex?
 source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+################################################################################

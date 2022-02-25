@@ -16,6 +16,13 @@ ln -fs /home/$USER/dotfiles/shell/zprofile .zprofile
 ln -fs /home/$USER/dotfiles/shell/zshrc .zshrc
 ln -fs /home/$USER/dotfiles/fzf/fzf.zsh .fzf.zsh
 
+
+# TODO
+# mkdir -p /home/$USER/.zfunc
+# ln -fs /home/$USER/dotfiles/shell/zfunc/_poetry /home/$USER/.zfunc
+# ln -fs /home/$USER/dotfiles/shell/zfunc/_watson /home/$USER/.zfunc
+
+
 # If using bash...
 # ln -fs /home/$USER/dotfiles/fzf/fzf.bash .fzf.bash
 

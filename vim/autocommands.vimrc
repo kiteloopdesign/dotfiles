@@ -7,6 +7,7 @@ setglobal commentstring=#\ %s
 autocmd FileType verilog_systemverilog setlocal commentstring=//\ %s
 
 autocmd FileType none setlocal commentstring=#\ %s
+autocmd FileType unix setlocal commentstring=#\ %s
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "autocmd FileType verilog_systemverilog setlocal VerilogErrorFormat=NCVerilog\ 1
@@ -33,11 +34,11 @@ autocmd FileType help noremap <buffer> q :q<cr>
 autocmd InsertLeave * if bufname('%') != '[Command Line]' | pclose | endif
 
 
-augroup numbertoggle
-  autocmd!
-  autocmd BufEnter,FocusGained,InsertLeave,WinEnter * if &nu | set rnu   | endif
-  autocmd BufLeave,FocusLost,InsertEnter,WinLeave   * if &nu | set nornu | endif
-augroup END
+" augroup numbertoggle
+"   autocmd!
+"   autocmd BufEnter,FocusGained,InsertLeave,WinEnter * if &nu | set relativenumber | endif
+"   autocmd BufLeave,FocusLost,InsertEnter,WinLeave   * if &nu | set norelativenumber | endif
+" augroup END
 
 " augroup python
 "     autocmd!

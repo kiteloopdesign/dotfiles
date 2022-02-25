@@ -84,7 +84,7 @@ set wildmenu
 set wildmode=list:longest
 
 " Set relative line numbers
-set relativenumber
+set norelativenumber
 
 " Easier to get in command mode
 " Removed as it messes with repeat last search
@@ -124,6 +124,10 @@ nnoremap * £``
 "do not wrap at the end of file
 set nowrapscan
 set nowrap
+
+" make warning more abnoxious. This is useful for "set wrapscan" cases
+highlight WarningMsg ctermfg=white ctermbg=red guifg=White guibg=Red gui=None
+
 
 " Ignore case when searching
 set ignorecase
@@ -175,6 +179,10 @@ set listchars=eol:¬,tab:>·,trail:~,extends:>,precedes:<,space:·
 noremap <F5> :set list!<CR>
 inoremap <F5> <C-o>:set list!<CR>
 cnoremap <F5> <C-c>:set list!<CR>
+
+" Shows number of matches. Equivalent to "%s/pattern//gn"
+" New in vim 8.1.X
+" set shortmess-=S
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Colors and Fonts 

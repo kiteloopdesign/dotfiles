@@ -35,7 +35,7 @@ zoom_in      i
 zoom_out     o
 zoom_fill    F
 zoom_fit     f
-zoom_default r
+# zoom_default r
 
 remove x
 delete X
@@ -57,7 +57,7 @@ toggle_info		N
 
 # next_img	greater
 # prev_img	less
-# reload_image	r
+reload_image	r
 # size_to_image	w
 # next_dir	bracketright
 # prev_dir	bracketleft

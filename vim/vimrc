@@ -116,7 +116,7 @@ source ~/dotfiles/vim/autocommands.vimrc
 " endif
 
 
-source ~/vtags-3.10/vtags_vim_api.vim
+" source ~/vtags-3.10/vtags_vim_api.vim
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Info

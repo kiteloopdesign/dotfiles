@@ -57,7 +57,6 @@ alias sp='find . -type f -name "*[[:space:]]*"'
 #-------------------------------------------------------------
 # Add colors for filetype and  human-readable sizes by default on 'ls':
 alias ls='ls -lh --color --time-style long-iso'
-alias l='ls'
 alias le='ls -lXB'         #  Sort by extension.
 alias lk='ls -lSr'         #  Sort by size, biggest last.
 alias lt='ls -ltr'         #  Sort by date, most recent last.
@@ -72,6 +71,7 @@ alias la='ll -A'           #  Show hidden files.
 alias lh='ls -Ad .*'       #  Only show hidden files
 # alias lf='ls -d .*/ */'    #  Only show folders
 alias lf='ls -d */'    #  Only show folders
+alias l='lt'
 
 # show different extensions. Useful when a lot of files in folder
 # alias ext 'find . -type f | awk -F. '!a[$NF]++{print $NF}''

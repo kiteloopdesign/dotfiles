@@ -9,6 +9,41 @@ autocmd FileType verilog_systemverilog setlocal commentstring=//\ %s
 autocmd FileType none setlocal commentstring=#\ %s
 autocmd FileType unix setlocal commentstring=#\ %s
 
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" initializes together several prose plugins : 
+" pencil (muchas cosas)
+" lexical : lenguage correction, sinonimos!
+" litecorrect (autocorrects text)
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" augroup litecorrect
+"   autocmd!
+"   autocmd FileType markdown,mkd call litecorrect#init()
+"   autocmd FileType rst call litecorrect#init()
+" augroup END
+
+augroup pencil
+  autocmd!
+
+  autocmd FileType rst,markdown,mkd call pencil#init()
+                                \ | call litecorrect#init()
+                                \ | call lexical#init()
+
+  autocmd FileType text call lexical#init({ 'spell': 0 })
+
+  " autocmd FileType markdown,mkd call pencil#init()
+  "                           \ | call litecorrect#init()
+
+                            " \ | call textobj#quote#init()
+                            " \ | call textobj#sentence#init()
+augroup END
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" 
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "autocmd FileType verilog_systemverilog setlocal VerilogErrorFormat=NCVerilog\ 1
 "autocmd FileType verilog_systemverilog set makeprg=xrun\ %

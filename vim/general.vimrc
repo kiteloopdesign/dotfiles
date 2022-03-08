@@ -200,6 +200,61 @@ endif
 " catch
 " endtry
 
+" highlight current column
+set cursorline
+highlight CursorLine term=bold cterm=bold guibg=Grey40
+:nnoremap <leader>i :set cursorline! <CR>
+" :nnoremap <leader>i :set cursorline! cursorcolumn!<CR>
+" set cursorcolumn
+
+" Set some different options when running in GUI mode
+" Font is usally a problem. Try these. Also try set guifont=*
+if has("gui_running")
+  " set guifont=Monaco:h12
+  " set guifont=Courier\ 10\ Pitch\ 13
+  " set guifont=Inconsolata\ for\ Powerline:h12
+  "
+  " Only these two seem to work by default...
+  set guifont=Monospace\ Regular\ 10
+  " set guifont=Dejavu\ Sans\ Mono\ 12
+  " set guifont=Bitstream\ Vera\ Sans\ Mono\ 12
+  " set guifont=Source\ Code\ Pro\ 12
+
+  " Need to install google fonts!
+  " TODO: try why i cant see it 
+  " set guifont= roboto ...
+
+  " set guioptions-=T " remove toolbar
+  set guioptions-=e
+  set guitablabel=%M\ %t
+  " au GUIEnter * set fullscreen
+
+  set nocursorline " line looks bad on GUI, dont show
+  
+" normal is old-school shell mode
+else
+  set guifont=Liberation\ Mono\ for\ Powerline\ 10 
+endif
+
+" Set style for gVim
+" hi SpellBad gui=undercurl
+
+" " TODO: this needs more debugging. trying to get highlighting to work in vim console mode
+" " (note the "!" )
+" if !has("gui_running")
+"   " highlight clear SpellBad
+"   highlight SpellBad cterm=underline
+" endif
+
+" Esto es para arreglar que el colorscheme jode el spell correctoru
+" IMPORTANTE: ponerlo *ANTES* de colorscheme
+augroup my_spell_colors
+  autocmd!
+  " autocmd ColorScheme solarized highlight SpellBad cterm=reverse
+  " autocmd ColorScheme solarized highlight SpellBad cterm=underline ctermfg=red
+  autocmd ColorScheme solarized highlight SpellBad cterm=underline,bold
+augroup END
+
 " Solarized
 let g:solarized_termcolors=256
 set background=dark
@@ -208,28 +263,12 @@ colorscheme solarized
 " nmap <leader>bg :set background=light<cr>
 map <Leader>bg :let &background = ( &background == "dark"? "light" : "dark" )<CR>
 
-" set guifont=Inconsolata\ for\ Powerline:h15
+" TODO: i dont know whats this
 " let g:Powerline_symbols = 'fancy'
-" set encoding=utf-8
-" set t_Co=256
 " set fillchars+=stl:\ ,stlnc:\
 " set term=xterm-256color
 " set termencoding=utf-8
 
-" highlight current column
-set cursorline
-highlight CursorLine term=bold cterm=bold guibg=Grey40
-:nnoremap <leader>i :set cursorline! <CR>
-" :nnoremap <leader>i :set cursorline! cursorcolumn!<CR>
-" set cursorcolumn
-
-
-" Set extra options when running in GUI mode
-if has("gui_running")
-    set guioptions-=T
-    set guioptions-=e
-    set guitablabel=%M\ %t
-endif
 
 " Set utf8 as standard encoding and en_US as the standard language
 set encoding=utf8
@@ -358,9 +397,6 @@ set laststatus=2
 
 " Format the status line
 " set statusline=\ %{HasPaste()}%F%m%r%h\ %w\ \ CWD:\ %r%{getcwd()}%h\ \ \ Line:\ %l\ \ Column:\ %c
-
-" set rtp+=/usr/lib/python3.7/site-packages/powerline/bindings/vim/
-set guifont=Liberation\ Mono\ for\ Powerline\ 10 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Editing mappings

@@ -50,6 +50,49 @@ endfunction "}}}
 
 nnoremap <leader>Q :call QuickfixToggle()<CR>
 
+" Taken from vim-lexical github site
+function! SpellCheckerMyHelp()
+  let text=<< trim END
+      "
+      "
+      " ]s	- Move to next misspelled word after the cursor.
+      " [s	- Like ]s but search backwards
+      " ]S	- Like ]s but only stop at bad words, not at rare words or words for another region.
+      " [S	- Like ]S but search backwards.
+
+  " With the following key mappings you can use Visual mode selection to select the characters (including whitespace). Otherwise the word under the cursor is used.
+
+      " zg	- Mark as a good word
+      " zw	- Like zg but mark the word as a wrong (bad) word.
+      " zug - Unmark as good word
+      " zuw - Unmark as wrong (bad) word
+      " z=	- For the word under/after the cursor suggest correctly spelled words
+      " 1z=	- Use the first suggestion, without prompting
+      " . - Redo - repeat last word replacement
+      " :spellr - Repeat the replacement done by z= for all matches with the replaced word in the current window
+      
+      " MAYBE THESE WORK WITH TAB COMPLETION. OTHERWISE YOU MIGHT WANT TO USE
+      " THE RECOMMENDED PLUGIN
+      "
+      " Spelling sugestions
+      " For spelling suggestions while in Insert mode:
+      "     «CTRL-X» «CTRL-S» (or «CTRL-X» «s» for terminal users) - suggest spelling, using «CTRL-P» and «CTRL-N» to navigate.
+
+      " Thesaurus lookup
+      " For thesaurus lookup while in Insert mode:
+      "     «CTRL-X» «CTRL-T» - thesaurus lookup, using «CTRL-P» and «CTRL-N» to navigate.
+
+      " Dictionary completion
+      " For dictionary completion while in Insert mode:
+      "     «CTRL-X» «CTRL-K» - dictionary completion, using «CTRL-P» and «CTRL-N» to navigate.
+      "
+      "
+  END
+  echo text
+
+endfunction
+
+
 function! PrintSyntaxSettings()
     " echo 'expandtab'   &expandtab
     " echo 'tabstop'     &tabstop

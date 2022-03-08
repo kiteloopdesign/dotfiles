@@ -93,7 +93,29 @@ nnoremap <silent> <leader>m :History<CR>
 
 " fzf is installed via git clone, then vim plugin is not needed, just this
 set runtimepath+=~/.fzf
- 
+
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Put here all the things related to prose plugins
+"
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" lexical
+" These are the defaults.
+let g:lexical#thesaurus = ['~/.vim/thesaurus/mthesaur.txt',]
+let g:lexical#dictionary = ['/usr/share/dict/words',]
+let g:lexical#spellfile = ['~/.vim/spell/en.utf-8.add',]
+
+" for using features in normal mode. in insert they use 
+" let g:lexical#dictionary_key = '<leader>k'
+" let g:lexical#thesaurus_key = '<leader>t'
+" let g:lexical#spell_key = '<leader>s'
+
+" Not really a plugin thing, but sugggested in vim-litecorrect plugin, so adding it here 
+" Correct better autocorrect option in the first misspelled word before the cursor
+nnoremap <C-s> [s1z=<c-o>
+inoremap <C-s> <c-g>u<Esc>[s1z=`]A<c-g>u
+
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "" ALE
 ""

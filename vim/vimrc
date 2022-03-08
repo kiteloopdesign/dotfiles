@@ -69,6 +69,18 @@ Plugin 'antoinemadec/vim-verilog-instance'
 " TODO: does not work for verilog ... but it would be nice ! i have an issue submitted
 " Plugin 'wellle/context.vim'
 Plugin 'airblade/vim-gitgutter.git'
+
+" For writing
+Plugin 'preservim/vim-pencil'
+Plugin 'preservim/vim-litecorrect'
+Plugin 'preservim/vim-lexical'
+" TODO: try: te dice palabras repetidas
+" Plugin 'preservim/vim-wordy'
+
+" Exchanges (swaps) blocks text. Es un poco lento para cambiar de sitio palabras...
+" Plugin 'tommcdo/vim-exchange.git'
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " stop - all plugins above
 call vundle#end()
 " done inside general!

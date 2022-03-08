@@ -178,10 +178,15 @@ alias isomount='sudo mount -t iso9660 -o ro,loop,noauto $1 /mnt'
 # anyade col numeros!
 # cat /dev/urandom | tr -dc 'a-z' | fold -w 5 | nl | head -n 100 ; echo ''
 
-# FUCKING cool
+# FUCKING cool (note is not POSIX compliant! tcsh doesnt like it ! )
 # le da al script que espera un FILE desde el std out. stdout -> file descriptor.
 # no se si esta es la descripcion pero yo lo entiendo asi
 # manhattan.sh <(base64 /dev/urandom | nl) 100
+
+# manhattan.sh <(base64 /dev/urandom | nl ) 50 | ag pablo
+#
+# removes accents ! 
+# cat /usr/share/dict/spanish | iconv -t ASCII//TRANSLIT | ag '.*con$' --nocolor | ag 'b|t|c'
 
 #-------------------------------------------------------------
 # Sofware
@@ -218,10 +223,14 @@ alias agl='ag -l '
 alias gs='git status '
 alias ga='git add '
 alias gb='git branch '
+alias grs='git restore '
+alias gbc='git checkout -b '
 alias gf='git fetch '
 alias gp='git pull '
 alias gc='git commit'
-alias gd='git diff'
+alias gca='git ci-amend'
+# alias gd='git diff'
+alias gd='git diff --word-diff=color'
 alias gdf='git difftool'
 alias gh='git hist'
 alias ghh='git ghist'
@@ -248,7 +257,6 @@ alias gac='git commit -am '
 # To be worked on
 alias git-diff-folders="git diff --name-only | xargs -L1 dirname | uniq"
 # -- WIP -- WIP -- WIP -- WIP -- WIP -- WIP -- WIP -- WIP -- WIP -- WIP
-#-------------------------------------------------------------
 
 
 alias vtags='python ~/vtags-3.10/vtags.py'

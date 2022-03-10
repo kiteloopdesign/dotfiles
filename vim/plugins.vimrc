@@ -96,7 +96,7 @@ set runtimepath+=~/.fzf
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Put here all the things related to prose plugins
+" Put here all the things related to prose plugins (eg pencil plugin)
 "
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " lexical
@@ -115,6 +115,14 @@ let g:lexical#spellfile = ['~/.vim/spell/en.utf-8.add',]
 nnoremap <C-s> [s1z=<c-o>
 inoremap <C-s> <c-g>u<Esc>[s1z=`]A<c-g>u
 
+
+" TODO: el statusline no la tengo controlada ... no veo nada distinto
+" Taken form vim-pencil github. Shows whether there is rad/sofr line break
+" set statusline=%<%f\ %h%m%r%w\ \ %{PencilMode()}\ %=\ col\ %c%V\ \ line\ %l\,%L\ %P
+" set rulerformat=%-12.(%l,%c%V%)%{PencilMode()}\ %P
+
+" default is 74, looks too short to me ...
+let g:pencil#textwidth = 90
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "" ALE

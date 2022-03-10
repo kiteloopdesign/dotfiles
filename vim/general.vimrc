@@ -257,8 +257,9 @@ augroup END
 
 " Solarized
 let g:solarized_termcolors=256
-set background=dark
 colorscheme solarized
+" Set light in the morning!
+let &background = strftime("%H") < 17 ? "light" : "dark"
 
 " nmap <leader>bg :set background=light<cr>
 map <Leader>bg :let &background = ( &background == "dark"? "light" : "dark" )<CR>
@@ -320,15 +321,11 @@ set autoindent "Auto indent
 " set smartindent "Smart indent
 " set wrap "Wrap lines
 
-" TODO : Encontrar solucion para escribir texto en vim
-" Set text files (no extension) to html and set coloumns width
-" autocmd BufNewFile,BufRead * if &ft == '' 
-"   " set filetype=html
-"   set textwidth=10000
-"   autocmd VimResized * | set columns=72
+" Taken from vim-pencil github-page. Used for quick formatting
+nnoremap <silent> Q gqap
+" xnoremap <silent> Q gq
+" nnoremap <silent> <leader>Q vapJgqap
 
-" TODO: esto funciona pero jode cuando abres algun readme o logfile
-" autocmd BufNewFile,BufRead * if &ft == '' | autocmd VimResized * set columns=80 | hi clear CursorLine
 
 " Move up/down 'soft' lines (long lines which wrap around)
 noremap <silent> k gk

@@ -365,9 +365,6 @@ ytf (){
 
 }
 
-
-
-
 ytdl-video (){
 # youtube-dl -f "bestvideo[height<=1080]+bestaudio" --restrict-filenames --add-metadata --ignore-errors -o '%(title)s.%(ext)s' "$1"
 # youtube-dl -f "bestvideo[ext=mp4]+bestaudio[ext=m4a]/mp4" --restrict-filenames --add-metadata --ignore-errors -o '%(title)s.%(ext)s' "$1"

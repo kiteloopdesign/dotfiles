@@ -32,7 +32,6 @@ export EDITOR=/usr/bin/vim
 # Required to activate conda env
 # source ${HOME}/miniconda3/etc/profile.d/conda.sh
 
-
 # Yosys HQ
 export PATH="$HOME/cad/tabby/bin:$PATH"
 export YOSYSHQ_LICENSE=$HOME/cad/tabby/tabbyevallicense_pablo.lic.txt
@@ -131,7 +130,6 @@ bindkey "" down-line-or-beginning-search # Down
 bindkey "^[[A" up-line-or-beginning-search # Up
 bindkey "^[[B" down-line-or-beginning-search # Down
 
-
 # In command mode, use vim up/down to search through history! BOOM !!
 bindkey -M vicmd "k" up-line-or-beginning-search
 bindkey -M vicmd "j" down-line-or-beginning-search
@@ -161,6 +159,36 @@ bindkey -M vicmd "p" x-paste
 # bindkey '^e' end-of-line
 # # bindkey '^e' vi-end-of-line
 
+# NOTE! This can be done in tcshrc, not in zsh!
+# alias mycmd='echo "Hello there"'
+# bindkey -c '^O' mycmd
+# This is the corect way in zsh! ctrl-L run "ls"
+# bindkey -s "^L" 'ls^M'
+
+
+#create-template (){
+#cat > template.sh << EOL
+##!/bin/bash
+## Created by bindkey (R)
+#EOL
+#}
+
+# TODO: map a keystroke to a template, useful when learning
+# a language and need to create quick templates. Make this 
+# function take args and so make it for several languages
+create-template (){
+cat << EOF > template.sh
+Hello
+World
+!
+EOF
+echo "template.sh created"
+}
+
+# Work with both ...
+# bindkey -s "^E" 'create-template^M'
+bindkey -s "" 'create-template'
+
 ################################################################################
 # Other
 ################################################################################
@@ -182,8 +210,6 @@ export KEYTIMEOUT=1
 
 # Used by tstock
 export ALPHAVANTAGE_API_KEY=97RI6TIBAIT9COJU
-
-
 
 ################################################################################
 # Custom functions can go here I think. So far used by Poetry (python)
@@ -235,7 +261,7 @@ zstyle ':completion:*:*:sstrans*:*' file-patterns '*.(lst|clst)'
 zstyle ':completion:*:*:ssnorm*:*' file-patterns '*.tsv'
 
 # End of lines added by compinstall
-source $HOME/alias.zsh
+source $HOME/.alias
 
 # Sleep added to avoid warning issued by xmodmap because some keys are pressed
 sleep 0.1
@@ -251,8 +277,6 @@ sleep 0.1
 #eval "$(mcfly init zsh)"
 #export MCFLY_KEY_SCHEME=vim
 #export MCFLY_FUZZY=2
-
-
 
 ################################################################################
 # Syntax highlighting in shell

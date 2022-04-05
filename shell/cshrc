@@ -1,9 +1,8 @@
 #-------------------------------------------------------------------------------
 # For tools
 #-------------------------------------------------------------------------------
-source "/tools/stabflow/mainline/OVERWRAPPERS/OVERLORD_CSHRC"
-setenv IRDC_TOOLS   /proj/gpfs/cytools/IRDC_tools/IRDC_tools
-source $IRDC_TOOLS/env/.cshrc
+# source "/tools/stabflow/mainline/OVERWRAPPERS/OVERLORD_CSHRC"
+# source $IRDC_TOOLS/env/.cshrc
 
 # A number of spyglass utils live here: spyexplain ...
 # /tools/apps-local/synopsys/SpyGlass-O2018.09-SP2-3/SPYGLASS_HOME/bin
@@ -74,8 +73,8 @@ setenv PATH $PATH/:$HOME/bin
 #setenv PATH $HOME/bin/vim/bin/:$PATH
 # jaspergold
 # setenv PATH /tools/apps/local/cadence/jasper_2020.09p001/bin:$PATH
-setenv PATH /tools/apps/local/cadence/jasper_2021.09/bin:$PATH
-setenv CDS_LIC_FILE /tools/stabflow/lic_vault/cdslmd-gwan-/license.dat
+# setenv PATH /tools/apps/local/cadence/jasper_2021.09/bin:$PATH
+# setenv CDS_LIC_FILE /tools/stabflow/lic_vault/cdslmd-gwan-/license.dat
 
 # only for reference, sourced inside /env/.cshrc
 # source $IRDC_TOOLS/env/.alias
@@ -86,7 +85,7 @@ set MAN_GENUS_LUI = /tools/apps/cadence/Genus_19.12-s121/tools.lnx86/share/synth
 set MAN_LEC_LUI = /tools/apps/cadence/LEC_18.20-p100/doc
 set MAN_LOCAL = ${HOME}/.local/bin/share/man
 # set MAN_TEMUS ...
-setenv MANPATH $MANPATH/:$MAN_GENUS_LUI/:$MAN_LEC_LUI/:$MAN_LOCAL
+# setenv MANPATH $MANPATH/:$MAN_GENUS_LUI/:$MAN_LEC_LUI/:$MAN_LOCAL
 
 # synopsys license string "/tools/stabflow/lic_vault/eu-cwan/license.dat"
 # setenv SNPSLMD_LICENSE_FILE 3003@vi
@@ -94,8 +93,6 @@ setenv MANPATH $MANPATH/:$MAN_GENUS_LUI/:$MAN_LEC_LUI/:$MAN_LOCAL
 #-------------------------------------------------------------------------------
 # cy alias TODO : move to alias
 #-------------------------------------------------------------------------------
-alias luser 'ldapsearch -x -h ldap.irdesign.cypress.com -b o=cypress.com uid=\!* | more'
-alias phone 'ldapsearch -x -h ldap.irdesign.cypress.com -b o=cypress.com uid=\!* cn telephoneNumber |egrep "^cn|^tel"'
 # alias precommand 'set prompt="(%m:%n)${cwd}> "'
 # alias cd 'chdir \!* && precommand'
 # alias dvt '$DVT_HOME/bin/dvt.sh &'

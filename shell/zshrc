@@ -235,7 +235,7 @@ zstyle ':completion:*:*:sstrans*:*' file-patterns '*.(lst|clst)'
 zstyle ':completion:*:*:ssnorm*:*' file-patterns '*.tsv'
 
 # End of lines added by compinstall
-source $HOME/.alias
+source $HOME/alias.zsh
 
 # Sleep added to avoid warning issued by xmodmap because some keys are pressed
 sleep 0.1

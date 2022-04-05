@@ -21,15 +21,22 @@ set rtp+=~/.vim/bundle/Vundle.vim
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 call vundle#begin()
 " start- all plugins below
+
 Plugin 'altercation/vim-colors-solarized.git'
 Plugin 'morhetz/gruvbox.git'
 Plugin 'VundleVim/Vundle.vim'
 Plugin 'nixon/vim-vmath.git' " simple math operations on selections
 " Plugin 'scrooloose/nerdtree.git'
+
+" Visual
+" highlight words
+" Plugin 'inkarkat/vim-mark' " TODO: test
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
 " Plugin 'scrooloose/syntastic.git'
 "Plugin 'w0rp/ale'
+" NOTE: need to do "npm install" (and have node.js installed!) inside cpc plugin folder to make this work !
+Plugin 'neoclide/coc.nvim', {'branch': 'release'}
 Plugin 'tpope/vim-surround.git'
 " Plugin 'tpope/vim-fugitive.git'
 " Plugin 'sjl/gundo.vim'
@@ -40,6 +47,7 @@ Plugin 'Yggdroot/indentLine'
 Plugin 'tpope/vim-unimpaired.git'
 Plugin 'tpope/vim-repeat.git'
 Plugin 'tpope/vim-commentary.git'
+
 " Search, grep etc
 " Plugin 'junegunn/fzf.vim'
 Plugin 'ctrlpvim/ctrlp.vim'
@@ -50,6 +58,7 @@ Plugin 'ledger/vim-ledger'
 " Works but doesn't ask for confirmation to reload file!
 " Plugin 'djoshea/vim-autoread'
 Plugin 'junegunn/vim-easy-align'
+
 " Autocompletion
 " Plugin 'ajh17/VimCompletesMe'
 Plugin 'ackyshake/VimCompletesMe'
@@ -79,6 +88,12 @@ Plugin 'preservim/vim-lexical'
 
 " Exchanges (swaps) blocks text. Es un poco lento para cambiar de sitio palabras...
 " Plugin 'tommcdo/vim-exchange.git'
+
+" Para moverse, experimental...
+Plugin 'justinmk/vim-sneak'
+
+" hace mas visible el cacho de texto que se yankea
+Plugin 'machakann/vim-highlightedyank'
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " stop - all plugins above

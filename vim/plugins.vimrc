@@ -5,13 +5,13 @@
 let g:ctrlp_map = '<c-p>'
 let g:ctrlp_cmd = 'CtrlPBuffer'
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Syntastic
-"
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"" Syntastic
+""
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"set statusline+=%#warningmsg#
+"set statusline+=%{SyntasticStatuslineFlag()}
+"set statusline+=%*
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Airline
@@ -124,23 +124,136 @@ inoremap <C-s> <c-g>u<Esc>[s1z=`]A<c-g>u
 " default is 74, looks too short to me ...
 let g:pencil#textwidth = 90
 
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""" ALE
+"""
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"" IMPORTANT !!! 
+"" See also  ~/dotfiles/vim/ftplugin/ !!!!!!!!!!
+"" nnoremap ff <Plug>(ALEFix) # esto no va, no se pq
+"nnoremap ff :ALEFix<cr>
+"" Con esto no chequea hasta que se salva 
+"" Write this in your vimrc file
+"let g:ale_lint_on_text_changed = 'never'
+"" You can disable this option too
+"" if you don't want linters to run on opening a file
+"let g:ale_lint_on_enter = 0
+
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"" ALE
+"" coc
 ""
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-" IMPORTANT !!! 
-" See also  ~/dotfiles/vim/ftplugin/ !!!!!!!!!!
+" To make <cr> select the first completion item and confirm the completion when no item has been selected:
+inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm() : "\<C-g>u\<CR>"
 
-" nnoremap ff <Plug>(ALEFix) # esto no va, no se pq
-nnoremap ff :ALEFix<cr>
+"to make coc.nvim format your code on <cr>:
+inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm() : "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
-" Con esto no chequea hasta que se salva 
-" Write this in your vimrc file
-let g:ale_lint_on_text_changed = 'never'
-" You can disable this option too
-" if you don't want linters to run on opening a file
-let g:ale_lint_on_enter = 0
+
+" TODO: parece que esto lo hace by default
+" " Use <Tab> and <S-Tab> to navigate the completion list:
+" inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+" inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+
+" use <c-space> for trigger completion
+inoremap <silent><expr> <c-@> coc#refresh()
+
+" Make <CR> auto-select the first completion item and notify coc.nvim to
+" format on enter, <cr> could be remapped by other vim plugin
+inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
+                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+
+" Use `[g` and `]g` to navigate diagnostics
+" Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
+nmap <silent> [g <Plug>(coc-diagnostic-prev)
+nmap <silent> ]g <Plug>(coc-diagnostic-next)
+
+" GoTo code navigation.
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+
+" Use K to show documentation in preview window.
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  elseif (coc#rpc#ready())
+    call CocActionAsync('doHover')
+  else
+    execute '!' . &keywordprg . " " . expand('<cword>')
+  endif
+endfunction
+
+" Highlight the symbol and its references when holding the cursor.
+autocmd CursorHold * silent call CocActionAsync('highlight')
+
+" Symbol renaming.
+nmap <leader>rn <Plug>(coc-rename)
+
+" Formatting selected code.
+xmap <leader>f  <Plug>(coc-format-selected)
+nmap <leader>f  <Plug>(coc-format-selected)
+
+" I dont know what this is for
+" augroup mygroup
+"   autocmd!
+"   " Setup formatexpr specified filetype(s).
+"   autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
+"   " Update signature help on jump placeholder.
+"   autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
+" augroup end
+
+" Applying codeAction to the selected region.
+" Example: `<leader>aap` for current paragraph
+xmap <leader>a  <Plug>(coc-codeaction-selected)
+nmap <leader>a  <Plug>(coc-codeaction-selected)
+
+" Remap keys for applying codeAction to the current buffer.
+nmap <leader>ac  <Plug>(coc-codeaction)
+" Apply AutoFix to problem on the current line.
+" nmap <leader>qf  <Plug>(coc-fix-current)
+nmap <leader>cf  <Plug>(coc-fix-current)
+
+" Run the Code Lens action on the current line.
+nmap <leader>cl  <Plug>(coc-codelens-action)
+
+"
+" ... There's more crap here that I dont know what it is for ...
+"
+
+" Add (Neo)Vim's native statusline support.
+" NOTE: Please see `:h coc-status` for integrations with external plugins that
+" provide custom statusline: lightline.vim, vim-airline.
+set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
+
+"
+" ... There's more crap here that I dont know what it is for ...
+"
+
+
+" " TODO: el chino pilla rollo con este issue, que es tonto pero no parece que
+" " haya una solucion facil. solo quiero enablear esta mierda para algunos files
+" function! s:disable_coc_for_type()
+"         let l:filesuffix_blacklist = ['c', 'cpp', 'h', 'asm', 'hpp', 'vim', 'sh', 'py']
+" 	if index(l:filesuffix_blacklist, expand('%:e')) != -1
+" 		let b:coc_enabled = 0
+" 	endif
+" endfunction
+" autocmd BufRead,BufNewFile * call s:disable_coc_for_type()
+function! s:enable_coc_for_type()
+        let l:filesuffix_whitelist = ['c', 'cpp', 'h']
+        " let l:filesuffix_whitelist = ['c', 'cpp', 'h', 'asm', 'hpp', 'vim', 'sh', 'py']
+	if index(l:filesuffix_whitelist, expand('%:e')) == -1
+		let b:coc_enabled = 0
+	endif
+endfunction
+autocmd BufRead,BufNewFile * call s:enable_coc_for_type()
+
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "" vim-verilog-instance

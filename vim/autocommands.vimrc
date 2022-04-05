@@ -9,6 +9,9 @@ autocmd FileType verilog_systemverilog setlocal commentstring=//\ %s
 autocmd FileType none setlocal commentstring=#\ %s
 autocmd FileType unix setlocal commentstring=#\ %s
 
+" 1st remove all comments, then add comments only on first line "f:"
+" TODO: not working ... gcc inserts /* ... */
+autocmd FileType c,cpp setlocal comments-=:// comments+=f://
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " initializes together several prose plugins : 

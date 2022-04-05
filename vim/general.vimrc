@@ -22,9 +22,8 @@ filetype plugin indent on
 " filetype plugin on
 " filetype indent on
 
-
 " Allows to use '%' to jump between pairs of words, e.g. begin-end
-runtime macros/matchit.vim
+" runtime macros/matchit.vim
 
 " Set to auto read when a file is changed from the outside
 set autoread
@@ -35,10 +34,15 @@ let mapleader = "\<Space>"
 
 " Fast saving
 nmap <leader>w :w!<cr>
+nmap <leader><leader> :w!<cr>
 
 " :W sudo saves the file 
 " (useful for handling the permission-denied error)
 " command W w !sudo tee % > /dev/null
+
+" map cmd to go from vim to shell. use <c-d> to come back to vim (it returns
+" an EOF which in shell makes it exit
+map <leader>d :sh<cr>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " IMPORTANT! Check plugins.vimrc for other mappings!
@@ -107,7 +111,26 @@ set ruler
 set number
 
 " Height of the command bar
-set cmdheight=1
+set cmdheight=2
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Below two are recommended by coc. Added here as they are general settings.
+" Also check plugins for more stuff
+" Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable delays and poor user experience.
+set updatetime=300
+" Don't pass messages to |ins-completion-menu|.
+set shortmess+=c
+
+" README: This, which is recommended, seems to break it all
+" Always show the signcolumn, otherwise it would shift the text each time
+" diagnostics appear/become resolved.
+" if has("patch-8.1.1564")
+"   " Recently vim can merge signcolumn and number column into one
+"   set signcolumn=number
+" else
+"   set signcolumn=yes
+" endif
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " A buffer becomes hidden when it is abandoned
 set hidden
@@ -255,6 +278,33 @@ augroup my_spell_colors
   autocmd ColorScheme solarized highlight SpellBad cterm=underline,bold
 augroup END
 
+" Create a custom highlight for custom words
+" syntax keyword myTodo contained TODO: FIXME: NOTE NOTE:
+" highlight link myTodo Todo
+" TODO: this does NOT work *inside* a comment! (which is what we need ...)
+" fun! SetMyTodos()
+"     syn match myTodos /\%(PMV:\)\|\%(NOTE:\)/
+"     hi link myTodos Todo
+" endfu
+" autocmd bufenter * :call SetMyTodos()
+" autocmd filetype * :call SetMyTodos()
+
+" Por lo visto NO es facil hacer esta mierda ... Lo mejor que he encontrado
+" por ahora es esto...
+function! UpdateTodoKeywords(...)
+    let newKeywords = join(a:000, " ")
+    let synTodo = map(filter(split(execute("syntax list"), '\n') , { i,v -> match(v, '^\w*Todo\>') == 0}), {i,v -> substitute(v, ' .*$', '', '')})
+    for synGrp in synTodo
+        execute "syntax keyword " . synGrp . " contained " . newKeywords
+    endfor
+endfunction
+" Anyadir tus custom words here:
+augroup now
+    autocmd!
+    autocmd Syntax * call UpdateTodoKeywords("NOTE", "NOTES", "README","INFO", "INFO:")
+augroup END
+
+
 " Solarized
 let g:solarized_termcolors=256
 colorscheme solarized
@@ -283,6 +333,7 @@ set ffs=unix,dos,mac
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Turn backup off, since most stuff is in SVN, git et.c anyway...
 set nobackup
+set nowritebackup " recommended by coc
 set nowb
 set noswapfile
 
@@ -348,6 +399,7 @@ let g:netrw_fastbrowse = 0
 let g:netrw_banner = 0
 " show tree like files
 " let g:netrw_liststyle = 3
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Moving around, tabs, windows and buffers
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""

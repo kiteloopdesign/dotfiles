@@ -34,8 +34,8 @@ export EDITOR=/usr/bin/vim
 
 
 # Yosys HQ
-export PATH="$HOME/bin/tabby/bin:$PATH"
-export YOSYSHQ_LICENSE=$HOME/bin/tabby/tabbyevallicense_pablo.lic.txt
+export PATH="$HOME/cad/tabby/bin:$PATH"
+export YOSYSHQ_LICENSE=$HOME/cad/tabby/tabbyevallicense_pablo.lic.txt
 
 ################################################################################
 # Environment. TODO : These should go to .zshenv or .zprofile?

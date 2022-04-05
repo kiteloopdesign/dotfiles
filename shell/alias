@@ -15,11 +15,22 @@ alias zsy='noglob zmv -Ls'
 #-------------------
 # Copy and paste via xclip
 #-------------------
-alias setclip="xclip -selection c"
-alias getclip="xclip -selection c -o"
+alias setclip='xclip -selection c'
+alias getclip='xclip -selection c -o'
 # $ echo foo | setclip
 # $ getclip
 # foo
+alias pp='pwd | tr "\n" " " | xclip'
+
+# There is other commands like realpath but it does not exist on tcsh... so we need this crap
+# TODO: add shell-guard like so for tcsh. Bash does not accept arguments on aliases. It needs a function
+# if $(echo $SHELL == 'usr/bin/tcsh || bin/tcsh ) then
+# alias rl='echo `readlink -f \!*` | tr -d "\n" | xclip ; echo \"Copied link \!* to clipboard\"'        
+
+# function __rl() { readlink -z -f $1 | xclip ; echo "Link $1 copied to clipboard" }
+# alias rl='__rl'
+# Same as a one liner with an auto-destructive function
+alias rl='function __rl() { readlink -z -f $1 | xclip ; echo "Link $1 copied to clipboard"; unset -f __rl; }; __rl'
 
 #-------------------
 # Personnal Aliases
@@ -81,7 +92,7 @@ alias lc='ls -ltcr'        #  Sort by/show change time,most recent last.
 alias lu='ls -ltur'        #  Sort by/show access time,most recent last.
 alias lx='find . -maxdepth 1 -type f -executable' # list executables
 # The ubiquitous 'll': directories first, with alphanumeric sorting:
-alias ll="ls -lv --group-directories-first"
+alias ll='ls -lv --group-directories-first'
 alias lm='ll |more'        #  Pipe through 'more'
 alias lr='ll -R'           #  Recursive ls.
 alias la='lt -A'           #  Show hidden files.
@@ -103,6 +114,7 @@ alias lb='ls ~/bin'        # What was the name of that custom script that did ..
 alias cb='cd ~/bin'         
 alias cl='cd ~/personal/ledger/data/2021'         
 alias cdd='cd ~/Descargas/'         
+alias cds='cd ~/sandbox/cpp/'         
 
 # Doesnt search on hidden folders
 # alias bigfiles='ls -Sr **/*(.Lm+100)'
@@ -149,6 +161,7 @@ alias ep='vim ~/.config/mpv/{input.conf,mpv.conf}'
 # alias ep='vim ~/.config/mpv/input.conf'
 # alias ey='vim ~/.config/youtube-dl/config'
 alias ey='vim ~/.config/yt-dlp/config'
+alias eh='vim ~/.zhistfile'
 
 #-------------------------------------------------------------
 # X
@@ -211,7 +224,7 @@ alias pdfgrep='pdfgrep -HRi'
 alias m='mpv'
 # alias yt='youtube-dl'
 alias yt='yt-dlp'
-# alias yta="youtube-dl -x"
+# alias yta='youtube-dl -x'
 alias agg='ag -g '
 alias agl='ag -l '
 # alias agg='ag -g'
@@ -255,7 +268,7 @@ alias gac='git commit -am '
 
 # -- WIP -- WIP -- WIP -- WIP -- WIP -- WIP -- WIP -- WIP -- WIP -- WIP
 # To be worked on
-alias git-diff-folders="git diff --name-only | xargs -L1 dirname | uniq"
+alias git-diff-folders='git diff --name-only | xargs -L1 dirname | uniq'
 # -- WIP -- WIP -- WIP -- WIP -- WIP -- WIP -- WIP -- WIP -- WIP -- WIP
 
 
@@ -312,7 +325,13 @@ fag(){
     && vim $(cut -d':' -f1 <<< "$line") +$(cut -d':' -f2 <<< "$line")
 }
 
-
+pdf-unencrypt () {
+    : "Usage: <file>
+Uses ghostscript to rewrite the file without encryption."
+    local in="$1"
+    # gs -q -dNOPAUSE -dBATCH -sDEVICE=pdfwrite -sOutputFile="${in:r}_unencrypted.pdf" -c .setpdfwrite -f "$in"
+    /usr/bin/gs -q -dNOPAUSE -dBATCH -sDEVICE=pdfwrite -sOutputFile="${in:r}_unencrypted.pdf" -f "$in"
+}
 
 
 # # Download the best video available but no better than 480p,

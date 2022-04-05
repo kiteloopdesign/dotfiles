@@ -1,83 +1,318 @@
-source /cad/config/cshrc.ic6
-clear
-#madd incisiv
-madd xcelium/17.10.009
-mrm mmsim
-mrm verdi
-madd mmsim/11.1
-madd pt
-madd rc
-madd vcs
-#madd verdi
-madd verdi/l-2016.06-sp2-8
-madd fm
-madd vmanager
-madd lec
-mlist
+#-------------------------------------------------------------------------------
+# For tools
+#-------------------------------------------------------------------------------
+source "/tools/stabflow/mainline/OVERWRAPPERS/OVERLORD_CSHRC"
+setenv IRDC_TOOLS   /proj/gpfs/cytools/IRDC_tools/IRDC_tools
+source $IRDC_TOOLS/env/.cshrc
 
+# A number of spyglass utils live here: spyexplain ...
+# /tools/apps-local/synopsys/SpyGlass-O2018.09-SP2-3/SPYGLASS_HOME/bin
+# spyexplain -verilog 
+# spyexplain -verilog -k WORD/RULE
 
-# history is a useful UNIX utility for re-executing commands
-# set HIST="~/.history"
+#-------------------------------------------------------------------------------
+# locale
+#-------------------------------------------------------------------------------
+setenv LC_ALL en_GB.utf-8
+setenv LANG "$LC_ALL"
+
+##-------------------------------------------------------------------------------
+## alias to edit design.tcl
+##-------------------------------------------------------------------------------
+#unsetenv NO_AUTO_DMWA
+#setenv DMWA `getDesign`
+#setenv DESIGN `getDesign`
+#if ( "$DMWA" =~ *Invalid* ) setenv DESIGN "" ; setenv DMWA ""
+#alias setdd 'setenv DMWA `getDesign` ; setenv DESIGN $DMWA ; ; if ($DMWA != "" ) cd $DMWA ; setenv MY_CELL `find config/ -name design_setup.tcl | head -n 1 | xargs dirname | sed "s/config\///g"`; cd - '
+#if (${%DMWA} != 0) then
+#cd $DMWA ; setenv MY_CELL `find config/ -name design_setup.tcl | head -n 1 | xargs dirname | sed "s/config\///g"`; cd -
+#else
+#setenv MY_CELL ""
+#endif
+#alias design 'vim $DMWA/config/${MY_CELL}/design_setup.tcl'
+
+alias vtags 'python  ~/vtags-3.10/vtags.py'
+
+#-------------------------------------------------------------------------------
+# history
+#-------------------------------------------------------------------------------
 set history=10000
 set histdup=erase
-set savehist=(10000 merge)
-# alias postcmd "history -S; history -M"
+set savehist=(${history} merge)
+set histfile=~/.history
+# Specify suffixes to ignore during filename completion
+set fignore = (.o .bak) 
 
+#-------------------------------------------------------------------------------
+# env variables
+#-------------------------------------------------------------------------------
 setenv EDITOR vim
+setenv VISUAL vim
 
-setenv PRINTER F2DesignSharpCopier
+setenv P4EDITOR ${EDITOR}
+# setenv P4DIFF   icmdiff3
+setenv P4DIFF   tkdiff
+# setenv P4MERGE tkdiff
+# setenv P4DIFF2 tkdiff
 
-#setenv PATH $PATH/:$HOME/bin
-setenv PATH $HOME/bin/vim/bin/:$PATH
+setenv YDIFF_OPTIONS '-s -w 0 --wrap'
+# using ydiff:
+# diff -u mvrc.back/mxtdm_top/rpt/rtl/violations_summary.rpt mvrc/mxtdm_top/rpt/rtl/violations_details.rpt | ~/bin/ydif
+
+# ydiff                         # view colored incremental diff
+# ydiff -s                      # view side by side, use default text width 80
+# ydiff -s -w 90                # use text width 90 other than default 80
+# ydiff -s -w 0                 # auto set text width based on terminal size
+# ydiff -s -w 0 --wrap          # same as before, but also wrap long lines
+# ydiff -s file1 dir2           # view modification of given files/dirs only
+# ydiff -s -w90 --wrap -- -U10  # pass '-U10' to underneath revision diff tool
+# ydiff -s -w90 --wrap -U10     # '--' is optional as it's unknown to ydiff
+# ydiff -s --cached             # show git staged diff (git diff --cached)
+# ydiff -s -r1234               # show svn diff to revision 1234
+
+setenv PATH $PATH/:$HOME/bin
+#setenv PATH $HOME/bin/vim/bin/:$PATH
+# jaspergold
+# setenv PATH /tools/apps/local/cadence/jasper_2020.09p001/bin:$PATH
+setenv PATH /tools/apps/local/cadence/jasper_2021.09/bin:$PATH
+setenv CDS_LIC_FILE /tools/stabflow/lic_vault/cdslmd-gwan-/license.dat
+
+# only for reference, sourced inside /env/.cshrc
+# source $IRDC_TOOLS/env/.alias
+# source $IRDC_TOOLS/env/tools/tools.alias
 
 
-# Vim mode
-bindkey -v
-# bindkey -k up history-search-backward
-bindkey -k down history-search-forward
+set MAN_GENUS_LUI = /tools/apps/cadence/Genus_19.12-s121/tools.lnx86/share/synth/man_legacy
+set MAN_LEC_LUI = /tools/apps/cadence/LEC_18.20-p100/doc
+set MAN_LOCAL = ${HOME}/.local/bin/share/man
+# set MAN_TEMUS ...
+setenv MANPATH $MANPATH/:$MAN_GENUS_LUI/:$MAN_LEC_LUI/:$MAN_LOCAL
+
+# synopsys license string "/tools/stabflow/lic_vault/eu-cwan/license.dat"
+# setenv SNPSLMD_LICENSE_FILE 3003@vi
+
+#-------------------------------------------------------------------------------
+# cy alias TODO : move to alias
+#-------------------------------------------------------------------------------
+alias luser 'ldapsearch -x -h ldap.irdesign.cypress.com -b o=cypress.com uid=\!* | more'
+alias phone 'ldapsearch -x -h ldap.irdesign.cypress.com -b o=cypress.com uid=\!* cn telephoneNumber |egrep "^cn|^tel"'
+# alias precommand 'set prompt="(%m:%n)${cwd}> "'
+# alias cd 'chdir \!* && precommand'
+# alias dvt '$DVT_HOME/bin/dvt.sh &'
+
+#-------------------------------------------------------------------------------
+#	
+#-------------------------------------------------------------------------------
+setenv PICKER fzy
+# Now, you need an alias to do the trick
+alias go-back 'set dir=`dirs | $PICKER | cut -f1`; [ -n "$dir" ] && cd =$dir'
+# Ready, you can try it by typing go-back.
+# The last step is to bind it to PGDN
+bindkey -c '^[[6~' go-back
+
+#-------------------------------------------------------------------------------
+# history menu (binds to page-up)
+#-------------------------------------------------------------------------------
+switch ( $PICKER )
+case fzy:
+	alias hc 'set _=`history -hr | fzy` && if ( "$_" != "hc" ) eval "$_"'
+	breaksw
+default:
+	alias hc hist
+endsw
+
+#-------------------------------------------------------------------------------
+# mode and bindkeys
+#-------------------------------------------------------------------------------
+# Vim mode. Only use on this DISPLAY so CAD can vnc into machine w/o going crazy
+# if ( $DISPLAY == ":12.0" ) then
+if ( $DISPLAY == ":10.0" ) then
+  bindkey -v
+endif
+
 bindkey "" history-search-backward
-
+bindkey "" history-search-forward
 bindkey "" i-search-back
+#bindkey -k up history-search-backward
+#bindkey -k down history-search-forward
 
+# Expands *, super cool! literalmente, c^x, space, mays+8 (*)
+# bindkey " *" expand-glob
+bindkey " " expand-glob
 
-# Make command completion (TAB key) cycle through all possible choices
-# (The default is to simply display a list of all choices when more than one
-# match is available.)
+# Read it as "cut" (defined by default, just FYI)
+# bindkey "" yank
+# Read it as "paste". Not sure to whar "register" is this copied????
+bindkey "" yank
+
+#-------------------------------------------------------------------------------
+# prompt
+#-------------------------------------------------------------------------------
+# test if we are an interactive shell
+if ( $?prompt) then
+  #set prompt = '[%n@%m %c]$ '
+  set prompt = '[%n@%m %~]$ '
+endif
+
+#-------------------------------------------------------------------------------
+# command completion
+#-------------------------------------------------------------------------------
+set filec
+set autolist
+set addsuffix
 
 # bindkey "^I" complete-word-fwd
 
 # Turn on implicit cd operation
 # set implicitcd
 
+set color
+#set autolist
+#set autolist = ambiguous
+#set complete=enhace
 
+#-------------------------------------------------------------------------------
+# other
+#-------------------------------------------------------------------------------
+# tells when a job has finished
+set notify
+# keep a list of folders where to look for stuff
+#set cdpath = ( $HOME )
+# allows to use **. Not available in old (!) tcsh
+#set globstar
 
+## put the path name in the window title
+# alias settitle 'echo -n "^[]2;$cwd^G"'
+# settitle
+# alias cd    'cd \!*;settitle'
 
+set nobeep
+# unalias beepcmd
 
+# Automatic update path
+# set autorehash
 
+# very good one!
+# when cd'ing into a symlink, go back to the parent "cd.." folder and not the symlink!
+# TODO: i think it might breaks vim undo ?????
+set symlinks=ignore
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+#-------------------------------------------------------------------------------
+# alias
+#-------------------------------------------------------------------------------
 if (-e $HOME/.alias) then
   source $HOME/.alias
 endif
+
+##-------------------------------------------------------------------------------
+## python3
+##-------------------------------------------------------------------------------
+#if ! { which python3 >& /dev/null } then
+# # Python3 not on path, use /tools/apps installation.
+# setenv TOOLS_APPS_PYTHON "/tools/apps/python"
+# set path = ( ${TOOLS_APPS_PYTHON}/bin $path )
+#endif
+
+# setenv LD_LIBRARY_PATH $LD_LIBRARY_PATH/:/tools/apps/python/src/Python-3.6.3/libpython3.6m.so.1.0
+# setenv PYTHONPATH  /tools/apps/python/src/Python-3.6.3/libpython3.6m.so.1.0
+# setenv PYTHONPATH  /tools/apps/python/3.6.3/6/lib/python3.6/
+# setenv PYTHONPATH  /tools/apps/python/3.6.3/6/lib/python3.6/site-packages/
+# setenv PYTHONPATH  /tools/apps/python/2.7.11/6/lib/python2.7/site-packages
+# setenv PYTHONPATH  /tools/apps/python/bin/python2.7
+# setenv PYTHONPATH  /tools/apps/python/bin/python3.6
+
+#-------------------------------------------------------------------------------
+# custom bindkeys
+#-------------------------------------------------------------------------------
+alias mycmd 'echo "Hello there"'
+# run mycmd when you press Ctrl+O
+bindkey -c '^O' mycmd
+
+#-------------------------------------------------------------------------------
+# Directory history
+#-------------------------------------------------------------------------------
+# quietly add directories to dirstack
+set pushdsilent
+# without parameters go to home directory
+set pushdtohome
+
+# use pushd instead of cd, this makes the tricks
+alias cd 'pushd'
+
+# nice dirs, dirs displays the directories in the dirstack
+alias dirs 'dirs -v'
+
+##-------------------------------------------------------------------------------
+## tools
+##-------------------------------------------------------------------------------
+# For questa formal
+# setenv LM_LICENSE_FILE /tools/stabflow/lic_vault/mgcld-gwan-/license.dat
+# /tools/apps/mentor/questaformal_10.7e_2/linux_x86_64/bin/qverify
+# xcelium
+# /tools/apps/cadence/XCELIUM20.09.009/tools/xcelium/bin/xrun
+
+#-------------------------------------------------------------------------------
+#	tcsh's completion
+#-------------------------------------------------------------------------------
+#	complete [command [word/pattern/list[:select]/[[suffix]/] ...]] (+)
+# set hosts = `cat /etc/hosts | awk '/^[1-9]+/ {if (substr($2,1,5) != "local") print $2}'`
+# set hosts = ( $hosts github.com gitlab.com sourceforge.net freemail.gr yandex.com duckduckgo.com )
+
+if ( -e $HOME/.local/etc/complete.tcsh ) then
+	source $HOME/.local/etc/complete.tcsh
+else
+	echo "Warning: '/etc/complete.tcsh' does not exists. To install it, run the following lines"
+	echo "wget 'https://raw.githubusercontent.com/tcsh-org/tcsh/master/complete.tcsh' -O $HOME/.local/etc/complete.tcsh"
+	echo "chmod 0644 $HOME/.local/etc/complete.tcsh"
+endif
+
+set p4cmds=(add branch branches commands change changes client clients \
+counter counters delete depot depots describe diff diff2 \
+edit filelog files fix fixes fstat group groups have help \
+info integrate integrated job jobs jobspec label labels \
+labelsync lock obliterate opened passwd print protect rename \
+reopen resolve resolved revert review reviews set submit \
+sync triggers unlock user users verify where)
+  complete p4 'p/1/$p4cmds/' 'n/help/$p4cmds/' \
+'n%{-l,label}%`p4 labels | sed "s/Label \([^ ]*\) .*/\1/"`%' \
+'n%-t%`p4 $:1s | sed "s/[^ ]* \([^ ]*\) .*/\1/"`%' \
+'c%*@%`p4 labels | sed "s/Label \([^ ]*\) .*/\1/"`%' \
+'c@//*/*@`p4 files $:-0... |& perl -nle "m%\Q$:-0\E([^#][^/# ] \
+*)%;print "\$"1 if \\\!/no such/&&\!"\$"h{"\$"1}++"`@@' \
+'c@//@`p4 depots | sed "s/Depot \([^ ]*\) .*/\1/"`@/@'
+
+
+uncomplete ln
+uncomplete rm
+uncomplete cp
+uncomplete mv
+uncomplete vim
+# uncomplete mount
+# complete set		'p/1/s/'
+# complete unset		'p/1/s/'
+# complete setenv		'p/1/e/'
+# complete unsetenv	'p/1/e/'
+# complete env		'c/*=/f/' 'p/1/e/=/' 'p/2/c/'
+# complete xdvi		'n/*/f:*.dvi/'
+# complete latex		'n/*/f:*.{tex,ltx}/'
+# complete pdflatex	'n/*/f:*.{tex,ltx}/'
+# complete xelatex	'n/*/f:*.{tex,ltx}/'
+# complete adb		'n/push/f:*.{apk}/'
+complete kill		'c/-/S/' 'c/%/j/' 'n/*/`ps -u $user | awk '"'"'{print $1}'"'"'`/'
+complete which 		'p/1/c/'
+complete where 		'p/1/c/'
+# complete man 		'p/1/c/'
+# complete xman 		'p/1/c/'
+# complete gg			'p/1/d/'
+		  
+# # create completion for tmux
+# if ( -X tmux ) then
+# 	set tmux_cmds = `tmux list-commands | cut -f1 -d\ `
+# 	uncomplete tmux
+# 	complete   tmux	"p/1/(${tmux_cmds})/"
+# endif
+
+
 
 #set cdpath = (.. ~ ~/bin ~/Programs ~/Research /terra/ammon /geo /geo/GeoData)
 ##  MANPATH set up
@@ -135,5 +370,3 @@ endif
 ##   "less" is like a hybrid of "more" and "vi", I use it because I
 ##    can back up in man pages using vi-like commands
 ##
-
-

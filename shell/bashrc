@@ -30,7 +30,6 @@ export PATH=$HOME/.local/bin:$PATH
 ################################################################################
 set bell-style none             #no bell
 shopt -s autocd                 #cd dir with name
-#bind -m vi # this is stuff is done in profile
 ################################################################################
 
 # check the window size after each command and, if necessary,
@@ -40,6 +39,17 @@ shopt -s checkwinsize
 # If set, the pattern "**" used in a pathname expansion context will
 # match all files and zero or more directories and subdirectories.
 shopt -s globstar
+
+################################################################################
+# bindings: this stuff is better done in profile (w/o bind word there)
+################################################################################
+#bind -m vi # this is stuff is done in profile
+# Custom bindings to commands ! Eg Ctrl-Y run "ls"
+# bind -x '"\C-y":"ls"'
+# If it is not working, try deleting the binding first. Eg Ctrl-o does
+# not seem to work by default. "ev" is in this case an alias ! edit vim
+# bind -r "\C-o"
+# bind -x '"\C-o":"ev"'
 
 # make less more friendly for non-text input files, see lesspipe(1)
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
@@ -107,7 +117,7 @@ export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quo
 # See /usr/share/doc/bash-doc/examples in the bash-doc package.
 
 if [ -f ~/.alias.bash ]; then
-    . ~/.alias.bash
+    . ~/.alias
 fi
 
 # enable programmable completion features (you don't need to enable
@@ -139,7 +149,8 @@ fi
 export FZF_DEFAULT_OPTS="--ansi --preview '(highlight -O ansi -l {} 2>/dev/null || cat {} || tree -C {}) 2>/dev/null | head -200'"
 
 # FD_OPTIONS="--hidden --follow --exclude .git --exclude node_modules"
-# export FZF_DEFAULT_OPTS="--no-mouse --height 50% -1 --reverse --multi --inline-info --preview='[[ \$(file --mime {}) =~ binary ]] && echo {} is a binary file || (bat --style=numbers --color=always {} || cat {}) 2> /dev/null | head -300' --preview-window='right:hidden:wrap' --bind='f3:execute(bat --style=numbers {} || less -f {}),f2:toggle-preview,ctrl-d:half-page-down,ctrl-u:half-page-up,ctrl-a:select-all+accept,ctrl-y:execute-silent(echo {+} | pbcopy),ctrl-x:execute(rm -i {+})+abort'"
+# export FZF_DEFAULT_OPTS=
+
 # Use git-ls-files inside git repo, otherwise fd
 # export FZF_DEFAULT_COMMAND="git ls-files --cached --others --exclude-standard || fd --type f --type l $FD_OPTIONS"
 # export FZF_CTRL_T_COMMAND="fd $FD_OPTIONS"

@@ -1,0 +1,15 @@
+Es bastante messy hacer funcionar esta mierda. he tenido que instalar todo esto
+
+   174 | install xdotool                                                                                                                                                                         | 2022-04-06 17:37 | Install        |    2
+   173 | install xbindkeys                                                                                                                                                                       | 2022-04-06 16:17 | Install        |    1
+   172 | install xev
+
+tutorial:
+http://xahlee.info/linux/linux_xbindkeys_tutorial.html
+
+Y mirar esto para conseguir hacerlo funcionar
+
+https://askubuntu.com/questions/455762/xbindkeys-wont-work-properly
+
+En el 2022 parece que hay mas tools. Mirar
+https://medium.com/@canadaduane/key-remapping-in-linux-2021-edition-47320999d2aa

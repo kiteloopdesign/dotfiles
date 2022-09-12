@@ -6,9 +6,9 @@ stty -ixon
 ################################################################################
 # PATH
 ################################################################################
-export PATH=${HOME}/texlive/2021/bin/x86_64-linux:$PATH
+export PATH=${HOME}/.local/texlive/2022/bin/x86_64-linux:$PATH
 # export PATH=${HOME}/projects/oss-cad-suite/bin:$PATH
- 
+
 # PATH=${HOME}/miniconda2/bin:$PATH
 export PATH=${HOME}/.local/bin:$PATH
 export PATH=${HOME}/bin:$PATH
@@ -33,8 +33,10 @@ export EDITOR=/usr/bin/vim
 # source ${HOME}/miniconda3/etc/profile.d/conda.sh
 
 # Yosys HQ
-export PATH="$HOME/cad/tabby/bin:$PATH"
-export YOSYSHQ_LICENSE=$HOME/cad/tabby/tabbyevallicense_pablo.lic.txt
+# export PATH="$HOME/cad/tabby/bin:$PATH"
+# export YOSYSHQ_LICENSE=$HOME/cad/tabby/tabbyevallicense_pablo.lic.txt
+
+export MANPATH=${HOME}/.local/texlive/2022/texmf-dist/doc/man:$MANPATH
 
 ################################################################################
 # Environment. TODO : These should go to .zshenv or .zprofile?
@@ -61,7 +63,7 @@ export FZF_DEFAULT_OPTS='--height 50% --border'
 # Appends every command to the history file once it is executed
 setopt inc_append_history
 # Reloads the history whenever you use it
-setopt share_history
+# setopt share_history
 #save only one command if two same commands are entered in a row
 setopt hist_ignore_dups
 #add timestamp for each entry
@@ -72,6 +74,8 @@ setopt hist_expire_dups_first
 HISTFILE=$HOME/.zhistfile
 export HISTSIZE=10000
 export SAVEHIST=10000
+# TODO: experiment
+export HISTTIMEFORMAT="%c "
 
 
 ################################################################################
@@ -98,6 +102,36 @@ setopt PUSHD_IGNORE_DUPS
 
 ## This reverts the +/- operators.
 setopt PUSHD_MINUS
+
+
+################################################################################
+# Pager and less options
+################################################################################
+
+# Use "bat" for man pages
+export MANPAGER="sh -c 'col -bx | bat -l man -p'"
+# This is needed to properly show colors
+export MANROFFOPT="-c"
+
+# See below for explanation
+export LESS="-SXIFRs"
+
+# -S: do not wrap lines, side scroll with left/right arrow keys
+# -X: leave contents on screen when less exits
+# -I: ignore case when searching with / or ?
+# -F: quit immediately when the entire file fits in one screen
+# -R: enable colored output
+# -s: squeeze blank lines into a single blank line
+
+# Coloured LESS
+# export LESS_TERMCAP_mb=$(printf '\e[01;31m') # enter blinking mode – red
+# export LESS_TERMCAP_md=$(printf '\e[01;32m') # enter double-bright mode – (was 32, green)
+# export LESS_TERMCAP_me=$(printf '\e[0m') # turn off all appearance modes (mb, md, so, us)
+# export LESS_TERMCAP_se=$(printf '\e[0m') # leave standout mode
+# export LESS_TERMCAP_so=$(printf '\e[01;41m') # enter standout mode – red (was 33, yellow)
+# export LESS_TERMCAP_ue=$(printf '\e[0m') # leave underline mode
+# export LESS_TERMCAP_us=$(printf '\e[04;36m') # enter underline mode – cyan
+
 
 ################################################################################
 # ZLE (Equivalent to inputrc in bash)
@@ -141,6 +175,12 @@ bindkey -M vicmd "j" down-line-or-beginning-search
 # # backspace and ^h working even after returning from command mode
 bindkey '^?' backward-delete-char
 bindkey '^h' backward-delete-char
+
+# TODO: experimental
+# bindkey "" '\C-e\C-ucat <<"EOF" | tr -d "\\n" | xsel -ib\n\C-y\nEOF\n'
+# bindkey "" '\C-e\C-ucat <<"EOF" | tr -d "\\n" | xclip -se c\n\C-y\nEOF\n'
+
+
 
 # Needed to paste from x clipboard
 x-paste() {
@@ -223,6 +263,19 @@ fpath+=~/.zfunc
 # zstyle :compinstall filename '$HOME/.zshrc'
 autoload -Uz compinit
 compinit
+
+# pip3 completion gives out this stuff
+# pip zsh completion start
+function _pip_completion {
+  local words cword
+  read -Ac words
+  read -cn cword
+  reply=( $( COMP_WORDS="$words[*]" \
+             COMP_CWORD=$(( cword-1 )) \
+             PIP_AUTO_COMPLETE=1 $words[1] 2>/dev/null ))
+}
+compctl -K _pip_completion pip3
+# pip zsh completion end
 
 # zstyle ':completion:*' auto-description 'specify: %d'
 # # zstyle ':completion:*' completer _expand _complete _correct _approximate

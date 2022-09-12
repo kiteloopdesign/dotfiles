@@ -35,7 +35,8 @@ alias cp='cp -i'
 alias mv='mv -i'
 # Prevents accidentally clobbering files.
 alias mkdir='mkdir -pv'
-
+# do not print dates on output. It can also be set on bashrc...
+# alias HISTTIMEFORMAT=$'\r\e[K' history
 alias h='history 100'
 alias hg='history | grep'
 alias j='jobs -l'

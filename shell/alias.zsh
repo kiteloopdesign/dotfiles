@@ -22,6 +22,9 @@ alias getclip='xclip -selection c -o'
 # foo
 alias pp='pwd | tr "\n" " " | xclip'
 
+#-------------------
+# Personnal Aliases
+#-------------------
 # There is other commands like realpath but it does not exist on tcsh... so we need this crap
 # TODO: add shell-guard like so for tcsh. Bash does not accept arguments on aliases. It needs a function
 # if $(echo $SHELL == 'usr/bin/tcsh || bin/tcsh ) then
@@ -31,10 +34,9 @@ alias pp='pwd | tr "\n" " " | xclip'
 # alias rl='__rl'
 # Same as a one liner with an auto-destructive function
 alias rl='function __rl() { readlink -z -f $1 | xclip ; echo "Link $1 copied to clipboard"; unset -f __rl; }; __rl'
+# Open by extension
+alias vv='function __vv() { find . -maxdepth 1 -name "*.$1" -type f -exec gvim -v {} \+; unset -f __vv; }; __vv'
 
-#-------------------
-# Personnal Aliases
-#-------------------
 
 # For this to work need $EDITOR pointing to vim 
 alias svim='sudoedit'
@@ -43,6 +45,9 @@ alias cp='cp -i'
 alias mv='mv -i'
 # Prevents accidentally clobbering files.
 alias mkdir='mkdir -pv'
+
+# Quickly backup file. Use autodestructive function
+alias bb='function __bb() { cp -af -- "$1" "$1.bak" ; echo "$1 backed-up"; unset -f __bb; }; __bb'
 
 # alias tldr='tldr find'
 
@@ -80,7 +85,10 @@ alias android='ssh-add -t 1h;ssh 192.168.1.73 -p 2222'
 
 alias diff='diff --color'
 
-#-------------------------------------------------------------
+# print ls aliases using delimiters. NOTE! Escaping the "$" !
+alias pla="awk '/## BEGIN LS/ , /## END LS/ { print \$0 }' $HOME/.alias"
+
+## BEGIN LS-------------------------------------------------------------
 # The 'ls' family (this assumes you use a recent GNU ls).
 #-------------------------------------------------------------
 # Add colors for filetype and  human-readable sizes by default on 'ls':
@@ -100,10 +108,31 @@ alias lh='ls -Ad .*'       #  Only show hidden files
 # alias lf='ls -d .*/ */'    #  Only show folders
 alias lf='ls -d */'    #  Only show folders
 alias l='lt'
+## END LS
+
+#-------------------------------------------------------------
+# find
+#-------------------------------------------------------------
+# find files with given extension recursively
+alias fe='function __fe() { find . -type f -name \*.$1 ; unset -f __fe; }; __fe'
+
+# find files with given extension recursively and execute command on them => too dangerous w/o some security checks ...
+# find files with given extension recursively and AG on them
+# $ fee rules expenses
+alias fee='function __fee() { find . -type f -name \*.$1 -exec ag -H $2 {} \; ; unset -f __fee; }; __fee'
+# TODO: do it for tcsh
+# alias fee=`find . -type f -name \*.`
+
+# When there is a bunch of replicated files that look the same and we want to quickly see 
+# whether they are same or different. Find uniq matches on given column with awk 
+# find . -name "file_with_same_name" -exec md5sum {} \; | awk '\!_[$1]++'
 
 # show different extensions. Useful when a lot of files in folder
 # alias ext='find . -type f | awk -F. '!a[$NF]++{print $NF}''
 
+# Do not traverse into paths. Useful when searching in deep folders eg "/"
+# Find all changed files b/w 60 and 10 mins ago. TODO: not sure about the time range, but other than that "prune" is the way
+# sudo find . -not \( -path ./home/kitesutra -prune \) -cmin -60 -cmin -10
 
 # Add to bin : Quickly create an script to do something
 # alias ab='gvim -c 'set autochdir' ~/bin/'         # Create new file
@@ -111,7 +140,7 @@ alias l='lt'
 # See functions
 
 alias lb='ls ~/bin'        # What was the name of that custom script that did ...
-alias cb='cd ~/bin'         
+alias cb='cd ~/.local/bin'         
 alias cl='cd ~/personal/ledger/data/2021'         
 alias cdd='cd ~/Descargas/'         
 alias cds='cd ~/sandbox/cpp/'         
@@ -123,10 +152,12 @@ alias cds='cd ~/sandbox/cpp/'
 alias bF='du -hs * | sort -rh | head -n 20'
 alias bf='find . -type f -print0 | xargs -0 du -h | sort -hr | head -20'
 
-alias tree='tree -Csuh'    #  Nice alternative to 'recursive ls' ...
+alias tree='tree -Csh'    #  Nice alternative to 'recursive ls' ...
+alias t='tree -L 2'
 alias cx='chmod +x $*'
 
-alias el='vim ~/.ledgerrc'
+# alias el='vim ~/.ledgerrc'
+
 #-------------------------------------------------------------
 # File Permissions
 #-------------------------------------------------------------
@@ -150,6 +181,7 @@ alias ea='vim /home/${USER}/.alias'
 alias eg='vim /home/${USER}/.gitconfig'
 alias sa='source /home/${USER}/.alias'
 alias v='vim'
+alias g='gvim'
 alias ev='vim ~/.vimrc ~/dotfiles/vim/general.vimrc ~/dotfiles/vim/plugins.vimrc'
 alias ef='vim ~/dotfiles/config/feh/keys'
 alias et='vim ~/.tmux.conf'
@@ -172,12 +204,24 @@ alias logoff='/usr/bin/cinnamon-session-quit --no-prompt'
 # Other
 #-------------------------------------------------------------
 
+# TODO: not sure if i can make the one liner work in bash
 # Super one-liner. Shows most used commands. Useful to find out what commands to aliase/automate
 # alias mu='history 0 | awk '{CMD[$2]++;count++;}END { for (a in CMD)print CMD[a] " " CMD[a]/count*100 "% " a;}' | grep -v "./" | column -c3 -s " " -t | sort -nr | nl |  head -n10'
 
+function __mu() { 
+history 0 | awk '{CMD[$2]++;count++;}\
+END { for (a in CMD)print CMD[a] " " CMD[a]/count*100 "% " a;}' | \
+grep -v "./" | column -c3 -s " " -t | sort -nr | nl | head -n10
+unset -f __mu
+};
+alias mu='__mu'
 
 # mount -t iso9660 -o ro,loop,noauto /your/texlive.iso /mnt 
 alias isomount='sudo mount -t iso9660 -o ro,loop,noauto $1 /mnt'
+
+# debug script using entr !!!!
+alias ds='function __ds() { \ls "$1" | entr -s "clear; sh "$1"" ; unset -f __ds; }; __ds'
+# \ls example.sh | entr -s 'clear; ./example.sh'
 
 # random words of given length!!
 # cat /dev/urandom | tr -dc 'a-z' | fold -w 10 | head -n 1
@@ -200,6 +244,22 @@ alias isomount='sudo mount -t iso9660 -o ro,loop,noauto $1 /mnt'
 #
 # removes accents ! 
 # cat /usr/share/dict/spanish | iconv -t ASCII//TRANSLIT | ag '.*con$' --nocolor | ag 'b|t|c'
+
+#-------------------------------------------------------------
+# bat ("cat" and "less" alternative)
+# see also .bashrc for related "export"s
+#-------------------------------------------------------------
+# equivalent to cat
+alias cat='bat --paging=never'
+
+alias bd='bat -l diff'
+# bj='bat -l json'
+alias bm='bat -l man'
+
+# examples:
+# $ diff x y | bd
+# $ a command that outputs JSON | bj
+# $ command --help | bm
 
 #-------------------------------------------------------------
 # Sofware
@@ -253,12 +313,13 @@ alias gl='git list-files-last-commit'
 alias glc='git list-files-on-given-commit'
 # This is useful when theres many commits and want to see all files that changed from COMMIT until current HEAD
 # $: gls HEAD~2 , gls a2f145
-alias gls='git list-files-since-commit'
+# alias gls='git list-files-since-commit'
+alias gls='git ls-files'
 
 # Git diff commands : shows diffs on files
 alias gdl='git diff-files-last-commit'
 alias gdc='git diff-files-on-given-commit'
-alias go='git checkout '
+# alias go='git checkout '
 # alias gk 'gitk --all&'
 # alias gx 'gitx --all'
 alias gg='git grep --line-number'
@@ -288,14 +349,17 @@ alias we='watson edit'
 
 
 #-------------------------------------------------------------
-# Ledger
+# hledger
 #-------------------------------------------------------------
-alias led='hledger -X EUR'
-alias post='vim "+normal G$" +startinsert ~/personal/ledger/data/2021/journal.ldg'
-alias assets='hledger b ^assets --flat -X EUR'
-alias expenses='hledger r -r assets -s -X EUR'
-alias budget='led b budget --flat -p $( date +%b ) -X EUR'
-alias balance='led balance --real -X BGN'
+alias hl='hledger'
+alias led='hl'
+
+# alias post='vim "+normal G$" +startinsert ~/personal/ledger/data/2022/journal.ldg'
+# alias assets='hl b ^assets --flat -X EUR'
+# alias expenses='hl -r assets -s -X EUR'
+# alias budget='hl b budget --flat -p $( date +%b ) -X EUR'
+# alias balance='hl balance --real -X BGN'
+
 #-------------------------------------------------------------
 
 # xrupdate () {
@@ -369,7 +433,8 @@ ytdl-video (){
 # youtube-dl -f "bestvideo[height<=1080]+bestaudio" --restrict-filenames --add-metadata --ignore-errors -o '%(title)s.%(ext)s' "$1"
 # youtube-dl -f "bestvideo[ext=mp4]+bestaudio[ext=m4a]/mp4" --restrict-filenames --add-metadata --ignore-errors -o '%(title)s.%(ext)s' "$1"
 # youtube-dl -f "bestvideo[height<=720,ext=mp4]+bestaudio[ext=m4a]/mp4" --restrict-filenames --add-metadata --ignore-errors -o '%(title)s.%(ext)s' "$1"
-youtube-dl -f "bestvideo[height<=720]+bestaudio/mp4" --restrict-filenames --add-metadata --ignore-errors -o '%(title)s.%(ext)s' "$1"
+# youtube-dl -f "bestvideo[height<=720]+bestaudio/mp4" --restrict-filenames --add-metadata --ignore-errors -o '%(title)s.%(ext)s' "$1"
+yt-dlp -f "bestvideo[height<=1080]+bestaudio/mp4" --restrict-filenames --add-metadata --ignore-errors -o '%(title)s.%(ext)s' "$1"
 }
 
 ytdl-playlist (){

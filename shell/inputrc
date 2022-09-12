@@ -3,6 +3,35 @@ set bell-style none
 # Use Vi, not Emacs, style editing
 set editing-mode vi
 
+# https://wiki.archlinux.org/title/readline#Mode_indicator_in_prompt
+# mode indicator in prompt
+# TODO: 
+set show-mode-in-prompt on
+
+# TODO: tried "echo" on shell and not working ... ?
+# To get normal blinking underline, use:
+# echo -e '\033[?2c'
+# To get blinking block, use:
+# echo -e '\033[?6c'
+# To get red non-blinking block, use:
+# echo -e '\033[?17;0;64c'
+
+#set vi-ins-mode-string \1\e[?0c\2
+#set vi-cmd-mode-string \1\e[?8c\2
+
+# TODO: this works but kind of breaks vi too
+# el show-mode-in-prompt tb deberia funcionar pero no lo hace ... no se pq ... aunque es
+# cierto que una vez si lo vi funcionar ... podria ser por el shell desde el cliente de ssh
+# (sospecho esto pq he visto q al volver al cliente, el shell esta petado). Quiza
+# tb depende de como ahces ssh : ssh -Y vs ssh , etc. Experimentar con esto ...
+#$if term=linux
+#   set vi-ins-mode-string \1\e[?0c\2
+#   set vi-cmd-mode-string \1\e[?8c\2
+#$else
+#   set vi-ins-mode-string \1\e[6 q\2
+#   set vi-cmd-mode-string \1\e[2 q\2
+#$endif
+
 # Show all completions as soon as I press tab, even if there's more than one
 set show-all-if-ambiguous on
 # Ignore case

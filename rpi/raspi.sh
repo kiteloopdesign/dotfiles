@@ -1,15 +1,14 @@
 #/usr/bin/bash
 
 # Install via
-# curl -fsSL https://github.com/kiteloopdesign/dotfiles/rpi/raspi.sh
+# curl -fsSL https://raw.githubusercontent.com/kiteloopdesign/dotfiles/master/rpi/raspi.sh | bash
 
 sudo apt update  -y
 sudo apt upgrade -y
 
-git clone --depth=1 https://github.com/kiteloopdesign/dotfiles/rpi/raspi.sh
-cd dotfiles
+git clone --depth=1 https://github.com/kiteloopdesign/dotfiles
 
-if [ $? -eq 0 ]; then
+if [ -d dotfiles ]; then
   echo "dotfiles cloned"
 else
   echo "Could not find dotfiles directory"
@@ -17,11 +16,22 @@ else
 fi
 
 
+if [ -d .alias ]; then
+  mv .alias  alias.back
+fi
+
+if [ -d .bashrc ]; then
+  mv .bashrc  bashrc.back
+fi
+
+if [ -d .profile ]; then
+  mv .profile profile.back
+fi
+
+# TODO : install stuff ...
 # sudo apt install   -y
 
-cd shell/
-
-ln -s alias.bash ~/.alias
-ln -s bashrc     ~/.bashrc
-ln -s inputrc    ~/.inputrc
+ln -s ./dotfiles/shell/alias.bash ~/.alias
+ln -s ./dotfiles/shell/bashrc     ~/.bashrc
+ln -s ./dotfiles/shell/inputrc    ~/.inputrc
 

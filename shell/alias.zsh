@@ -171,6 +171,10 @@ alias cx='chmod +x $*'
 # Quick edits and re-loads
 #-------------------------------------------------------------
 
+# TODO: Mejor que messear con los links usar esto:
+# update-alternatives --display vim
+# update-alternatives --config  vim
+
 # alias vimd='/usr/bin/vim -u NONE -c "source ~/vtags-3.10/vtags_vim_api.vim" '
 alias vimd='/usr/bin/vim -u vimrc'
 

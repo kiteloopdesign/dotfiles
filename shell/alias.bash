@@ -111,12 +111,16 @@ alias cx='chmod +x $*'
 # Quick edits and re-loads
 #-------------------------------------------------------------
 
-#if ( `hostname -s` == hq-lnx24 ) then
+#if ( `hostname -s` == raspberry ) then
 # ATTENTION !!!!!!!!!!!!!! -X needed because is FREAKING SLOW !!!
 #  alias vim='/usr/local/bin/vim -X'
 #else
 #  alias vim='/usr/local/vim8/bin/vim'
 #endif
+
+# TODO: Mejor que messear con los links usar esto:
+# update-alternatives --display vim
+# update-alternatives --config  vim
 
 # alias vi='\vi -u NONE'
 alias vim='gvim -v'

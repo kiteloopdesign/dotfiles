@@ -6,6 +6,10 @@
 sudo apt update  -y
 sudo apt upgrade -y
 
+# https://www.raspberrypi.com/documentation/computers/os.html#using-apt
+# Maybe use this command instead?
+# sudo apt full-upgrade
+
 #########################################
 # dotfiles
 #########################################
@@ -45,8 +49,6 @@ if [ -d .gitconfig ]; then
   mv .gitconfig gitconfig.back
 fi
 
-# TODO : install stuff ...
-# sudo apt install   -y
 
 ln -s ./dotfiles/shell/alias.bash ~/.alias
 ln -s ./dotfiles/shell/bashrc     ~/.bashrc
@@ -77,7 +79,6 @@ fi
 
 mkdir -p .vim/bundle
 mkdir -p .vim/undo
-
 
 git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 
@@ -114,3 +115,9 @@ ssh-add ~/.ssh/id_ed25519
 # Note the "\" as gh may be aliased alraedy to "git history"
 # TODO: maybe use "hub" as name for "gh" tool? ("hub" is the unofficial git cli tool)
 \gh auth login
+
+#########################################
+# Install other
+#########################################
+sudo apt install -y feh
+sudo apt install -y screen

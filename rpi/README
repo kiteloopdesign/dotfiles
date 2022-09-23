@@ -1,0 +1,52 @@
+################################################################################
+# Debugging camera
+################################################################################
+
+# Da info pero solo para USB camera!
+vcgencmd get_camera
+
+dmesg | grep -i  imx219
+dmesg | grep -i  bcm2835
+
+sudo i2cdetect -y 10
+
+# this is the camera driver
+ls /dev/video0
+
+# libcamera-jpeg -o test.jpg -t 5000 --width 640 --height 480 -v -n
+
+################################################################################
+# VNC
+################################################################################
+
+# Enable VNC server like this if having issues when VNC'ing into the Raspberry
+# This seems to be dependant on VNC server vs client incompatibilities.
+# Rpi (Server) uses RealVNC. Client I am using is TigerVNC. Maybe using realvnc on client
+# side may solve the issue?
+vncserver -Encryption PreferOff -Authentication VncAuth
+
+
+################################################################################
+# estos se usan mucho para debuguear... 
+################################################################################
+vcgencmd get_config int
+vcgencmd get_config str
+
+# see temp
+vcgencmd measure_temp
+
+
+################################################################################
+# Journalctl , systemctl
+################################################################################
+journalctl --since today --no-pager --priority=err
+
+journalctl --list-boots
+journalctl -b
+journalctl --since "1 hour ago"
+journalctl --since "20 minutes ago"
+
+
+# last in reverse
+journalctl -u ssh.service -r -n 10
+

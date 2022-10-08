@@ -8,9 +8,8 @@ command! Ev :e $MYVIMRC
 " source vimrc file
 command! Sv :source $MYVIMRC
 
-" command! Es :e /home/pablo.mora/projects/mp2784/vim.source
-command! Es :e $HOME/projects/mp2784/digital/users/pablo.mora/vim.source
-command! Ss :source /home/pablo.mora/projects/mp2784/digital/users/pablo.mora/vim.source
+" command! Es :e $HOME/projects/example/vim.source
+" command! Ss :source $HOME/projects/example/vim.source
 
 " TODO
 " Find work and cd into it

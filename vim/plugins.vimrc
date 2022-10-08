@@ -114,7 +114,7 @@ let g:lexical#spellfile = ['~/.vim/spell/en.utf-8.add',]
 " Correct better autocorrect option in the first misspelled word before the cursor
 nnoremap <C-s> [s1z=<c-o>
 inoremap <C-s> <c-g>u<Esc>[s1z=`]A<c-g>u
-
+" TODO : add a map for "add to spell dict"
 
 " TODO: el statusline no la tengo controlada ... no veo nada distinto
 " Taken form vim-pencil github. Shows whether there is rad/sofr line break

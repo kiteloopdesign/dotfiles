@@ -44,8 +44,17 @@ augroup END
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" 
+" README: Esto es un poco un hack para poder comment lines cuando abro
+" un .rules (rules de hledgerm quiero un "#" en lugar de "c #" que
+" esta siendo seteado por un tal ftdetect hog....
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Set the filetype based on the file's extension, overriding any
+" 'filetype' that has already been set
+" au BufRead,BufNewFile *.rules set filetype=ledger
+" Set the filetype based on the file's extension, but only if
+" 'filetype' has not already been set
+" au BufRead,BufNewFile *.rules setfiletype ledger
+autocmd FileType hog setlocal commentstring=#\ %s
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "autocmd FileType verilog_systemverilog setlocal VerilogErrorFormat=NCVerilog\ 1

@@ -1,0 +1,152 @@
+" Most of the contents are taken from :
+" https://dougblack.io/words/a-good-vimrc.html
+
+" Don't try to be vi compatible
+set nocompatible
+
+" hack so vim uses python3
+" TODO !!!!!!!!!! REMOVE if this breaks some plugin !!
+" if has('python3')
+" endif
+
+" Helps force plugins to load correctly when it is turned back on below
+filetype off
+
+" initialize vundle
+" let g:vundle_default_git_proto = 'git'
+set rtp+=~/.vim/bundle/Vundle.vim
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Plugins
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+call vundle#begin()
+" start- all plugins below
+
+Plugin 'altercation/vim-colors-solarized.git'
+Plugin 'morhetz/gruvbox.git'
+Plugin 'VundleVim/Vundle.vim'
+Plugin 'nixon/vim-vmath.git' " simple math operations on selections
+" Plugin 'scrooloose/nerdtree.git'
+
+" Visual
+" highlight words
+" Plugin 'inkarkat/vim-mark' " TODO: test
+Plugin 'vim-airline/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
+" Plugin 'scrooloose/syntastic.git'
+"Plugin 'w0rp/ale'
+" NOTE: need to do "npm install" (and have node.js installed!) inside cpc plugin folder to make this work !
+" Plugin 'neoclide/coc.nvim', {'branch': 'release'}
+Plugin 'tpope/vim-surround.git'
+" Plugin 'tpope/vim-fugitive.git'
+" Plugin 'sjl/gundo.vim'
+" Plugin 'godlygeek/tabular.git'
+Plugin 'Yggdroot/indentLine'
+" Plugin 'davidhalter/jedi-vim'
+" Plugin 'tpope/vim-vinegar.git'
+Plugin 'tpope/vim-unimpaired.git'
+Plugin 'tpope/vim-repeat.git'
+Plugin 'tpope/vim-commentary.git'
+
+" Search, grep etc
+" Plugin 'junegunn/fzf.vim'
+Plugin 'ctrlpvim/ctrlp.vim'
+Plugin 'mileszs/ack.vim'
+Plugin 'mhinz/vim-grepper'
+Plugin 'ledger/vim-ledger'
+" Plugin 'kana/vim-fakeclip'
+" Works but doesn't ask for confirmation to reload file!
+" Plugin 'djoshea/vim-autoread'
+Plugin 'junegunn/vim-easy-align'
+
+" Autocompletion
+" Plugin 'ajh17/VimCompletesMe'
+Plugin 'ackyshake/VimCompletesMe'
+" snippet engine (does not include the actual snippets)
+"Plugin 'SirVer/ultisnips'
+" snippet library, needed by utilsnips
+"Plugin 'honza/vim-snippets'
+" Syntax highlighting, errorformat, matchit pair settings, etc
+" Plugin 'vhda/verilog_systemverilog.vim'
+" Really basic plugin that creates instances from portlist
+" Plugin 'antoinemadec/vim-verilog-instance'
+" Useful to navigate structure of file
+" Plugin 'majutsushi/tagbar'
+" Hihglights pairs of matched keywords, e.g. begin-end
+" From profile, it is very slow
+" Plugin 'vimtaku/hl_matchit.vim'
+" TODO: does not work for verilog ... but it would be nice ! i have an issue submitted
+" Plugin 'wellle/context.vim'
+Plugin 'airblade/vim-gitgutter.git'
+
+" For writing
+Plugin 'preservim/vim-pencil'
+Plugin 'preservim/vim-litecorrect'
+Plugin 'preservim/vim-lexical'
+" TODO: try: te dice palabras repetidas
+" Plugin 'preservim/vim-wordy'
+
+" Exchanges (swaps) blocks text. Es un poco lento para cambiar de sitio palabras...
+" Plugin 'tommcdo/vim-exchange.git'
+
+" Para moverse, experimental...
+" Plugin 'justinmk/vim-sneak'
+
+" hace mas visible el cacho de texto que se yankea
+" Plugin 'machakann/vim-highlightedyank'
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" stop - all plugins above
+call vundle#end()
+" done inside general!
+" filetype plugin indent on
+
+" for wayland, cant get it to work
+" let g:fakeclip_provide_clipboard_key_mappings = !empty($WAYLAND_DISPLAY)
+
+" Changes cursor shape b/w modes!
+" NOTE this is terminal dependant!
+let &t_SI = "\<Esc>[6 q"
+" let &t_SR = "\<Esc>[4 q"
+let &t_EI = "\<Esc>[2 q"
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" path
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" set path=.,/cad/uvm-1.2/src
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Being tidy
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+source ~/dotfiles/vim/general.vimrc
+source ~/dotfiles/vim/plugins.vimrc "Plugins conf
+source ~/dotfiles/vim/functions.vimrc "and commands
+source ~/dotfiles/vim/autocommands.vimrc
+" Just so its possible to gf inside this
+" ~/dotfiles/vim/ftplugin/
+
+
+" if !empty($WAYLAND_DISPLAY)
+"   let g:clipboard = {
+"         \   'name': 'wayland-strip-carriage',
+"         \   'copy': {
+"         \      '+': 'wl-copy --foreground --type text/plain',
+"         \      '*': 'wl-copy --foreground --type text/plain --primary',
+"         \    },
+"         \   'paste': {
+"         \      '+': {-> systemlist('wl-paste --no-newline | tr -d "\r"')},
+"         \      '*': {-> systemlist('wl-paste --no-newline --primary | tr -d "\r"')},
+"         \   },
+"         \   'cache_enabled': 1,
+"         \ }
+" endif
+
+
+" source ~/vtags-3.10/vtags_vim_api.vim
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Info
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" http://stevelosh.com/blog/2010/09/coming-home-to-vim/

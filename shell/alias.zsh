@@ -68,7 +68,6 @@ alias qmv='qmv -f do'
 alias path='echo -e ${PATH//:/\\n}'
 alias libpath='echo -e ${LD_LIBRARY_PATH//:/\\n}'
 
-
 alias du='du -skh'    # Makes a more readable output.
 alias df='df -kTh'
 
@@ -88,7 +87,7 @@ alias diff='diff --color'
 # print ls aliases using delimiters. NOTE! Escaping the "$" !
 alias pla="awk '/## BEGIN LS/ , /## END LS/ { print \$0 }' $HOME/.alias"
 
-## BEGIN LS-------------------------------------------------------------
+## BEGIN LS---------------------------------------------------
 # The 'ls' family (this assumes you use a recent GNU ls).
 #-------------------------------------------------------------
 # Add colors for filetype and  human-readable sizes by default on 'ls':
@@ -109,6 +108,14 @@ alias lh='ls -Ad .*'       #  Only show hidden files
 alias lf='ls -d */'    #  Only show folders
 alias l='lt'
 ## END LS
+
+#-------------------------------------------------------------
+# Network management
+#-------------------------------------------------------------
+# ip -brief -color addr
+# ip -brief -color route
+# sudo nmap -sP 192.168.1.0/24 | grep -i "b8:27:eb\|dc:a6:32" -B2
+# arp -a | grep -i "b8:27:eb\|dc:a6:32"
 
 #-------------------------------------------------------------
 # find
@@ -248,6 +255,9 @@ alias ds='function __ds() { \ls "$1" | entr -s "clear; sh "$1"" ; unset -f __ds;
 #
 # removes accents ! 
 # cat /usr/share/dict/spanish | iconv -t ASCII//TRANSLIT | ag '.*con$' --nocolor | ag 'b|t|c'
+
+# Busca nombres para raspberries
+# cat /usr/share/dict/spanish | awk 'length($1)<6' | ag '^[a-z]{2}pi.*$' --no-color | ag '[p|i]'
 
 #-------------------------------------------------------------
 # bat ("cat" and "less" alternative)

@@ -39,6 +39,10 @@ then
       [[ "$0" = "$BASH_SOURCE" ]] && exit 1 || return 1 
 fi
 
+# TODO: autoamte plugin install
+vim +PluginInstall +qall
+
+
 # i3 tiling manager
 #mkdir -p /home/${USER}/.config/i3
 #mkdir -p /home/${USER}/.config/i3status

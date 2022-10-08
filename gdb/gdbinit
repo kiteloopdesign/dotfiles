@@ -2303,6 +2303,17 @@ set print array off
 set print array-indexes on
 set python print-stack full
 
+# Added by me
+set disassembly-flavor intel
+layout reg
+tui enable
+
+# set print static-members off
+# macro define offsetof(t, f) &((t *) 0)->f)  # https://stackoverflow.com/questions/1768620/how-do-i-show-what-fields-a-struct-has-in-gdb#comment78715348_1770422
+
+# Use this in Fedora to avoid downloading each time some shit i dont know what does
+set debuginfod enabled off
+
 # Start ------------------------------------------------------------------------
 
 python Dashboard.start()

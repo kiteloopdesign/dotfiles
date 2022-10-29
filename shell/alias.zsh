@@ -107,6 +107,7 @@ alias lh='ls -Ad .*'       #  Only show hidden files
 # alias lf='ls -d .*/ */'    #  Only show folders
 alias lf='ls -d */'    #  Only show folders
 alias l='lt'
+alias lsd='ls -ltr ~/Descargas/'         
 ## END LS
 
 #-------------------------------------------------------------

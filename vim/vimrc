@@ -36,7 +36,7 @@ Plugin 'vim-airline/vim-airline-themes'
 " Plugin 'scrooloose/syntastic.git'
 "Plugin 'w0rp/ale'
 " NOTE: need to do "npm install" (and have node.js installed!) inside cpc plugin folder to make this work !
-Plugin 'neoclide/coc.nvim', {'branch': 'release'}
+" Plugin 'neoclide/coc.nvim', {'branch': 'release'}
 Plugin 'tpope/vim-surround.git'
 " Plugin 'tpope/vim-fugitive.git'
 " Plugin 'sjl/gundo.vim'
@@ -94,6 +94,13 @@ Plugin 'justinmk/vim-sneak'
 
 " hace mas visible el cacho de texto que se yankea
 Plugin 'machakann/vim-highlightedyank'
+
+" Vim-plug
+" Plugin 'raghur/vim-ghost', {'do': ':GhostInstall'}
+" Plugin 'raghur/vim-ghost'
+" TODO: me peta dentro de un venv, tengo q darle una vuelta mas !
+" Plugin 'pandysong/ghost-text.vim'
+
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " stop - all plugins above

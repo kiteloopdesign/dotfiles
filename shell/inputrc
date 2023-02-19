@@ -54,6 +54,13 @@ set colored-stats on
 # Ignore case
 # set completion-ignore-case on
 
+# This will suffix each returned file completion with a character denoting its
+# type, in a similar way to ls(1) with -F or --classify.
+# set visible-stats on
+# This turns off the use of the internal pager when returning long completion lists.
+# set page-completions off
+
+
 ###########################################################
 # Keymaps for when we're in command mode (e.g., after hitting ESC)
 set keymap vi-command

@@ -1,0 +1,22 @@
+{
+  "segments": [
+    "virtual_env",
+    "cwd",
+    "git",
+    "jobs",
+    "set_term_title",
+    "root"
+  ],
+  "mode": "patched",
+  "hostname": {
+    "colorize": "true"
+  },
+  "cwd": {
+    "mode": "plain",
+    "max_dir_size": 10,
+    "max_depth": 10,
+    "full_cwd": "true"
+  },
+  "theme": "gruvbox"
+}
+

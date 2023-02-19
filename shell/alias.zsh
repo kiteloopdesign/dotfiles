@@ -175,6 +175,12 @@ alias cx='chmod +x $*'
 # chmod -R u+rwX,go+rX,go-w .
 # chmod -R u+rwX,go+rX-w .
 
+# Shows different extensions on <PATH> and its number 
+# find "<PATH>" -type f | sed -e '/.*\/[^\/]*\.[^\/]*$/!s/.*/(none)/' -e 's/.*\.//' | LC_COLLATE=C sort | uniq -c
+alias ee="function __ee() { find "$1" -type f | sed -e '/.*\/[^\/]*\.[^\/]*$/!s/.*/(none)/' -e 's/.*\.//' | LC_COLLATE=C sort | uniq -c; unset -f __ee; }; __ee"
+alias ds='function __ds() { \ls "$1" | entr -s "clear; sh "$1"" ; unset -f __ds; }; __ds'
+
+
 #-------------------------------------------------------------
 # Quick edits and re-loads
 #-------------------------------------------------------------
@@ -206,6 +212,11 @@ alias ep='vim ~/.config/mpv/{input.conf,mpv.conf}'
 # alias ey='vim ~/.config/youtube-dl/config'
 alias ey='vim ~/.config/yt-dlp/config'
 alias eh='vim ~/.zhistfile'
+
+# vim ghost-server. Allows to use vim to write and this text immediately 'mirrors' on the browser
+# https://github.com/raghur/vim-ghost
+alias vs='gvim '
+
 
 #-------------------------------------------------------------
 # X
@@ -297,8 +308,7 @@ alias pdfgrep='pdfgrep -HRi'
 # alias mpv='noglob mpv --profile=1080p'
 # alias mpv='mpv --profile=720p'
 alias m='mpv'
-# alias yt='youtube-dl'
-alias yt='yt-dlp'
+alias ytv='ytdl-video'
 # alias yta='youtube-dl -x'
 alias agg='ag -g '
 alias agl='ag -l '
@@ -412,53 +422,149 @@ Uses ghostscript to rewrite the file without encryption."
     /usr/bin/gs -q -dNOPAUSE -dBATCH -sDEVICE=pdfwrite -sOutputFile="${in:r}_unencrypted.pdf" -f "$in"
 }
 
+#-------------------------------------------------------------
+# youtube downloader
+#-------------------------------------------------------------
 
 # # Download the best video available but no better than 480p,
 # # or the worst video if there is no video under 480p
 # $ yt-dlp -f 'bv*[height<=480]+ba/b[height<=480] / wv*+ba/w'
 
-# Download the best format (video + audio) that is equal to or greater than 720p width. Save this file as video_id.extension (1La4QzGeaaQ.mp4):
+# Download the best format (video + audio) that is equal to or greater 
+# than 720p width. Save this file as video_id.extension (1La4QzGeaaQ.mp4):
 # yt-dlp -f "best[height>=720]" https://www.youtube.com/watch?v=1La4QzGeaaQ -o '%(id)s.%(ext)s'
-
 
 # yt-dlp --format 'best[height<=720] / worst' \
 # mi creacion: mejor video <= 720p o peor otro video si esta no existe
 
-# download youtube videos from file
-# it will ignore videos already downloaded !!!
-ytf (){
+# download youtube videos from file. It will ignore videos already downloaded
+# NOTE the defautls for video and audio are not good. Es mas para bajar videos
+# en plan hoarder y no tener que preocuparse mucho por lo que ocupan
+ytdl-filelist (){
   ALREADY_DOWNLOADED="ytd-downloaded.list"
 
   # TODO: usar el nombre del canal en nombre del archivo para trackearlo. No se si puede hacer con filtros y tal
   # yt-dlp --format 'bv*[height<=720]+ba/b[height<=720] / wv*+ba/w' \ -> produce putos webm 
 
-  yt-dlp --format 'best[height<=720] / worst' \
-  --verbose \
-  --batch-file "$1" \
-  --add-metadata --write-description --download-archive "${ALREADY_DOWNLOADED}" \
-  --sleep-requests 1 --ignore-errors --no-continue --no-overwrites \
-  --restrict-filenames --output "%(title)s_%(id)s.%(ext)s" 2>&1 | tee output.log
+  # yt-dlp  --format 'best[height<=1080] / worst' \
+
+  yt-dlp  --format 'best[height<=720] / worst' \
+          --verbose \
+          --batch-file "$1" \
+          --add-metadata --write-description --download-archive "${ALREADY_DOWNLOADED}" \
+          --sleep-requests 1 --ignore-errors --no-continue --no-overwrites \
+          --restrict-filenames --output "%(title)s_%(id)s.%(ext)s" 2>&1 | tee output.log
 
 # lo interesante del json parace estar ya en la descripcion de --write-description
 # --write-info-json 
-
 }
+
+# ytdl-video (){
+#   yt-dlp  -f "bestvideo[height<=1080]+bestaudio/mp4" --restrict-filenames \
+#           --add-metadata --ignore-errors -o '%(title)s.%(ext)s' "$1"
+# }
 
 ytdl-video (){
-# youtube-dl -f "bestvideo[height<=1080]+bestaudio" --restrict-filenames --add-metadata --ignore-errors -o '%(title)s.%(ext)s' "$1"
-# youtube-dl -f "bestvideo[ext=mp4]+bestaudio[ext=m4a]/mp4" --restrict-filenames --add-metadata --ignore-errors -o '%(title)s.%(ext)s' "$1"
-# youtube-dl -f "bestvideo[height<=720,ext=mp4]+bestaudio[ext=m4a]/mp4" --restrict-filenames --add-metadata --ignore-errors -o '%(title)s.%(ext)s' "$1"
-# youtube-dl -f "bestvideo[height<=720]+bestaudio/mp4" --restrict-filenames --add-metadata --ignore-errors -o '%(title)s.%(ext)s' "$1"
-yt-dlp -f "bestvideo[height<=1080]+bestaudio/mp4" --restrict-filenames --add-metadata --ignore-errors -o '%(title)s.%(ext)s' "$1"
+  ALREADY_DOWNLOADED="ytd-downloaded.list"
+  yt-dlp  -f "bestvideo[height<=1080]+bestaudio/mp4" \
+          --restrict-filenames \
+          --add-metadata \
+          --ignore-errors \
+          --no-overwrites \
+          --download-archive "${ALREADY_DOWNLOADED}" \
+          -o '%(title)s.%(ext)s' "$1"
 }
 
-ytdl-playlist (){
-  youtube-dl --restrict-filenames --add-metadata --ignore-errors -f bestaudio --extract-audio --audio-format mp3 --audio-quality 0 -o '%(playlist)s/%(playlist_index)s-%(title)s.%(ext)s' "$1"
+# TODO: tengo q conseguir q salgan menos webm de esos de mierda...
+ytdl-video_1 (){
+  yt-dlp  -f "bestvideo[height<=1080]+bestaudio" \
+          --restrict-filenames \
+          --add-metadata \
+          --ignore-errors \
+          --no-overwrites \
+          -o 'exp1_%(title)s.%(ext)s' "$1"
+}
+
+
+
+ytdl-audio-playlist (){
+  yt-dlp  --restrict-filenames --add-metadata --ignore-errors \
+          -f bestaudio --extract-audio --audio-format mp3 --audio-quality 0 \
+          -o '%(playlist)s/%(playlist_index)s-%(title)s.%(ext)s' "$1"
 }
 
 ytdl-video-playlist (){
-  # youtube-dl -f "bestvideo[height<=1080]+bestaudio" --restrict-filenames --add-metadata --ignore-errors -o '%(playlist)s/%(playlist_index)s-%(title)s.%(ext)s' "$1"
-  yt-dlp -f "bestvideo[height<=720]+bestaudio/mp4" --restrict-filenames --add-metadata --ignore-errors -o '%(playlist)s/%(playlist_index)s-%(title)s.%(ext)s' "$1"
+
+  yt-dlp  -f "bestvideo[height<=1080]+bestaudio" \
+          --restrict-filenames --add-metadata --ignore-errors \
+          -o '%(playlist)s/%(playlist_index)s-%(title)s.%(ext)s' "$1"
+
+  # yt-dlp  -f "bestvideo[height<=720]+bestaudio/mp4" \
+  #         --restrict-filenames --add-metadata --ignore-errors \
+  #         -o '%(playlist)s/%(playlist_index)s-%(title)s.%(ext)s' "$1"
+
 }
+
+#-------------------
+# Imagemagick
+#-------------------
+
+# convert _1290046.JPG -resize 1920x1080^ -auto-level -normalize -filter Triangle -unsharp 0x0.5 -quality 85 "out"
+mm-fotos-down (){
+for file in ./*; do
+  [ -e "$file" ] || continue  
+  base="${file%.*}"
+  extension="${file#*.}"
+  # outfile="${base}.out.${extension}"
+  outfile="${file}" # OVERWRITE
+
+
+  # resize image while preserving aspect ratio and improving quality
+  # convert $file -resize 1920x1080^ -auto-level -normalize -filter Triangle -unsharp 0x0.5 -quality 85 $outfile
+
+
+  # resize image while preserving aspect ratio and improving quality
+  convert "${file}" \
+          -resize 1920x1080^ \
+          -auto-level -normalize -filter Triangle \
+          -bordercolor White -border 2%x3% -gravity southeast \
+          -unsharp 0x0.5 -quality 85 "${outfile}"
+
+done
+
+}
+
+# convert _1290046.JPG -auto-level -normalize -filter Triangle -quality 85
+# -bordercolor White -border 2%x3% -gravity southeast -unsharp 0x1 out.JPG
+
+
+#-------------------
+# Accediendo al android
+#-------------------
+# Usar simplessh (not so simple, mas bien una puta miera de explicacion, para gordos frikis de mierda)
+# En cualquier caso (una vez setupeado para usar clave publica, sino lo has hecho lee http://www.galexander.org/software/simplesshd/)
+
+# abre la app en el phone y te dara la IP. Usa la ip en el comando (notar el puerto q no es el default)
+# como alternativa (eg con ip statica, editar el .ssh/config del cliente para forzar el puerto para ese host)
+# ssh 192.168.1.42 -p 2222
+
+# IMPORTANTE: si el telf se lockea la ssh peta !! mantener la app en el telefono en 1er plano! (conyazo)
+
+# /sdcard/Android/media/com.whatsapp/WhatsApp/Media/WhatsApp\ Video
+# /sdcard/Pictures
+# fotos aqui
+# /sdcard/DCIM/Camera
+
+# host=192.168.1.228
+# rsync --progress -ave 'ssh -p 2222' "root@${host}:/sdcard/DCIM/OpenCamera" .
+
+# esto funciona 100% testeado
+
+# rsync --progress --size-only -ave 'ssh -p 2222' \
+# user@192.168.1.42://sdcard/Android/media/com.whatsapp/WhatsApp/Media/ .
+
+# resultados a traves de ssh unos 7Mbits/s
+# sent 572,389 bytes  received 13,714,075,857 bytes  6,967,055.24 bytes/sec
+# total size is 13,708,800,586  speedup is 1.00
 
 

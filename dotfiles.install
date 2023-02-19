@@ -1,20 +1,44 @@
 #!/bin/bash
 
-cd /home/${USER}
-#git clone git@github.com:SiliconKite/dotfiles.git 
+# This script is ONLY compatible with bash!
 
+cd /home/${USER}
+git clone git@github.com:SiliconKite/dotfiles.git 
+
+
+# # TODO: los files q encuentre aqui no tienen pq ser los q esten en home ...
+# # TODO: debuguear ...
+# shell_files=$(find /etc/skel -type f -printf "%f\n")
+
+
+# TODO: resuelve al nombre del script!
+# if [ "$(basename "$0")" = "bash" ]
+# then
+#   shell_files=(.bash_logout .profile .bashrc .bash_history)
+# fi
+
+shell_files=(.bash_logout .profile .bashrc .bash_history)
+# echo "${shell_files[@]}"
+
+
+# TODO: say what files will be overriden
 read -p "The current . files in ~ will be overwriten. Are you sure you want to continue?" -n 1 -r
 echo    # (optional) move to a new line
 if [[ ! $REPLY =~ ^[Yy]$ ]]
 then
-      [[ "$0" = "$BASH_SOURCE" ]] && exit 1 || return 1 
+  echo "Quitting..." && exit 1
 fi
 
-ln -fs /home/$USER/dotfiles/shell/alias .alias
+# Itera sobre cada archivo en la lista y haz una copia .back
+for f in "${shell_files[@]}"
+do
+  cp "$f" "$f.back"
+done
+
+
+ln -fs /home/$USER/dotfiles/shell/bash.alias .alias
 ln -fs /home/$USER/dotfiles/shell/inputrc .inputrc
-ln -fs /home/$USER/dotfiles/shell/zprofile .zprofile
-ln -fs /home/$USER/dotfiles/shell/zshrc .zshrc
-ln -fs /home/$USER/dotfiles/fzf/fzf.zsh .fzf.zsh
+ln -fs /home/$USER/dotfiles/shell/bashrc .bashrc
 
 
 # TODO
@@ -22,9 +46,6 @@ ln -fs /home/$USER/dotfiles/fzf/fzf.zsh .fzf.zsh
 # ln -fs /home/$USER/dotfiles/shell/zfunc/_poetry /home/$USER/.zfunc
 # ln -fs /home/$USER/dotfiles/shell/zfunc/_watson /home/$USER/.zfunc
 
-
-# If using bash...
-# ln -fs /home/$USER/dotfiles/fzf/fzf.bash .fzf.bash
 
 # Vim
 ln -fs /home/$USER/dotfiles/vim/vimrc .vimrc
@@ -36,7 +57,7 @@ read -p "The current files in ~/config will be overwriten. Are you sure you want
 echo    # (optional) move to a new line
 if [[ ! $REPLY =~ ^[Yy]$ ]]
 then
-      [[ "$0" = "$BASH_SOURCE" ]] && exit 1 || return 1 
+  exit 1
 fi
 
 # TODO: autoamte plugin install

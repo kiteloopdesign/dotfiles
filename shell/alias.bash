@@ -73,7 +73,6 @@ alias l='lt'
 alias lsd='ls -ltr ~/Descargas/'         
 
 alias lb='ls ~/.local/bin'        # What was the name of that custom script that did ...
-alias cb='cd ~/.local/bin'         
 ## END LS
 # print ls aliases using delimiters. NOTE! Escaping the "$" !
 alias pls="awk '/## BEGIN LS/ , /## END LS/ { print \$0 }' $HOME/.alias"
@@ -182,6 +181,10 @@ alias ea='vim /home/${USER}/.alias'
 alias eg='vim /home/${USER}/.gitconfig'
 alias sa='source /home/${USER}/.alias'
 
+# Quick cd's
+alias cb='cd ~/.local/bin'         
+alias cdd='cd ~/Descargas/'         
+
 #----------------------------------------------------------------------------------------------------
 # Find command
 #----------------------------------------------------------------------------------------------------
@@ -229,7 +232,7 @@ alias bb='function __bb() { cp -af -- "$1" "$1.bak" ; echo "$1 backed-up"; unset
 # alias sudo='sudo '
 
 #----------------------------------------------------------------------------------------------------
-# Several aliases for tools/sofware
+# Several aliases for tools/software
 #----------------------------------------------------------------------------------------------------
 alias vncserver='vncserver -geometry 1920x1080'
 alias vnckill='vncserver -kill :1'
@@ -242,6 +245,7 @@ alias p='python3'
 alias feh='feh -. -d --draw-tinted' # Fit to screen images, draw filename
 alias f='feh'
 alias r='ranger'
+alias z='zathura'
 alias ytv='ytdl-video'
 # alias df 'pydf'
 alias pdfreader='evince'
@@ -477,6 +481,14 @@ done
 # convert _1290046.JPG -auto-level -normalize -filter Triangle -quality 85
 # -bordercolor White -border 2%x3% -gravity southeast -unsharp 0x1 out.JPG
 
+#----------------------------------------------------------------------------------------------------
+# ffmpeg
+#----------------------------------------------------------------------------------------------------
+
+## from MOV to mkv encoding with default h264
+# ffmpeg -i P2190119.MOV -vcodec h264 -acodec aac out.mkv
+## Copia directa de streams, cortando video desde 21' a 3:50'. ATENCION a poner estos dos ANTES del output
+# ffmpeg -ss 00:21 -to 03:50 -i out.mkv -c copy trim.mkv
 
 #----------------------------------------------------------------------------------------------------
 # Accediendo al android

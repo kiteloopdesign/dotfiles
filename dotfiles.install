@@ -36,7 +36,7 @@ do
 done
 
 
-ln -fs /home/$USER/dotfiles/shell/bash.alias .alias
+ln -fs /home/$USER/dotfiles/shell/alias.bash .alias
 ln -fs /home/$USER/dotfiles/shell/inputrc .inputrc
 ln -fs /home/$USER/dotfiles/shell/bashrc .bashrc
 

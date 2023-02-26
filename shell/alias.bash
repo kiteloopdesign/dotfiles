@@ -298,6 +298,37 @@ alias ds='function __ds() { \ls "$1" | entr -s "clear; sh "$1"" ; unset -f __ds;
 # alias kitepi='ssh-add -t 1h;ssh -X kitepi@192.168.0.222'
 # alias android='ssh-add -t 1h;ssh 192.168.1.73 -p 2222'
 
+# sudo nmcli connection modify MOVISTAR_PLUS_FDE3 ifname wlp4s0 ipv4.method manual ipv4.addresses 192.168.1.101/24
+# sudo nmcli connection modify MOVISTAR_PLUS_FDE3 ifname wlp4s0 ipv4.method auto 
+
+# see ipv4 settings
+# sudo nmcli connection show MOVISTAR_FDE3 | ag ipv4
+
+# TODO! atencion al "ifname" !
+# sudo nmcli connection modify MOVISTAR_PLUS_FDE3 ifname wlp2s0 ipv4.method manual ipv4.addresses 192.168.1.101/24 gw4 192.168.1.1 ipv4.dns "80.58.61.254 80.58.61.250"
+# sudo nmcli connection modify MOVISTAR_PLUS_FDE3 \
+#                       ifname wlp2s0 \
+#                       ipv4.method manual \
+#                       ipv4.addresses 192.168.1.101/24 gw4 192.168.1.1 \
+#                       ipv4.dns "80.58.61.254 80.58.61.250"
+# sudo nmcli connection modify MOVISTAR_FDE3 ifname wlp2s0 ipv4.dns "80.58.61.254 80.58.61.250"
+
+# sudo nmcli connection modify MOVISTAR_FDE3 ifname wlp2s0 ipv4.dns "192.168.1.101"
+
+
+# poner de nuevo DHCP auto
+# sudo nmcli connection modify MOVISTAR_PLUS_FDE3 ifname wlp2s0 ipv4.method auto
+
+# nmcli connection edit MOVISTAR_PLUS_FDE3
+#
+# TODO: no consigo hacerlo asi
+# sudo nmcli connection add type ethernet con-name 'static-fedora' ifname wlp4s0 ipv4.method manual ipv4.addresses 192.168.1.101/24 gw4 192.168.1.1                                                                                                     
+# sudo nmcli con mod 'static-fedora' ipv4.dns 192.168.1.1
+# sudo nmcli con up 'static-fedora'
+
+alias router='ssh 1234@192.168.1.1'
+# password: JD8ZS1gi
+
 #-------------------------------------------------------------
 # X
 #-------------------------------------------------------------
@@ -470,13 +501,18 @@ for file in ./*; do
   # resize image while preserving aspect ratio and improving quality
   convert "${file}" \
           -resize 1920x1080^ \
-          -auto-level -normalize -filter Triangle \
+          -auto-level -filter Triangle \
           -bordercolor White -border 2%x3% -gravity southeast \
           -unsharp 0x0.5 -quality 85 "${outfile}"
 
 done
+          # -auto-level -normalize -filter Triangle \
 
 }
+
+# Hacer un collage de varias imagenes (15 en este caso, en cuadricula de 5x3)
+# resizeando cada una a 250px de ancho
+# montage -mode concatenate -tile 5x3 *.jpg -resize 250 -unsharp 0x0.5 out.png
 
 # convert _1290046.JPG -auto-level -normalize -filter Triangle -quality 85
 # -bordercolor White -border 2%x3% -gravity southeast -unsharp 0x1 out.JPG

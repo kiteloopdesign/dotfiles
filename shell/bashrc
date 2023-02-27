@@ -257,7 +257,12 @@ fi
 #----------------------------------------------------------------------------------------------------
 # FZF
 #----------------------------------------------------------------------------------------------------
-[ -f /usr/share/fzf/shell/key-bindings.bash ] && source /usr/share/fzf/shell/key-bindings.bash
+DIST=$(grep -Po "(?<=^ID=).+" /etc/os-release | sed 's/"//g')
+if [ "${DIST}"="fedora" ] ; then
+  [ -f /usr/share/fzf/shell/key-bindings.bash ] && source /usr/share/fzf/shell/key-bindings.bash
+elif [ "${DIST}"="ubuntu" ] ; then
+  [ -f /usr/share/doc/fzf/examples/key-bindings.bash ] && source /usr/share/doc/fzf/examples/key-bindings.bash
+fi
 
 # When selecting files with fzf, we show file content with syntax highlighting,
 # or without highlighting if it's not a source file. If the file is a directory,

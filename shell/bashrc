@@ -25,6 +25,9 @@ export PATH=$HOME/.local/bin:$PATH
 export PATH=${HOME}/bin:$PATH
 # export PATH=$HOME/bin:$PATH
 
+# Needed by rustup (rust), in turn needed from atuin
+export PATH="$HOME/.cargo/bin:$PATH"
+
 # export PATH=${HOME}/.local/texlive/2022/bin/x86_64-linux:$PATH
 # export PATH="$PATH:$HOME/esp/xtensa-lx106-elf/bin"
 # export IDF_PATH="$HOME/esp/ESP8266_RTOS_SDK"
@@ -57,45 +60,43 @@ export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 # This is needed to properly show colors
 export MANROFFOPT="-c"
 
-# Modify default options for fzf
-export FZF_DEFAULT_OPTS='--height 50% --border'
-
-# CTRL-T - Paste the selected files and directories onto the command line
-# Set FZF_CTRL_T_COMMAND to override the default command
-# Set FZF_CTRL_T_OPTS to pass additional options
-
-# CTRL-R - Paste the selected command from history onto the command line
-# If you want to see the commands in chronological order, press CTRL-R again which toggles sorting by relevance
-# Set FZF_CTRL_R_OPTS to pass additional options
-
-# ALT-C - cd into the selected directory
-# Set FZF_ALT_C_COMMAND to override the default command
-# Set FZF_ALT_C_OPTS to pass additional options
-
 #----------------------------------------------------------------------------------------------------
 # History
 #----------------------------------------------------------------------------------------------------
 
 # HISTFILE=$HOME/.bhistfile
-HISTSIZE=10000
-HISTFILESIZE=20000
+HISTSIZE=90000
+HISTFILESIZE=90000
 
 # don't put duplicate lines or lines starting with space in the history.
 HISTCONTROL=ignoreboth
 
-export TIMEFORMAT=$'\nreal %3R\tuser %3U\tsys %3S\tpcpu %P\n'
-export HISTIGNORE="&:bg:fg:ll:h"
-# export HISTTIMEFORMAT="$(echo -e ${GREEN})[%d/%m %H:%M:%S]$(echo -e ${NC}) "
-export HISTTIMEFORMAT="$(echo -e ${GREEN})[%d/%m %H:%M]$(echo -e ${NC}) "
+export HISTIGNORE="&:bg:fg:ll:h:l:ls:cd:sa:ea:gs:gp:pwd:eg"
 
-# append to the history file, don't overwrite it
-shopt -s histappend
 
 # Change the format of the history output: does not print date, instead 
 # print carriage return "\r" and clear line (ANSI K code)
 # HISTTIMEFORMAT=$'\r\e[K'
 # Also we could use this alias ...
 # HISTTIMEFORMAT=$'\r\e[K' history
+
+# export HISTTIMEFORMAT='%F %T '
+export HISTTIMEFORMAT="$(echo -e ${GREEN})[%d/%m/%y %H:%M]$(echo -e ${NC}) "
+
+
+# append to the history file, don't overwrite it
+shopt -s histappend
+
+# force multi-line commands to fit on one
+shopt -s cmdhist
+
+# TODO: esto creo que petara el liquidprompt
+# # Store history immediately. By default, Bash only records a session to the
+# # .bash_history file on disk when the session terminates. This means that if you
+# # crash or your session terminates improperly, you lose the history up to that
+# # point. You can fix this by recording each line of history as you issue it,
+# # through the $PROMPT_COMMAND variable:
+# PROMPT_COMMAND='history -a'
 
 #----------------------------------------------------------------------------------------------------
 # Custom less
@@ -184,6 +185,23 @@ fi
 # esac
 
 #----------------------------------------------------------------------------------------------------
+# Atuin: shit as of 26/02/23 ...
+#----------------------------------------------------------------------------------------------------
+# NOTE: bash-preexec was installed by Atuin. It kind of messes with liquidprompt, and so
+# instructions on liquidprompt recommend to source preexec b/f it. However THIS contradicts
+# preexec instructions, which say it should go last 
+# [[ -f ~/.bash-preexec.sh ]] && source ~/.bash-preexec.sh
+# moving this to the end of bashrc
+# eval "$(atuin init bash)"
+# TODO: there's so many other options, but anyone seems to be able to do it all: plug into fzf ctrl-r,
+# open source, dont be a fancy go/rust project if possible, multi host operation, be easy enough to understand it
+# in case it is not supported anymore... The ones I like are :
+# https://github.com/thenewwazoo/bash-history-sqlite # SUPER EASY TO FOLLOW (no remote server thou) -> EMPIEZA SETEANDO ESTA ...
+# https://github.com/barabo/advanced-shell-history
+# https://github.com/slim-bean/loki-shell (MAKES USE OF GRAFANA AND FZF, THE WAY TO GO, COMPLEX) --> CREO Q ESTA ES BUENA, UP TO DATE ...
+# https://github.com/rcaloras/bashhub-client (can it use fzf? uses client-server. Closed source!)
+
+#----------------------------------------------------------------------------------------------------
 # Liquidprompt
 #----------------------------------------------------------------------------------------------------
 
@@ -248,9 +266,20 @@ fi
 # of large text files.
 # Requires highlight and tree: pacman -S highlight tree
 
-# export FZF_DEFAULT_OPTS="--preview '(highlight -O ansi -l {} 2> /dev/null || cat {} || tree -C {}) 2> /dev/null | head -200'"
-# si no va el de arriba, probar este ...
-export FZF_DEFAULT_OPTS="--ansi --preview '(highlight -O ansi -l {} 2>/dev/null || cat {} || tree -C {}) 2>/dev/null | head -200'"
+# Modify default options for fzf
+export FZF_DEFAULT_OPTS='--height 50% --border'
+
+# CTRL-T - Paste the selected files and directories onto the command line
+# Set FZF_CTRL_T_COMMAND to override the default command
+# Set FZF_CTRL_T_OPTS to pass additional options
+
+# CTRL-R - Paste the selected command from history onto the command line
+# If you want to see the commands in chronological order, press CTRL-R again which toggles sorting by relevance
+# Set FZF_CTRL_R_OPTS to pass additional options
+
+# ALT-C - cd into the selected directory
+# Set FZF_ALT_C_COMMAND to override the default command
+# Set FZF_ALT_C_OPTS to pass additional options
 
 # FD_OPTIONS="--hidden --follow --exclude .git --exclude node_modules"
 # export FZF_DEFAULT_OPTS=
@@ -260,3 +289,6 @@ export FZF_DEFAULT_OPTS="--ansi --preview '(highlight -O ansi -l {} 2>/dev/null 
 # export FZF_CTRL_T_COMMAND="fd $FD_OPTIONS"
 # export FZF_ALT_C_COMMAND="fd --type d $FD_OPTIONS"
 
+# # Atuin
+# [[ -f ~/.bash-preexec.sh ]] && source ~/.bash-preexec.sh
+# eval "$(atuin init bash)"

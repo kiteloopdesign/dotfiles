@@ -258,9 +258,9 @@ fi
 # FZF
 #----------------------------------------------------------------------------------------------------
 DIST=$(grep -Po "(?<=^ID=).+" /etc/os-release | sed 's/"//g')
-if [ "${DIST}"="fedora" ] ; then
+if [ "${DIST}" = "fedora" ] ; then
   [ -f /usr/share/fzf/shell/key-bindings.bash ] && source /usr/share/fzf/shell/key-bindings.bash
-elif [ "${DIST}"="ubuntu" ] ; then
+elif [ "${DIST}" = "ubuntu" ] ; then
   [ -f /usr/share/doc/fzf/examples/key-bindings.bash ] && source /usr/share/doc/fzf/examples/key-bindings.bash
 fi
 

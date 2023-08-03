@@ -20,7 +20,7 @@ alias d='dirs -v | head -20'
 alias t='tree -L 2'
 # alias tree 'tree -Csuh'    #  Nice alternative to 'recursive ls' ...
 
-alias grep='grep --color=auto'
+alias grep='grep -i --color=auto'
 alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
 
@@ -41,7 +41,7 @@ alias sp='find . -type f -name "*[[:space:]]*"'
 # alias bigfiles 'ls -Sr **/*(.Lm+100)'
 # alias bigfiles 'find . -type f -size +100M -exec ls -lh {} \;'
 # alias bigfolders 'du -hs */ | sort -nr | head'
-alias bF='du -hs .* * | sort -rh | head'
+alias bF='du -hs * | sort -rh | head'
 alias bf='find . -type f -print0 | xargs -0 du -h | sort -hr | head -20'
 
 # Change console title with argument passed to ct (CSH shite)
@@ -70,7 +70,7 @@ alias lh='ls -Ad .*'       #  Only show hidden files
 # alias lf='ls -d .*/ */'    #  Only show folders
 alias lf='ls -d */'    #  Only show folders
 alias l='lt'
-alias lsd='ls -ltr ~/Descargas/'         
+alias lsd='ls -ltr ~/Downloads/'         
 
 alias lb='ls ~/.local/bin'        # What was the name of that custom script that did ...
 ## END LS
@@ -122,7 +122,7 @@ alias git-diff-folders='git diff --name-only | xargs -L1 dirname | uniq'
 #----------------------------------------------------------------------------------------------------
 # File Permissions
 #----------------------------------------------------------------------------------------------------
-alias cx='chmod +x $*'
+alias cx='chmod +x '
 # find . -type d -exec chmod 0755 {} \;
 # find . -type f -exec chmod 0644 {} \;
 # Change folders and files one liner :
@@ -183,7 +183,7 @@ alias sa='source /home/${USER}/.alias'
 
 # Quick cd's
 alias cb='cd ~/.local/bin'         
-alias cdd='cd ~/Descargas/'         
+alias cdd='cd ~/Downloads/'         
 
 #----------------------------------------------------------------------------------------------------
 # Find command
@@ -209,8 +209,10 @@ alias fee='function __fee() { find . -type f -name \*.$1 -exec ag -H $2 {} \; ; 
 # sudo find . -not \( -path ./home/kitesutra -prune \) -cmin -60 -cmin -10
 
 # Shows different extensions on <PATH> and its number 
+# Useful when there's too many different extensions on a folder and what to have a bird's eye of what it is about it
 # find "<PATH>" -type f | sed -e '/.*\/[^\/]*\.[^\/]*$/!s/.*/(none)/' -e 's/.*\.//' | LC_COLLATE=C sort | uniq -c
-alias ee="function __ee() { find "$1" -type f | sed -e '/.*\/[^\/]*\.[^\/]*$/!s/.*/(none)/' -e 's/.*\.//' | LC_COLLATE=C sort | uniq -c; unset -f __ee; }; __ee"
+# alias ee="function __ee() { find "$1" -type f | sed -e '/.*\/[^\/]*\.[^\/]*$/!s/.*/(none)/' -e 's/.*\.//' | LC_COLLATE=C sort | uniq -c; unset -f __ee; }; __ee"
+alias ee="function __ee() { find . -type f | sed -e '/.*\/[^\/]*\.[^\/]*$/!s/.*/(none)/' -e 's/.*\.//' | LC_COLLATE=C sort | uniq -c; unset -f __ee; }; __ee"
 
 #----------------------------------------------------------------------------------------------------
 # Other util one-liners (more complex and may need of non-built-in tools)
@@ -225,6 +227,9 @@ alias vv='function __vv() { find . -maxdepth 1 -name "*.$1" -type f -exec gvim -
 # Quickly backup file. Use autodestructive function
 alias bb='function __bb() { cp -af -- "$1" "$1.bak" ; echo "$1 backed-up"; unset -f __bb; }; __bb'
 
+# Find duplicated filenames in a folder structure. Eg big mess with pictures
+# find . -type f -printf '%p/ %f\n' | sort -k2 | uniq -f1 --all-repeated=separate
+
 # Super one-liner. Shows most used commands. Useful to find out what commands to aliase/automate
 # alias mu 'history 0 | awk '{CMD[$2]++;count++;}END { for (a in CMD)print CMD[a] " " CMD[a]/count*100 "% " a;}' | grep -v "./" | column -c3 -s " " -t | sort -nr | nl |  head -n10'
 
@@ -232,7 +237,7 @@ alias bb='function __bb() { cp -af -- "$1" "$1.bak" ; echo "$1 backed-up"; unset
 # alias sudo='sudo '
 
 #----------------------------------------------------------------------------------------------------
-# Several aliases for tools/software
+# Several aliases for tools/software/apps
 #----------------------------------------------------------------------------------------------------
 alias vncserver='vncserver -geometry 1920x1080'
 alias vnckill='vncserver -kill :1'
@@ -242,7 +247,16 @@ alias google='chromium-browser &> /dev/null &'
 # alias python='python3.7'
 alias i='ipython'
 alias p='python3'
-alias feh='feh -. -d --draw-tinted' # Fit to screen images, draw filename
+# alias feh='feh -. -d --draw-tinted' # Fit to screen images, draw filename
+# alias feh='feh --draw-exif --edit --scale-down -d --draw-tinted'
+# You can also use exiftool to add in custom exif data... es una puta mierda el exiftool....
+# alias feh='feh --info "exiftool -m -p \$DateTimeOriginal %F" --edit --scale-down -d --draw-tinted' 
+# alias feh='feh --scale-down -d --draw-tinted --info 'exiftool -m -p "\$DateTimeOriginal \$ApertureValue" %f' IMG_20170122_161232.jpg'
+# show size
+# alias feh='feh --scale-down -d --draw-tinted --info "du -sh %F"'
+# Tambien se puede usar el feh itself para mostrar some basic info (no tanta como con exiftool). eg dimensions
+alias feh='feh -F --draw-exif --edit --scale-down -d --draw-tinted --info "feh -L %wx%h %f"'
+
 alias f='feh'
 alias r='ranger'
 alias z='zathura'
@@ -251,6 +265,8 @@ alias ytv='ytdl-video'
 alias pdfreader='evince'
 alias oo='libreoffice'
 alias pdfgrep='pdfgrep -HRi'
+# qmv is in package renameutils
+alias qmv='qmv --format=destination-only'
 
 # ag / ack
 alias agg='ag -g '
@@ -270,7 +286,6 @@ alias we='watson edit'
 
 # hledger
 alias hl='hledger'
-alias led='hl'
 # alias post='vim "+normal G$" +startinsert ~/personal/ledger/data/2022/journal.ldg'
 # alias assets='hl b ^assets --flat -X EUR'
 # alias expenses='hl -r assets -s -X EUR'
@@ -286,9 +301,17 @@ alias ds='function __ds() { \ls "$1" | entr -s "clear; sh "$1"" ; unset -f __ds;
 # # bj='bat -l json'
 # alias bm='bat -l man'
 
+# czkawka image de-duplication
+# alias cz='czkawka_cli'
+# Find duplicate images on current and subfolders
+# cz image -d "$PWD" -f results.log
+
 #----------------------------------------------------------------------------------------------------
 # Network management/ssh
 #----------------------------------------------------------------------------------------------------
+
+alias mypubip='dig +short myip.opendns.com @resolver1.opendns.com'
+
 # ip -brief -color addr
 # ip -brief -color route
 # sudo nmap -sP 192.168.1.0/24 | grep -i "b8:27:eb\|dc:a6:32" -B2
@@ -334,7 +357,8 @@ alias router='ssh 1234@192.168.1.1'
 #-------------------------------------------------------------
 # alias logoff='/usr/bin/cinnamon-session-quit --no-prompt'
 # TODO: debug
-alias logoff='mate-session-save --logout-dialog'
+# alias logoff='mate-session-save --logout-dialog'
+alias logoff='xfce4-session-logout --logout'
 
 #----------------------------------------------------------------------------------------------------
 # TODO/doc/crazy shite/WIP
@@ -388,6 +412,9 @@ Uses ghostscript to rewrite the file without encryption."
     # gs -q -dNOPAUSE -dBATCH -sDEVICE=pdfwrite -sOutputFile="${in:r}_unencrypted.pdf" -c .setpdfwrite -f "$in"
     /usr/bin/gs -q -dNOPAUSE -dBATCH -sDEVICE=pdfwrite -sOutputFile="${in:r}_unencrypted.pdf" -f "$in"
 }
+
+# remove passwd from pdf
+# qpdf --password=XXXXXX --decrypt RECIBO_2022.pdf RECIBO_2022.nopasswd.pdf
 
 # # Search for a pattern and open it on vim
 # fag(){
@@ -484,14 +511,25 @@ ytdl-video-playlist (){
 # Imagemagick
 #----------------------------------------------------------------------------------------------------
 
+mm-single (){
+  mogrify "$1" \
+          -resize 1920x1080^ \
+          -define preserve-timestamp=true \
+          -auto-level -filter Triangle \
+          -unsharp 0x0.5 -quality 85 "$1"
+
+}
+
 # convert _1290046.JPG -resize 1920x1080^ -auto-level -normalize -filter Triangle -unsharp 0x0.5 -quality 85 "out"
+
+#NOTE it will overwrite! Using mogrify as the preserve timestamp does not work with convert
 mm-fotos-down (){
 for file in ./*; do
   [ -e "$file" ] || continue  
   base="${file%.*}"
   extension="${file#*.}"
   # outfile="${base}.out.${extension}"
-  outfile="${file}" # OVERWRITE
+  # outfile="${file}" # OVERWRITE
 
 
   # resize image while preserving aspect ratio and improving quality
@@ -499,32 +537,123 @@ for file in ./*; do
 
 
   # resize image while preserving aspect ratio and improving quality
-  convert "${file}" \
+  mogrify \
           -resize 1920x1080^ \
+          -define preserve-timestamp=true \
           -auto-level -filter Triangle \
-          -bordercolor White -border 2%x3% -gravity southeast \
-          -unsharp 0x0.5 -quality 85 "${outfile}"
+          -unsharp 0x0.5 -quality 85 "${file}"
+
+          # borde
+          # -bordercolor White -border 2%x3% -gravity southeast \
+
+          # crea colores muy saturados, quitar
+          # -normalize \
 
 done
-          # -auto-level -normalize -filter Triangle \
+
 
 }
 
 # Hacer un collage de varias imagenes (15 en este caso, en cuadricula de 5x3)
 # resizeando cada una a 250px de ancho
 # montage -mode concatenate -tile 5x3 *.jpg -resize 250 -unsharp 0x0.5 out.png
+# montage -mode concatenate -tile 5x3 *.jpg -resize 300 -unsharp 0.05 collage.jpg
 
 # convert _1290046.JPG -auto-level -normalize -filter Triangle -quality 85
 # -bordercolor White -border 2%x3% -gravity southeast -unsharp 0x1 out.JPG
 
 #----------------------------------------------------------------------------------------------------
+# imagenes
+#----------------------------------------------------------------------------------------------------
+
+# buscar imagenes gordas y abrirlas con feh
+# find . -maxdepth 1 -size +1000k -name IMG-2020\*jpg | sort | feh -f-
+
+# sort by sizes, max dim, ratio
+# \feh -S pixels --max-dimension 1000x0 *
+# \feh -S width -L "%f:%wx%h:%p" --min-dimension 640x0 --max-dimension 640x0 *
+# \feh -S width -L "%f:%wx%h" --min-dimension 640x0 --max-dimension 640x0 *
+# \feh -S width -L "%f:%wx%h" --min-dimension 640x0 --max-dimension 640x0 * | wc
+# \feh -S pixels -L "%f:%wx%h"
+# \feh -S pixels -L "%f:%wx%h:%P"
+# if there are a lot of files, this guy is faster ...
+#  exiftool -q -p '$filename' -if '$imagewidth<500 or $imageheight<500' . | feh -f -
+# actions are possible...
+# feh -S pixels --max-dimension 640x0 * -l --action 'rm -f %F'
+
+# print only date tags
+# exiftool -time:all -s -G1  _6100261.JPG
+
+# update file timestamps with exif date: happens when copying or resizing, etc
+# exiftool  '-FileModifyDate<DateTimeOriginal'
+
+# Print files which file timestamp does not match the exif date. Note they are always (milliseconds and shite) different!
+# exiftool -m -p '$directory/$filename / $FileModifyDate / $DateTimeOriginal' -if '$FileModifyDate ne $DateTimeOriginal' _1210035.JPG
+# this does the trick as the date is now formatted
+#  exiftool -d "%Y%m%d %H:%M:%S" -m -p '$directory/$filename / $FileModifyDate / $DateTimeOriginal' -if '$FileModifyDate ne $DateTimeOriginal'
+
+# putting it all together. Update date only on those pics which do not match
+# exiftool -d "%Y:%m:%d %H:%M:%S" '-FileModifyDate<DateTimeOriginal' -if '$FileModifyDate ne $DateTimeOriginal' .
+
+# print filename si no tienen datos GPS
+# exiftool -m -p '$directory/$filename' -if 'not $gpslatitude' -r .
+
+# debugueando jpgs en donde las dates estan messed up
+# exiftool -p '$directory/$filename' -if 'not defined $datetimeoriginal or $datetimeoriginal =~ /(^\s*$)/' .
+# exiftool -p '$directory/$filename' -if 'not defined $datetimeoriginal or $datetimeoriginal =~ /(^\s*$)/' -r .
+
+# Use filename in alldates if no exif data is defined: good for fotos that lost all exif time info
+# exiftool -overwrite_original_in_place "-alldates<filename" -if 'not defined $datetimeoriginal or $datetimeoriginal =~ /(^\s*$)/' -r .
+
+#----------------------------------------------------------------------------------------------------
 # ffmpeg
 #----------------------------------------------------------------------------------------------------
+
+# el ffprobe da info
+# ffprobe P7230031.MOV
 
 ## from MOV to mkv encoding with default h264
 # ffmpeg -i P2190119.MOV -vcodec h264 -acodec aac out.mkv
 ## Copia directa de streams, cortando video desde 21' a 3:50'. ATENCION a poner estos dos ANTES del output
 # ffmpeg -ss 00:21 -to 03:50 -i out.mkv -c copy trim.mkv
+
+
+# fijando el tamanyo
+# no da buenos resultados
+# ffmpeg -i input.mp4 -vcodec libx264 -b 700k output.mp4
+
+# este el q parece que va mejor. rango sano de 17 (mas compresion) a 28 (menos compresion)
+# ffmpeg -i input.mp4 -vcodec libx264 -crf 24 output.mp4
+# probar el audio
+# ffmpeg -i input.mp4 -vcodec libx264 -crf 24 -b:a 96k output.mp4
+alias ffmpeg-compress='function __ffmpeg-compress() { ffmpeg -i $1 -vcodec libx264 -crf $2 $1.$2.mp4; unset -f __ffmpeg-compress; }; __ffmpeg-compress'
+
+# ffmpeg-concat video1.mov video2.mov OR ffmpeg-concat *.mov -> note that *.mov will get glob-expanded, function will see expanded files
+# all videos MUST use same stream !
+# NOTE the mov extension on output!
+function ffmpeg-concat() { 
+  # set -x
+  # a file list MUST be created, that's why I use the process substitution. NOTE -safe 0 IS needed!
+  ffmpeg -stats -hide_banner -loglevel error \
+  -f concat -safe 0 -i <(for f in "$@"; do printf "file '$PWD/$f'\n"; done) \
+  -c copy concat.mov
+  # set +x
+  }
+
+# ffmpeg -f concat -safe 0 -i <(for f in *.MOV; do printf "file '$PWD/$f'\n"; done) -vcodec libx264 -crf 24 concat.mp4
+# NOTE the mp4 extension on output!
+function ffmpeg-concat-and-compress() { 
+  ffmpeg -stats -hide_banner -loglevel error \
+  -f concat -safe 0 -i <(for f in "$@"; do printf "file '$PWD/$f'\n"; done) \
+  -vcodec libx264 -crf 24 concat.mp4
+  }
+
+# usando libx265
+# ffmpeg -i input.mp4 -vcodec libx265 -crf 28 output.mp4
+
+# resize
+# ffmpeg -i input.mp4 -vf "scale=iw/2:ih/2" output.mp4
+# ffmpeg -i input.mp4 -vf "scale=trunc(iw/4)*2:trunc(ih/4)*2" output.mp4
 
 #----------------------------------------------------------------------------------------------------
 # Accediendo al android
@@ -550,6 +679,8 @@ done
 
 # rsync --progress --size-only -ave 'ssh -p 2222' \
 # user@192.168.1.42://sdcard/Android/media/com.whatsapp/WhatsApp/Media/ .
+
+# rsync --stats -avhrP <source> <target>
 
 # resultados a traves de ssh unos 7Mbits/s
 # sent 572,389 bytes  received 13,714,075,857 bytes  6,967,055.24 bytes/sec

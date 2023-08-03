@@ -73,6 +73,12 @@ Control-l: clear-screen
 # Insert the arguments from the last command
 #"p": "i !!*\r"
 
+# Expande el comando anterior! eg: escribes "!!", Alt+Shift+6 -> se expande al cmd anterior
+# Util para modificar cuando te has equivocado, o quieres insertar comando anterior en medio de otro
+# "\e" = Alt
+# "^" = Shift+6
+"\e^": history-expand-line
+
 # When hitting option-up/option-down, cycle through the previous commands
 # which start with the prefix you've entered, rather than just cycling through
 # the last entered commands.
@@ -100,3 +106,11 @@ Control-l: clear-screen
 # Needed because binding 'p' in command mode above wipes its insert mode
 # function, too. This fixes that, and will insert 'p' when you type 'p'.
 #"p": self-insert
+
+
+# Expand "*". Funciona en vi-mode por defecto. 
+# escribe comando, eg "ls *" -> Esc+* -> sale de insert, expande y vuelve a insert mode
+# Este otro, que funciona si no se esta en modo vi, hace falta hacerlo explicito en vi mode
+# Control-x*: glob-expand-word # TODO: control-x es valido, pero no se como anyadir el "*".. 
+# usando old-school notation
+"*": glob-expand-word

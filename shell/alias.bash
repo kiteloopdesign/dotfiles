@@ -50,6 +50,9 @@ alias bf='find . -type f -print0 | xargs -0 du -h | sort -hr | head -20'
 # mount -t iso9660 -o ro,loop,noauto /your/texlive.iso /mnt 
 alias isomount='sudo mount -t iso9660 -o ro,loop,noauto $1 /mnt'
 
+# make it easier to understand on what column the file is on
+alias comm='comm --output-delimiter="|"'
+
 ## BEGIN LS------------------------------------------------------------------------------------------
 # The 'ls' family (this assumes you use a recent GNU ls).
 #----------------------------------------------------------------------------------------------------
@@ -182,7 +185,7 @@ alias eg='vim /home/${USER}/.gitconfig'
 alias sa='source /home/${USER}/.alias'
 
 # Quick cd's
-alias cb='cd ~/.local/bin'         
+alias cb='cd ~/bin'         
 alias cdd='cd ~/Downloads/'         
 
 #----------------------------------------------------------------------------------------------------
@@ -256,6 +259,7 @@ alias p='python3'
 # alias feh='feh --scale-down -d --draw-tinted --info "du -sh %F"'
 # Tambien se puede usar el feh itself para mostrar some basic info (no tanta como con exiftool). eg dimensions
 alias feh='feh -F --draw-exif --edit --scale-down -d --draw-tinted --info "feh -L %wx%h %f"'
+# alias feh='feh --keep-zoom-vp --draw-exif --edit --scale-down -d --draw-tinted --info "feh -L %wx%h %f"'
 
 alias f='feh'
 alias r='ranger'
@@ -468,7 +472,7 @@ ytdl-filelist (){
 
 ytdl-video (){
   ALREADY_DOWNLOADED="ytd-downloaded.list"
-  yt-dlp  -f "bestvideo[height<=1080]+bestaudio/mp4" \
+          yt-dlp -S ext:mp4:m4a,res:1080 \
           --restrict-filenames \
           --add-metadata \
           --ignore-errors \
@@ -476,6 +480,15 @@ ytdl-video (){
           --download-archive "${ALREADY_DOWNLOADED}" \
           -o '%(title)s.%(ext)s' "$1"
 }
+
+
+# # Download the best mp4 video available, or the best video if no mp4 available
+# $ yt-dlp -f "bv*[ext=mp4]+ba[ext=m4a]/b[ext=mp4] / bv*+ba/b"
+
+# # Download the best video with the best extension
+# # (For video, mp4 > mov > webm > flv. For audio, m4a > aac > mp3 ...)
+# $ yt-dlp -S "ext"
+
 
 # TODO: tengo q conseguir q salgan menos webm de esos de mierda...
 ytdl-video_1 (){
@@ -486,6 +499,13 @@ ytdl-video_1 (){
           --no-overwrites \
           -o 'exp1_%(title)s.%(ext)s' "$1"
 }
+
+
+# ytdl-audio (){
+#   yt-dlp  --restrict-filenames --add-metadata --ignore-errors \
+#           -f bestaudio --extract-audio --audio-format mp3 --audio-quality 0 \
+#           -o '%(playlist)s/%(playlist_index)s-%(title)s.%(ext)s' "$1"
+# }
 
 
 
@@ -524,7 +544,7 @@ mm-single (){
 
 #NOTE it will overwrite! Using mogrify as the preserve timestamp does not work with convert
 mm-fotos-down (){
-for file in ./*; do
+for file in ./*.jpg; do
   [ -e "$file" ] || continue  
   base="${file%.*}"
   extension="${file#*.}"
@@ -538,6 +558,7 @@ for file in ./*; do
 
   # resize image while preserving aspect ratio and improving quality
   mogrify \
+          -monitor \
           -resize 1920x1080^ \
           -define preserve-timestamp=true \
           -auto-level -filter Triangle \
@@ -561,6 +582,27 @@ done
 
 # convert _1290046.JPG -auto-level -normalize -filter Triangle -quality 85
 # -bordercolor White -border 2%x3% -gravity southeast -unsharp 0x1 out.JPG
+
+# Create a random collage of 15 files
+mm-montage-random(){
+  files=(*.jpg)
+  # Check if there are at least 15 files
+  if [ "${#files[@]}" -lt 15 ]; then
+    echo "Not enough files in the folder."
+    return
+  fi
+  # Randomly shuffle the array of files
+  shuffled_files=($(shuf -e "${files[@]}"))
+  # Pick the first 15 files
+  selected_files=("${shuffled_files[@]:0:15}")
+  # Print the selected files
+  # echo "Randomly selected files:"
+  # for file in "${selected_files[@]}"; do
+  #   echo "$file"
+  # done
+  echo "${selected_files[@]}"
+  montage -monitor -mode concatenate -tile 5x3 "${selected_files[@]}" -resize 300 -unsharp 0.05 collage.jpg
+}
 
 #----------------------------------------------------------------------------------------------------
 # imagenes
@@ -605,6 +647,106 @@ done
 # Use filename in alldates if no exif data is defined: good for fotos that lost all exif time info
 # exiftool -overwrite_original_in_place "-alldates<filename" -if 'not defined $datetimeoriginal or $datetimeoriginal =~ /(^\s*$)/' -r .
 
+# Use to import Olympus OM-D EM5 Pics. Renames files with date and appends old filename to keep track of original files
+# exiftool '-FileName<${Datetimeoriginal}_EM5${FileName}' -d 'IMG_%Y%m%d%%+c' *JPG
+# exiftool '-TestName<${Datetimeoriginal}_EM5${FileName}' -d 'IMG_%Y%m%d%%+c' *JPG # NOTE Testname can be used to dry-run
+# Para cambiar de JPG a jpg ... no muy testeado
+# exiftool '-FileName<${Datetimeoriginal}_EM5%f.%le' -d 'IMG_%Y%m%d%%+c' *JPG
+
+# OJO que los .MOV no tienen el mismo tag de date los JPG sino:
+# exiftool '-FileName<${CreateDate}_EM5${FileName}' -d 'VID_%Y%m%d%%+c' *MOV
+# Usar este para videos que no tengan nombre de entrada (eg mp4 concatenados)
+# exiftool '-FileName<${CreateDate}_EM5%f.%le' -d 'VID_%Y%m%d%%+c' concat.mp4
+
+#----------------------------------------------------------------------------------------------------
+# exif
+#----------------------------------------------------------------------------------------------------
+
+# chequea for issues en los archivos: pero NO me saca los warnings q veo al hacer alguna operacion en los archivos
+# eg: Warning: FPXR segment too small 
+# exiftool -validate -warning -error -p '$directory/$filename' -if "$error or $warning" *jpg
+
+function exifinfo() { 
+  # exiftool -time:all -s -G1  _6100261.JPG
+  exiftool -s -G1 "$1"
+}
+
+function exifdiff() { 
+  diff --side-by-side --width 160 --color <(exiftool -s -G1 $1) <(exiftool -s -G1 $2)
+}
+
+# Find PICS not matching SYSTEM date
+function xx-find-wrong-system-date-pics(){
+  # NOTE the "-m" is to suppress warnings but it doesn't suppress them all.
+  exiftool -d "%Y-%m-%d %H:%M:%S" -m -p '$directory/$filename / $FileModifyDate / $DateTimeOriginal' -if '$FileModifyDate ne $DateTimeOriginal' "$@"
+  # NOTE : los missmatches se van por segundos. Usando este construct solo encontrara las que se vayan por y/m/d
+  # exiftool -d "%Y-%m-%d" -m -p '$directory/$filename / $FileModifyDate / $DateTimeOriginal' -if '$FileModifyDate ne $DateTimeOriginal' "$@"
+}
+
+# Fix SYSTEM date by using exif - FOR PICS
+function xx-fix-wrong-system-date-pics(){
+  xx-find-wrong-system-date-pics "$@"
+  read -n 1 -p "Are these names okay? (y/n)" answer
+  case ${answer:0:1} in
+      y|Y )
+          exiftool -d "%Y:%m:%d %H:%M:%S" '-FileModifyDate<DateTimeOriginal' -if '$FileModifyDate ne $DateTimeOriginal' "$@"
+      ;;
+      * )
+          echo "Exiting..."
+          return 1
+      ;;
+  esac
+}
+
+# Rename files so they look like IMG_YYYYMMDD_[EM5]<ORIGINAL_FILENAME>.ext
+# To be used on pics from other sources other than phone camera/whatsapp
+function xx-rename-pics(){
+  # Usar por defecto camara EM5
+  cam=${1:-"EM5"}
+  exiftool '-TestName<${Datetimeoriginal}_'"$cam"'${FileName}' -d 'IMG_%Y%m%d%%+c' *jpg 
+  read -n 1 -p "Are these names okay (y/n)" answer
+  case ${answer:0:1} in
+      y|Y )
+          exiftool -v '-FileName<${Datetimeoriginal}_'"$cam"'${FileName}' -d 'IMG_%Y%m%d%%+c' *jpg
+      ;;
+      * )
+          echo "Exiting..."
+          return 1
+      ;;
+  esac
+}
+
+# Find short videos
+function xx-find-short-vids(){
+  exiftool -p '$directory/$filename' -if '$duration#<10' "$@"
+}
+
+# PRint video duration
+function xx-vid-duration(){
+  exiftool -duration# "$1"
+}
+
+# Find VIDEOS not matching SYSTEM date
+function xx-find-wrong-system-date-vids(){
+  exiftool -d "%Y-%m-%d" -m -p '$directory/$filename / $FileModifyDate / $CreateDate' -if '$FileModifyDate ne $CreateDate' "$@"
+}
+
+# Fix SYSTEM date by using exif - FOR VIDS
+function xx-fix-wrong-system-date-vids(){
+  xx-find-wrong-system-date-vids "$@"
+  read -n 1 -p "Fix system date on these files? (y/n)" answer
+  case ${answer:0:1} in
+      y|Y )
+          exiftool -d "%Y:%m:%d %H:%M:%S" '-FileModifyDate<CreateDate' -if '$FileModifyDate ne $CreateDate' "$@"
+      ;;
+      * )
+          echo "Exiting..."
+          return 1
+      ;;
+  esac
+}
+
+
 #----------------------------------------------------------------------------------------------------
 # ffmpeg
 #----------------------------------------------------------------------------------------------------
@@ -622,30 +764,54 @@ done
 # no da buenos resultados
 # ffmpeg -i input.mp4 -vcodec libx264 -b 700k output.mp4
 
-# este el q parece que va mejor. rango sano de 17 (mas compresion) a 28 (menos compresion)
+# este el q parece que va mejor. rango sano de 17 (menos compresion) a 28 (mas compresion)
 # ffmpeg -i input.mp4 -vcodec libx264 -crf 24 output.mp4
 # probar el audio
 # ffmpeg -i input.mp4 -vcodec libx264 -crf 24 -b:a 96k output.mp4
-alias ffmpeg-compress='function __ffmpeg-compress() { ffmpeg -i $1 -vcodec libx264 -crf $2 $1.$2.mp4; unset -f __ffmpeg-compress; }; __ffmpeg-compress'
+# alias ffmpeg-compress='function __ffmpeg-compress() { ffmpeg -i $1 -map_metadata 0 -vcodec libx264 -crf $2 $1.$2.mp4; unset -f __ffmpeg-compress; }; __ffmpeg-compress'
+
+alias ff='function __ff() { for f in "$@"; do ffmpeg-compress $f; mkdir original; mv $f original; done; unset -f __ff; }; __ff'
+
+# ffmepg-compress file.mov [24]
+# NOTE it moves the original file!
+# Use this for the EM5 videos!
+function ffmpeg-compress-mov() { 
+  # Assign a default value of 24 if $2 is not present
+  crf=${2:-24}
+  # Remove extension
+  base="${1%.*}"
+  output=$base.mp4
+  # # Check if the output file already exists. this in case input is mp4 already
+  # if [ -e "$base".mp4 ]; then
+  #   output="${base}_compressed.mp4"
+  # else
+  #   output=$base.mp4
+  # fi
+  ffmpeg -stats -hide_banner -loglevel error -i $1 -map_metadata 0 -vcodec libx264 -crf $crf $output
+  # change system creation date
+  exiftool  '-FileModifyDate<CreateDate' $output
+  # change filename
+  exiftool -v '-FileName<${CreateDate}_EM5%f.%le' -d 'VID_%Y%m%d%%+c' $output
+}
 
 # ffmpeg-concat video1.mov video2.mov OR ffmpeg-concat *.mov -> note that *.mov will get glob-expanded, function will see expanded files
 # all videos MUST use same stream !
-# NOTE the mov extension on output!
-function ffmpeg-concat() { 
-  # set -x
-  # a file list MUST be created, that's why I use the process substitution. NOTE -safe 0 IS needed!
-  ffmpeg -stats -hide_banner -loglevel error \
-  -f concat -safe 0 -i <(for f in "$@"; do printf "file '$PWD/$f'\n"; done) \
-  -c copy concat.mov
-  # set +x
-  }
-
-# ffmpeg -f concat -safe 0 -i <(for f in *.MOV; do printf "file '$PWD/$f'\n"; done) -vcodec libx264 -crf 24 concat.mp4
 # NOTE the mp4 extension on output!
+# NOTE the map_metadata will use metadata of 1st file (i think) see https://video.stackexchange.com/questions/23741/how-to-prevent-ffmpeg-from-dropping-metadata
 function ffmpeg-concat-and-compress() { 
+  echo "Processing "$@" files"
   ffmpeg -stats -hide_banner -loglevel error \
   -f concat -safe 0 -i <(for f in "$@"; do printf "file '$PWD/$f'\n"; done) \
+  -map_metadata 0:s:0 \
   -vcodec libx264 -crf 24 concat.mp4
+  # change system creation date
+  exiftool  '-FileModifyDate<CreateDate' concat.mp4
+  # NOTE how I am using 1st file on "$@" in the name, that's the "${1%.*}" part
+  # TODO: note P here will be outdated for 2024!
+  exiftool '-FileName<${CreateDate}_EM5'"${1%.*}"'.%le' -d 'VID_%Y%m%d%%+c' concat.mp4
+  mkdir original
+  echo "Moving original files $@"
+  for f in "$@"; do mv $f original; done
   }
 
 # usando libx265
@@ -654,6 +820,7 @@ function ffmpeg-concat-and-compress() {
 # resize
 # ffmpeg -i input.mp4 -vf "scale=iw/2:ih/2" output.mp4
 # ffmpeg -i input.mp4 -vf "scale=trunc(iw/4)*2:trunc(ih/4)*2" output.mp4
+
 
 #----------------------------------------------------------------------------------------------------
 # Accediendo al android

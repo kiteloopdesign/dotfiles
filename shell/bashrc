@@ -31,7 +31,7 @@ export PATH=${HOME}/bin:$PATH
 # Needed by rustup (rust), in turn needed from atuin
 export PATH="$HOME/.cargo/bin:$PATH"
 
-# export PATH=${HOME}/.local/texlive/2022/bin/x86_64-linux:$PATH
+export PATH=/usr/local/texlive/2024/bin/x86_64-linux:$PATH
 # export PATH="$PATH:$HOME/esp/xtensa-lx106-elf/bin"
 # export IDF_PATH="$HOME/esp/ESP8266_RTOS_SDK"
 
@@ -58,7 +58,8 @@ export EDITOR=/usr/bin/vim
 # colored GCC warnings and errors
 export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 
-export MANPATH=${HOME}/.local/texlive/2022/texmf-dist/doc/man:$MANPATH
+# export MANPATH=${HOME}/.local/texlive/2022/texmf-dist/doc/man:$MANPATH
+export MANPATH=/usr/local/texlive/2024/texmf-dist/doc/man:$MANPATH
 
 # Use "bat" for man pages
 # TODO: check 1st whether bat is installed!

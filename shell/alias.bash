@@ -94,6 +94,7 @@ alias gc='git commit'
 alias gca='git ci-amend'
 # alias gd='git diff'
 alias gd='git diff --word-diff=color'
+# alias gd='git diff --difftool="diff -y"'
 alias gdf='git difftool'
 alias gh='git hist'
 alias ghh='git ghist'
@@ -258,8 +259,10 @@ alias p='python3'
 # show size
 # alias feh='feh --scale-down -d --draw-tinted --info "du -sh %F"'
 # Tambien se puede usar el feh itself para mostrar some basic info (no tanta como con exiftool). eg dimensions
-alias feh='feh -F --draw-exif --edit --scale-down -d --draw-tinted --info "feh -L %wx%h %f"'
-# alias feh='feh --keep-zoom-vp --draw-exif --edit --scale-down -d --draw-tinted --info "feh -L %wx%h %f"'
+# Ojo con el --edit que al usar "< o >" cambia el md5sum del archivo! mejor usar --auto-rotate
+# alias feh='feh -F --draw-exif --edit --scale-down -d --draw-tinted --info "feh -L %wx%h %f"'
+alias feh='feh -F --draw-exif --auto-rotate --scale-down -d --draw-tinted --info "feh -L %wx%h %f"'
+# alias feh='feh --keep-zoom-vp --draw-exif --auto-rotate --scale-down -d --draw-tinted --info "feh -L %wx%h %f"'
 
 alias f='feh'
 alias r='ranger'
@@ -290,6 +293,8 @@ alias we='watson edit'
 
 # hledger
 alias hl='hledger'
+# alias hl='hledger date:2023..' # desde 2023 en adelante
+# alias hl='hledger expenses' # Usar una account xa q no se vean dobles!
 # alias post='vim "+normal G$" +startinsert ~/personal/ledger/data/2022/journal.ldg'
 # alias assets='hl b ^assets --flat -X EUR'
 # alias expenses='hl -r assets -s -X EUR'
@@ -298,6 +303,8 @@ alias hl='hledger'
 
 # entr: quick debugging of scripts
 alias ds='function __ds() { \ls "$1" | entr -s "clear; sh "$1"" ; unset -f __ds; }; __ds'
+
+alias vlc='vlc 2>/dev/null'
 
 # # bat: equivalent to cat/less
 # alias cat='bat --paging=never'
@@ -471,8 +478,10 @@ ytdl-filelist (){
 # }
 
 ytdl-video (){
+  # Assign a default value for resolution
+  res=${2:-1080}
   ALREADY_DOWNLOADED="ytd-downloaded.list"
-          yt-dlp -S ext:mp4:m4a,res:1080 \
+          yt-dlp -S ext:mp4:m4a,res:$res \
           --restrict-filenames \
           --add-metadata \
           --ignore-errors \
@@ -579,6 +588,27 @@ done
 # resizeando cada una a 250px de ancho
 # montage -mode concatenate -tile 5x3 *.jpg -resize 250 -unsharp 0x0.5 out.png
 # montage -mode concatenate -tile 5x3 *.jpg -resize 300 -unsharp 0.05 collage.jpg
+mm-montage(){
+  files=(*.jpg)
+  # # Check if there are at least 15 files
+  # if [ "${#files[@]}" -lt 15 ]; then
+  #   echo "Not enough files in the folder."
+  #   return
+  # fi
+  # # Randomly shuffle the array of files
+  # shuffled_files=($(shuf -e "${files[@]}"))
+  # # Pick the first 15 files
+  selected_files=files
+  # Print the selected files
+  # echo "Randomly selected files:"
+  # for file in "${selected_files[@]}"; do
+  #   echo "$file"
+  # done
+  # echo "${selected_files[@]}"
+  # montage -monitor -mode concatenate -tile 5x3 "${selected_files[@]}" -auto-orient -resize 300 -unsharp 0.05 collage.jpg
+  # 384x5 = 1920
+  montage -monitor -mode concatenate -tile 33x24 "${selected_files[@]}" -auto-orient -resize 384 -unsharp 0.05 collage.jpg
+}
 
 # convert _1290046.JPG -auto-level -normalize -filter Triangle -quality 85
 # -bordercolor White -border 2%x3% -gravity southeast -unsharp 0x1 out.JPG
@@ -601,7 +631,9 @@ mm-montage-random(){
   #   echo "$file"
   # done
   echo "${selected_files[@]}"
-  montage -monitor -mode concatenate -tile 5x3 "${selected_files[@]}" -resize 300 -unsharp 0.05 collage.jpg
+  # montage -monitor -mode concatenate -tile 5x3 "${selected_files[@]}" -auto-orient -resize 300 -unsharp 0.05 collage.jpg
+  # 384x5 = 1920
+  montage -monitor -mode concatenate -tile 5x3 "${selected_files[@]}" -auto-orient -resize 384 -unsharp 0.05 collage.jpg
 }
 
 #----------------------------------------------------------------------------------------------------
@@ -701,13 +733,15 @@ function xx-fix-wrong-system-date-pics(){
 # Rename files so they look like IMG_YYYYMMDD_[EM5]<ORIGINAL_FILENAME>.ext
 # To be used on pics from other sources other than phone camera/whatsapp
 function xx-rename-pics(){
-  # Usar por defecto camara EM5
-  cam=${1:-"EM5"}
-  exiftool '-TestName<${Datetimeoriginal}_'"$cam"'${FileName}' -d 'IMG_%Y%m%d%%+c' *jpg 
+  echo "Processing "$@" files"
+  # cam=${1:-"EM5"}
+  cam="EM5" # TODO: change if needed
+  # echo "camara is $cam"
+  exiftool '-TestName<${Datetimeoriginal}_'"$cam"'${FileName}' -d 'IMG_%Y%m%d%%+c' "$@"
   read -n 1 -p "Are these names okay (y/n)" answer
   case ${answer:0:1} in
       y|Y )
-          exiftool -v '-FileName<${Datetimeoriginal}_'"$cam"'${FileName}' -d 'IMG_%Y%m%d%%+c' *jpg
+          exiftool -v '-FileName<${Datetimeoriginal}_'"$cam"'${FileName}' -d 'IMG_%Y%m%d%%+c' "$@"
       ;;
       * )
           echo "Exiting..."
@@ -768,9 +802,18 @@ function xx-fix-wrong-system-date-vids(){
 # ffmpeg -i input.mp4 -vcodec libx264 -crf 24 output.mp4
 # probar el audio
 # ffmpeg -i input.mp4 -vcodec libx264 -crf 24 -b:a 96k output.mp4
-# alias ffmpeg-compress='function __ffmpeg-compress() { ffmpeg -i $1 -map_metadata 0 -vcodec libx264 -crf $2 $1.$2.mp4; unset -f __ffmpeg-compress; }; __ffmpeg-compress'
 
 alias ff='function __ff() { for f in "$@"; do ffmpeg-compress $f; mkdir original; mv $f original; done; unset -f __ff; }; __ff'
+
+# alias ffmpeg-compress='function __ffmpeg-compress() { ffmpeg -i $1 -map_metadata 0 -vcodec libx264 -crf $2 $1.$2.mp4; unset -f __ffmpeg-compress; }; __ffmpeg-compress'
+function ffmpeg-compress() {
+  # Remove extension
+  base="${1%.*}"
+  # Assign a default value of 24 if $2 is not present
+  crf=${2:-24}
+  output=$base.compressed.mp4
+  ffmpeg -stats -hide_banner -loglevel error -i $1 -map_metadata 0 -vcodec libx264 -crf $crf $output
+}
 
 # ffmepg-compress file.mov [24]
 # NOTE it moves the original file!
@@ -787,11 +830,16 @@ function ffmpeg-compress-mov() {
   # else
   #   output=$base.mp4
   # fi
+  duration=$(exiftool '-duration#' "$1" | awk '{sum+=$3} END {print sum}')
+  echo "Clip duration is $duration. Expect 2x of that time for MP4 encoding"
   ffmpeg -stats -hide_banner -loglevel error -i $1 -map_metadata 0 -vcodec libx264 -crf $crf $output
   # change system creation date
   exiftool  '-FileModifyDate<CreateDate' $output
   # change filename
   exiftool -v '-FileName<${CreateDate}_EM5%f.%le' -d 'VID_%Y%m%d%%+c' $output
+  mkdir original
+  echo "Moving original files $@"
+  mv "$1" original
 }
 
 # ffmpeg-concat video1.mov video2.mov OR ffmpeg-concat *.mov -> note that *.mov will get glob-expanded, function will see expanded files
@@ -800,6 +848,8 @@ function ffmpeg-compress-mov() {
 # NOTE the map_metadata will use metadata of 1st file (i think) see https://video.stackexchange.com/questions/23741/how-to-prevent-ffmpeg-from-dropping-metadata
 function ffmpeg-concat-and-compress() { 
   echo "Processing "$@" files"
+  duration=$(exiftool '-duration#' "$@" | awk '{sum+=$3} END {print sum}')
+  echo "Total duration of resultant clip is $duration. Expect 2x of that time for MP4 encoding"
   ffmpeg -stats -hide_banner -loglevel error \
   -f concat -safe 0 -i <(for f in "$@"; do printf "file '$PWD/$f'\n"; done) \
   -map_metadata 0:s:0 \
@@ -813,6 +863,15 @@ function ffmpeg-concat-and-compress() {
   echo "Moving original files $@"
   for f in "$@"; do mv $f original; done
   }
+
+# TODO: time as args
+function ffmpeg-cut() { 
+  base="${1%.*}"
+  extension="${1#*.}"
+  output=$base.cut.$extension
+  ffmpeg -hide_banner -stats -loglevel error -ss 00:00 -to 00:21 -i $1 -map_metadata 0 -c copy $output
+  exiftool  '-FileModifyDate<CreateDate' "$output"
+}
 
 # usando libx265
 # ffmpeg -i input.mp4 -vcodec libx265 -crf 28 output.mp4

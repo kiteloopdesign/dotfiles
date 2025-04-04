@@ -61,8 +61,7 @@ Plugin 'mhinz/vim-grepper'
 Plugin 'junegunn/vim-easy-align'
 
 " Autocompletion
-" Plugin 'ajh17/VimCompletesMe'
-Plugin 'ackyshake/VimCompletesMe'
+Plugin 'https://git.sr.ht/~ackyshake/VimCompletesMe.vim'
 " snippet engine (does not include the actual snippets)
 "Plugin 'SirVer/ultisnips'
 " snippet library, needed by utilsnips
@@ -71,6 +70,7 @@ Plugin 'ackyshake/VimCompletesMe'
 Plugin 'vhda/verilog_systemverilog.vim'
 " Really basic plugin that creates instances from portlist
 Plugin 'antoinemadec/vim-verilog-instance'
+Plugin 'dpezto/gnuplot.vim'
 " Useful to navigate structure of file
 " Plugin 'majutsushi/tagbar'
 " Hihglights pairs of matched keywords, e.g. begin-end

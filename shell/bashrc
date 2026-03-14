@@ -22,7 +22,7 @@ NC='\e[m'
 eval $(dircolors -b)
 
 #----------------------------------------------------------------------------------------------------
-# Path
+# Path and other exports
 #----------------------------------------------------------------------------------------------------
 export PATH=$HOME/.local/bin:$PATH
 export PATH=${HOME}/bin:$PATH
@@ -36,6 +36,8 @@ export PATH=/usr/local/texlive/2024/bin/x86_64-linux:$PATH
 # export IDF_PATH="$HOME/esp/ESP8266_RTOS_SDK"
 
 export LEDGER_FILE=~/personal/hledger/all.journal
+
+export PYTHONBREAKPOINT="ipdb.set_trace"
 
 #----------------------------------------------------------------------------------------------------
 # sh options: `shopt -p` lists all already set
@@ -60,6 +62,7 @@ export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quo
 
 # export MANPATH=${HOME}/.local/texlive/2022/texmf-dist/doc/man:$MANPATH
 export MANPATH=/usr/local/texlive/2024/texmf-dist/doc/man:$MANPATH
+export MANPATH=/home/kitesutra/.local/hledger/man:$MANPATH
 
 # Use "bat" for man pages
 # TODO: check 1st whether bat is installed!
@@ -178,6 +181,12 @@ if ! shopt -oq posix; then
     . /etc/bash_completion
   fi
 fi
+
+#----------------------------------------------------------------------------------------------------
+# several bin completion
+#----------------------------------------------------------------------------------------------------
+# hledger
+source $HOME/.local/hledger/hledger-completion.bash
 
 #----------------------------------------------------------------------------------------------------
 # Prompt: Using tool-solution prompt. See below

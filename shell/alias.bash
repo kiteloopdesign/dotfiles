@@ -193,7 +193,9 @@ alias cdd='cd ~/Downloads/'
 # Find command
 #----------------------------------------------------------------------------------------------------
 # show different extensions. Useful when a lot of files in folder
-# alias ext 'find . -type f | awk -F. '!a[$NF]++{print $NF}''
+# alias ext="find . -type f | awk -F. '!a[$NF]++{print $NF}'"
+# alias ext='find . -maxdepth 1 -type f | awk -F. '\''NF>1 {print $NF}'\'' | sort | uniq -c | sort -nr'
+alias ext='find . -maxdepth 1 -type f | sed -n "s/.*\.//p" | sort | uniq -c | sort -nr'
 
 # find files with given extension recursively
 alias fe='function __fe() { find . -type f -name \*.$1 ; unset -f __fe; }; __fe'
@@ -278,6 +280,7 @@ alias qmv='qmv --format=destination-only'
 # ag / ack
 alias agg='ag -g '
 alias agl='ag -l '
+alias ag0='ag --depth 0'
 # alias agg='ag -g'
 # alias ack='ack -i'
 alias ack='ack -i --follow'
@@ -517,6 +520,15 @@ ytdl-video_1 (){
 # }
 
 
+# baja video de yt a audio, y lo copia al movil
+# 249 = OPUS VBR, ~48k
+# NOTA: tengo static ip y un hostname para el movil
+ytdl-pod (){
+  filename=$(yt-dlp --print after_move:filepath --restrict-filenames --add-metadata --no-mtime -f 249 -o '%(title)s.%(ext)s' "$1")
+  set -x
+  rsync -av -P -e 'ssh -p 8022' $filename op13r:/data/data/com.termux/files/home/storage/podcasts/
+  set +x
+}
 
 ytdl-audio-playlist (){
   yt-dlp  --restrict-filenames --add-metadata --ignore-errors \
@@ -534,6 +546,14 @@ ytdl-video-playlist (){
   #         --restrict-filenames --add-metadata --ignore-errors \
   #         -o '%(playlist)s/%(playlist_index)s-%(title)s.%(ext)s' "$1"
 
+}
+
+# copy file to pixel8
+# pxcp-video movie.mp4 olivia
+pxcp-video () {
+  set -x
+  rsync -av -P -e 'ssh -p 8022' "$1" $filename pixel8a:/data/data/com.termux/files/home/storage/$2
+  set +x
 }
 
 #----------------------------------------------------------------------------------------------------
@@ -568,7 +588,7 @@ for file in ./*.jpg; do
   # resize image while preserving aspect ratio and improving quality
   mogrify \
           -monitor \
-          -resize 1920x1080^ \
+          -resize 800x600^ \
           -define preserve-timestamp=true \
           -auto-level -filter Triangle \
           -unsharp 0x0.5 -quality 85 "${file}"
